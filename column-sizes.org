@@ -1,0 +1,180 @@
+
+
+W = 1floor ko wt square area ma  + Live load + Dead Load 
+
+P = W*(N-1) + Slab (same area ma) (No dead load or live load)
+Pu = P * 1.5 
+
+N = 7, 12, 16
+BW = 3,5,7 
+
+fck = 25 
+fy = 500 
+As = 1.5% Ag 
+=> Ag -> round up.
+
+formula from  [[/mnt/Data/Documents/Civil Engineering/Books and Standards/Indian Codes/IS 456/IS 456-2000.pdf::72][is 456]]
+
+
+* Code for calculating Pu
+  load moi.lisp
+#+begin_src lisp
+  (defparameter *sg* (make-structural-geometry)) ;; all default dimensions
+  (defparameter *fck* 25)
+  (defparameter *%steel* 0.015)
+
+  (defun P (N h bw cw)
+    (with-slots (beam-height slab-thickness wall-thickness floor-loads) *sg*
+      (let*
+	  ((beam-width 0.3) ;; or beam-width = cw
+	   (wall-length (/ (- bw cw) 2))
+	   (wall   (* 4 wall-length wall-thickness  (- h beam-height) 20))
+	   (beam   (* 4 wall-length beam-width      (- beam-height slab-thickness)          25))
+	   (slab   (*   bw          bw              slab-thickness       25))
+	   (column (*   cw          cw              (- h slab-thickness) 25))
+	   (loads  (* floor-loads (- (* bw bw) (* cw cw) (* 4 wall-length wall-thickness)))))
+	(+ (* (1- n)
+	      (+ wall beam slab column loads))
+	   slab))))
+
+  (defun Pu (N h bw cw)
+    "Return Pu in (kN)"
+    (* 1.5 (P N h bw cw)))
+
+  (defun A (Pu &optional (fck *fck*) (fy 500))
+    "Returns Ac in mm"
+    (/ (* 1000 Pu)
+       (+ (* 0.4 fck (- 1 *%steel*))
+	  (* .67 fy *%steel*))))
+
+  (defun column-width (N h bw cw)
+    "Gives new estimate of cw (in m)"
+    (/ (sqrt (A (Pu N h bw cw)))
+       1000))
+
+  (defun converge (N h bw &optional (cw 0.3) (tolerance 0.001))
+    (let ((new-cw (column-width N h bw cw)))
+      (if (< (abs (- cw new-cw)) tolerance)
+	  new-cw
+	  (converge N h bw new-cw))))
+
+  (defun round-up (cw)
+    (max 0.3 (/ (ceiling (* cw 20))
+		20)))
+
+#+end_src
+
+#+RESULTS:
+: ROUND-UP
+
+* Sample Calculation
+Take N=5, h = 3 , bay width bw =4 and column-width cw = 0.3
+  #+begin_src lisp :results output
+    (with-reporting :default
+      (P 5 3 4 0.3))
+  #+end_src
+
+  #+RESULTS:
+| (BEAM-WIDTH)  | = 0.3 =                                                                    |                  0.3 |
+| (WALL-LENGTH) | = (/ (- BW CW) 2) =                                                        |                 1.85 |
+| (WALL)        | = (* 4 WALL-LENGTH WALL-THICKNESS (- H BEAM-HEIGHT) 20) =                  |               85.1d0 |
+| (BEAM)        | = (* 4 WALL-LENGTH BEAM-WIDTH (- BEAM-HEIGHT SLAB-THICKNESS) 25) =         | 19.425001335144042d0 |
+| (SLAB)        | = (* BW BW SLAB-THICKNESS 25) =                                            |               60.0d0 |
+| (COLUMN)      | = (* CW CW (- H SLAB-THICKNESS) 25) =                                      |  6.412500254809856d0 |
+| (LOADS)       | = (* FLOOR-LOADS (- (* BW BW) (* CW CW) (* 4 WALL-LENGTH WALL-THICKNESS))) | = 49.7279993891716d0 |
+| Finally P     | 942.662                                                                    |                      |
+
+ This P is in kN
+ now assuming in IS 456 formula Pu is in Newton and A is in mmq
+
+ #+begin_src lisp  :exports both
+(column-width 5 3 4 0.3)
+ #+end_src
+
+ #+RESULTS:
+ : 0\.3083153472276686d0
+
+ Now this gives new estimate of 0.313 which can then be used to get new estimate and so on. And finally
+ #+begin_src lisp :exports both 
+(converge 5 3 4 0.3)
+ #+end_src
+
+ #+RESULTS:
+ : 0\.30839460699500837d0
+
+* Table
+  #+begin_src lisp :exports both 
+    (table 3
+      (row "N" "fck" "%steel" "h" "bw" "Cw" "Cw (rounded)" "Pu" )
+      (loop
+	    for N in '(3 7 12 16)
+	    for *fck* in '(25 30 40 50)
+	    for *%steel* in '(0.03 0.03 0.04 0.05) do 
+	      (loop for bw in '(3 5 7) do 
+		(loop 
+		   for h in '(2.5 3 4) 
+		    for cw = (column-width n h bw 0.3)
+		    for rounded-cw = (coerce (round-up cw) 'single-float)
+		    for Pu = (Pu n h bw rounded-cw) do 
+		      (row n *fck* *%steel* h bw cw rounded-cw  Pu)))))
+
+
+  #+end_src   
+
+  #+Name: column-size-and-fck
+  #+RESULTS:
+  |      N |    fck | %steel |     h |    bw |    Cw | Cw (rounded) |        Pu |
+  |  3.000 | 25.000 |  0.030 | 2.500 | 3.000 | 0.149 |        0.300 |   439.816 |
+  |  3.000 | 25.000 |  0.030 | 3.000 | 3.000 | 0.156 |        0.300 |   480.451 |
+  |  3.000 | 25.000 |  0.030 | 4.000 | 3.000 | 0.169 |        0.300 |   561.721 |
+  |  3.000 | 25.000 |  0.030 | 2.500 | 5.000 | 0.226 |        0.300 |  1010.056 |
+  |  3.000 | 25.000 |  0.030 | 3.000 | 5.000 | 0.234 |        0.300 |  1078.292 |
+  |  3.000 | 25.000 |  0.030 | 4.000 | 5.000 | 0.248 |        0.300 |  1214.762 |
+  |  3.000 | 25.000 |  0.030 | 2.500 | 7.000 | 0.302 |        0.350 |  1801.377 |
+  |  3.000 | 25.000 |  0.030 | 3.000 | 7.000 | 0.310 |        0.350 |  1897.741 |
+  |  3.000 | 25.000 |  0.030 | 4.000 | 7.000 | 0.325 |        0.350 |  2090.469 |
+  |  7.000 | 30.000 |  0.030 | 2.500 | 3.000 | 0.237 |        0.300 |  1218.199 |
+  |  7.000 | 30.000 |  0.030 | 3.000 | 3.000 | 0.249 |        0.300 |  1340.104 |
+  |  7.000 | 30.000 |  0.030 | 4.000 | 3.000 | 0.270 |        0.300 |  1583.914 |
+  |  7.000 | 30.000 |  0.030 | 2.500 | 5.000 | 0.356 |        0.400 |  2763.891 |
+  |  7.000 | 30.000 |  0.030 | 3.000 | 5.000 | 0.369 |        0.400 |  2972.331 |
+  |  7.000 | 30.000 |  0.030 | 4.000 | 5.000 | 0.394 |        0.400 |  3389.211 |
+  |  7.000 | 30.000 |  0.030 | 2.500 | 7.000 | 0.473 |        0.500 |  4886.528 |
+  |  7.000 | 30.000 |  0.030 | 3.000 | 7.000 | 0.487 |        0.500 |  5183.753 |
+  |  7.000 | 30.000 |  0.030 | 4.000 | 7.000 | 0.513 |        0.550 |  5805.899 |
+  | 12.000 | 40.000 |  0.040 | 2.500 | 3.000 | 0.276 |        0.300 |  2191.178 |
+  | 12.000 | 40.000 |  0.040 | 3.000 | 3.000 | 0.290 |        0.300 |  2414.671 |
+  | 12.000 | 40.000 |  0.040 | 4.000 | 3.000 | 0.315 |        0.350 |  2881.825 |
+  | 12.000 | 40.000 |  0.040 | 2.500 | 5.000 | 0.414 |        0.450 |  4970.507 |
+  | 12.000 | 40.000 |  0.040 | 3.000 | 5.000 | 0.429 |        0.450 |  5357.618 |
+  | 12.000 | 40.000 |  0.040 | 4.000 | 5.000 | 0.459 |        0.500 |  6174.964 |
+  | 12.000 | 40.000 |  0.040 | 2.500 | 7.000 | 0.549 |        0.550 |  8758.624 |
+  | 12.000 | 40.000 |  0.040 | 3.000 | 7.000 | 0.565 |        0.600 |  9352.869 |
+  | 12.000 | 40.000 |  0.040 | 4.000 | 7.000 | 0.597 |        0.600 | 10472.889 |
+  | 16.000 | 50.000 |  0.050 | 2.500 | 3.000 | 0.288 |        0.300 |  2969.561 |
+  | 16.000 | 50.000 |  0.050 | 3.000 | 3.000 | 0.303 |        0.350 |  3293.896 |
+  | 16.000 | 50.000 |  0.050 | 4.000 | 3.000 | 0.330 |        0.350 |  3911.352 |
+  | 16.000 | 50.000 |  0.050 | 2.500 | 5.000 | 0.432 |        0.450 |  6726.828 |
+  | 16.000 | 50.000 |  0.050 | 3.000 | 5.000 | 0.448 |        0.450 |  7254.706 |
+  | 16.000 | 50.000 |  0.050 | 4.000 | 5.000 | 0.479 |        0.500 |  8369.269 |
+  | 16.000 | 50.000 |  0.050 | 2.500 | 7.000 | 0.572 |        0.600 | 11890.035 |
+  | 16.000 | 50.000 |  0.050 | 3.000 | 7.000 | 0.589 |        0.600 | 12653.685 |
+  | 16.000 | 50.000 |  0.050 | 4.000 | 7.000 | 0.623 |        0.650 | 14271.095 |
+
+
+  #+begin_src lisp :var data=column-size-and-fck :colnames true 
+	(loop for (n0 fck %steel h bw cw% cw pu) in data
+	      for Ec = (Ec% fck) do
+		(loop for n in (cdr (find n0 '((3 . (1 2 3))
+					       (7 . (4 5 6 7))
+					       (12 . (8 9 10 11 12))
+					       (16 . (13 14 15 16)))
+					  :key #'car
+					  :test #'=)) do
+					    (setf (cs-and-Ec n h bw) (list cw Ec))))
+  #+end_src
+
+  #+RESULTS:
+  : NIL
+
+
