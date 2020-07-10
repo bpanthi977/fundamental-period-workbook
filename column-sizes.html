@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2020-07-07 Tue 20:28 -->
+<!-- 2020-07-10 Fri 12:34 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>&lrm;</title>
@@ -223,9 +223,18 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org2111787">1. Code for calculating Pu</a></li>
-<li><a href="#org091f8dd">2. Sample Calculation</a></li>
-<li><a href="#orge9eb969">3. Table</a></li>
+<li><a href="#orge56aa4e">1. Code for calculating Pu</a></li>
+<li><a href="#org7498fbb">2. Sample Calculation</a></li>
+<li><a href="#orgbcd5170">3. Table</a></li>
+<li><a href="#org045b617">4. Table 2</a>
+<ul>
+<li><a href="#orgae513b5">4.1. Grid</a>
+<ul>
+<li><a href="#org24b2590">4.1.1. Only final sizes</a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
@@ -255,18 +264,21 @@ formula from  <a href="file:///mnt/Data/Documents/Civil Engineering/Books and St
 </p>
 
 
-<div id="outline-container-org2111787" class="outline-2">
-<h2 id="org2111787"><span class="section-number-2">1</span> Code for calculating Pu</h2>
+<div id="outline-container-orge56aa4e" class="outline-2">
+<h2 id="orge56aa4e"><span class="section-number-2">1</span> Code for calculating Pu</h2>
 <div class="outline-text-2" id="text-1">
+<p>
+load moi.lisp
+</p>
 <div class="org-src-container">
-<pre class="src src-lisp">(<span style="color: #98971a; font-weight: bold;">defparameter</span> <span style="color: #458588;">*sg*</span> (make-structural-geometry)) <span style="color: #7c6f64;">;; </span><span style="color: #7c6f64;">all default dimensions</span>
-(<span style="color: #98971a; font-weight: bold;">defparameter</span> <span style="color: #458588;">*fck*</span> 25)
-(<span style="color: #98971a; font-weight: bold;">defparameter</span> <span style="color: #458588;">*%steel*</span> 0.015)
+<pre class="src src-lisp">(<span style="color: #268bd2; font-weight: bold;">defparameter</span> <span style="color: #8787d7;">*sg*</span> (make-structural-geometry)) <span style="color: #008787; background-color: #262626;">;; </span><span style="color: #008787; background-color: #262626;">all default dimensions</span>
+(<span style="color: #268bd2; font-weight: bold;">defparameter</span> <span style="color: #8787d7;">*fck*</span> 25)
+(<span style="color: #268bd2; font-weight: bold;">defparameter</span> <span style="color: #8787d7;">*%steel*</span> 0.015)
 
-(<span style="color: #98971a; font-weight: bold;">defun</span> <span style="color: #458588;">P</span> (N h bw cw)
-  (<span style="color: #98971a; font-weight: bold;">with-slots</span> (beam-height slab-thickness wall-thickness floor-loads) *sg*
-    (<span style="color: #98971a; font-weight: bold;">let*</span>
-        ((beam-width 0.3) <span style="color: #7c6f64;">;; </span><span style="color: #7c6f64;">or beam-width = cw</span>
+(<span style="color: #268bd2; font-weight: bold;">defun</span> <span style="color: #d75fd7; font-weight: bold;">P</span> (N h bw cw)
+  (<span style="color: #268bd2; font-weight: bold;">with-slots</span> (beam-height slab-thickness wall-thickness floor-loads) *sg*
+    (<span style="color: #268bd2; font-weight: bold;">let*</span>
+        ((beam-width 0.3) <span style="color: #008787; background-color: #262626;">;; </span><span style="color: #008787; background-color: #262626;">or beam-width = cw</span>
          (wall-length (/ (- bw cw) 2))
          (wall   (* 4 wall-length wall-thickness  (- h beam-height) 20))
          (beam   (* 4 wall-length beam-width      (- beam-height slab-thickness)          25))
@@ -277,44 +289,44 @@ formula from  <a href="file:///mnt/Data/Documents/Civil Engineering/Books and St
             (+ wall beam slab column loads))
          slab))))
 
-(<span style="color: #98971a; font-weight: bold;">defun</span> <span style="color: #458588;">Pu</span> (N h bw cw)
-  <span style="color: #689d6a;">"Return Pu in (kN)"</span>
+(<span style="color: #268bd2; font-weight: bold;">defun</span> <span style="color: #d75fd7; font-weight: bold;">Pu</span> (N h bw cw)
+  <span style="color: #af875f;">"Return Pu in (kN)"</span>
   (* 1.5 (P N h bw cw)))
 
-(<span style="color: #98971a; font-weight: bold;">defun</span> <span style="color: #458588;">A</span> (Pu <span style="color: #d79921;">&amp;optional</span> (fck *fck*) (fy 500))
-  <span style="color: #689d6a;">"Returns Ac in mm"</span>
+(<span style="color: #268bd2; font-weight: bold;">defun</span> <span style="color: #d75fd7; font-weight: bold;">A</span> (Pu <span style="color: #df005f; font-weight: bold;">&amp;optional</span> (fck *fck*) (fy 500))
+  <span style="color: #af875f;">"Returns Ac in mm"</span>
   (/ (* 1000 Pu)
      (+ (* 0.4 fck (- 1 *%steel*))
         (* .67 fy *%steel*))))
 
-(<span style="color: #98971a; font-weight: bold;">defun</span> <span style="color: #458588;">column-width</span> (N h bw cw)
-  <span style="color: #689d6a;">"Gives new estimate of cw (in m)"</span>
+(<span style="color: #268bd2; font-weight: bold;">defun</span> <span style="color: #d75fd7; font-weight: bold;">column-width</span> (N h bw cw)
+  <span style="color: #af875f;">"Gives new estimate of cw (in m)"</span>
   (/ (sqrt (A (Pu N h bw cw)))
      1000))
 
-(<span style="color: #98971a; font-weight: bold;">defun</span> <span style="color: #458588;">converge</span> (N h bw <span style="color: #d79921;">&amp;optional</span> (cw 0.3) (tolerance 0.001))
-  (<span style="color: #98971a; font-weight: bold;">let</span> ((new-cw (column-width N h bw cw)))
-    (<span style="color: #98971a; font-weight: bold;">if</span> (&lt; (abs (- cw new-cw)) tolerance)
+(<span style="color: #268bd2; font-weight: bold;">defun</span> <span style="color: #d75fd7; font-weight: bold;">converge</span> (N h bw <span style="color: #df005f; font-weight: bold;">&amp;optional</span> (cw 0.3) (tolerance 0.001))
+  (<span style="color: #268bd2; font-weight: bold;">let</span> ((new-cw (column-width N h bw cw)))
+    (<span style="color: #268bd2; font-weight: bold;">if</span> (&lt; (abs (- cw new-cw)) tolerance)
         new-cw
         (converge N h bw new-cw))))
 
-(<span style="color: #98971a; font-weight: bold;">defun</span> <span style="color: #458588;">round-up</span> (cw)
-  (/ (ceiling (* cw 20))
-     20))
+(<span style="color: #268bd2; font-weight: bold;">defun</span> <span style="color: #d75fd7; font-weight: bold;">round-up</span> (cw)
+  (max 0.3 (/ (ceiling (* cw 20))
+              20)))
 
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org091f8dd" class="outline-2">
-<h2 id="org091f8dd"><span class="section-number-2">2</span> Sample Calculation</h2>
+<div id="outline-container-org7498fbb" class="outline-2">
+<h2 id="org7498fbb"><span class="section-number-2">2</span> Sample Calculation</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 Take N=5, h = 3 , bay width bw =4 and column-width cw = 0.3
 </p>
 <div class="org-src-container">
-<pre class="src src-lisp">(<span style="color: #98971a; font-weight: bold;">with-reporting</span> <span style="color: #a89984; font-weight: bold;">:default</span>
+<pre class="src src-lisp">(<span style="color: #268bd2; font-weight: bold;">with-reporting</span> <span style="color: #268bd2;">:default</span>
   (P 5 3 4 0.3))
 </pre>
 </div>
@@ -348,23 +360,492 @@ Now this gives new estimate of 0.313 which can then be used to get new estimate 
 </div>
 </div>
 
-<div id="outline-container-orge9eb969" class="outline-2">
-<h2 id="orge9eb969"><span class="section-number-2">3</span> Table</h2>
+<div id="outline-container-orgbcd5170" class="outline-2">
+<h2 id="orgbcd5170"><span class="section-number-2">3</span> Table</h2>
 <div class="outline-text-2" id="text-3">
 <div class="org-src-container">
 <pre class="src src-lisp">(table 3
-  (row <span style="color: #689d6a;">"N"</span> <span style="color: #689d6a;">"fck"</span> <span style="color: #689d6a;">"%steel"</span> <span style="color: #689d6a;">"h"</span> <span style="color: #689d6a;">"bw"</span> <span style="color: #689d6a;">"Cw"</span> <span style="color: #689d6a;">"Cw (rounded)"</span> <span style="color: #689d6a;">"Pu"</span> )
-  (<span style="color: #98971a; font-weight: bold;">loop</span>
-        for N in '(3 7 12 16)
-        for *fck* in '(25 30 40 50)
-        for *%steel* in '(0.03 0.03 0.04 0.05) do 
-          (<span style="color: #98971a; font-weight: bold;">loop</span> for bw in '(3 5 7) do 
-            (<span style="color: #98971a; font-weight: bold;">loop</span> 
-               for h in '(2.5 3 4) 
-                for cw = (column-width n h bw 0.3)
-                for rounded-cw = (coerce (round-up cw) 'single-float)
-                for Pu = (Pu n h bw rounded-cw) do 
-                  (row n *fck* *%steel* h bw cw rounded-cw  Pu)))))
+  (row <span style="color: #2aa198;">"N"</span> <span style="color: #2aa198;">"fck"</span> <span style="color: #2aa198;">"%steel"</span> <span style="color: #2aa198;">"h"</span> <span style="color: #2aa198;">"bw"</span> <span style="color: #2aa198;">"Cw"</span> <span style="color: #2aa198;">"Cw (rounded)"</span> <span style="color: #2aa198;">"Pu"</span> )
+  (<span style="color: #268bd2; font-weight: bold;">loop</span>
+    for N in '(3 7 12 16)
+    for *fck* in '(25 25 30 30)
+    for *%steel* in '(0.03 0.03 0.04 0.04) do 
+      (<span style="color: #268bd2; font-weight: bold;">loop</span> for bw in '(3 5 7) do 
+        (<span style="color: #268bd2; font-weight: bold;">loop</span> 
+          for h in '(2.5 3 4) 
+          for cw = (column-width n h bw 0.3)
+          for rounded-cw = (coerce (round-up cw) 'single-float)
+          for Pu = (Pu n h bw rounded-cw) do 
+            (row n *fck* *%steel* h bw cw rounded-cw  Pu)))))
+
+
+</pre>
+</div>
+
+<table id="orgcdf5217" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-right">N</td>
+<td class="org-right">fck</td>
+<td class="org-right">%steel</td>
+<td class="org-right">h</td>
+<td class="org-right">bw</td>
+<td class="org-right">Cw</td>
+<td class="org-right">Cw (rounded)</td>
+<td class="org-right">Pu</td>
+</tr>
+
+<tr>
+<td class="org-right">3.000</td>
+<td class="org-right">25.000</td>
+<td class="org-right">0.030</td>
+<td class="org-right">2.500</td>
+<td class="org-right">3.000</td>
+<td class="org-right">0.149</td>
+<td class="org-right">0.300</td>
+<td class="org-right">439.816</td>
+</tr>
+
+<tr>
+<td class="org-right">3.000</td>
+<td class="org-right">25.000</td>
+<td class="org-right">0.030</td>
+<td class="org-right">3.000</td>
+<td class="org-right">3.000</td>
+<td class="org-right">0.156</td>
+<td class="org-right">0.300</td>
+<td class="org-right">480.451</td>
+</tr>
+
+<tr>
+<td class="org-right">3.000</td>
+<td class="org-right">25.000</td>
+<td class="org-right">0.030</td>
+<td class="org-right">4.000</td>
+<td class="org-right">3.000</td>
+<td class="org-right">0.169</td>
+<td class="org-right">0.300</td>
+<td class="org-right">561.721</td>
+</tr>
+
+<tr>
+<td class="org-right">3.000</td>
+<td class="org-right">25.000</td>
+<td class="org-right">0.030</td>
+<td class="org-right">2.500</td>
+<td class="org-right">5.000</td>
+<td class="org-right">0.226</td>
+<td class="org-right">0.300</td>
+<td class="org-right">1010.056</td>
+</tr>
+
+<tr>
+<td class="org-right">3.000</td>
+<td class="org-right">25.000</td>
+<td class="org-right">0.030</td>
+<td class="org-right">3.000</td>
+<td class="org-right">5.000</td>
+<td class="org-right">0.234</td>
+<td class="org-right">0.300</td>
+<td class="org-right">1078.292</td>
+</tr>
+
+<tr>
+<td class="org-right">3.000</td>
+<td class="org-right">25.000</td>
+<td class="org-right">0.030</td>
+<td class="org-right">4.000</td>
+<td class="org-right">5.000</td>
+<td class="org-right">0.248</td>
+<td class="org-right">0.300</td>
+<td class="org-right">1214.762</td>
+</tr>
+
+<tr>
+<td class="org-right">3.000</td>
+<td class="org-right">25.000</td>
+<td class="org-right">0.030</td>
+<td class="org-right">2.500</td>
+<td class="org-right">7.000</td>
+<td class="org-right">0.302</td>
+<td class="org-right">0.350</td>
+<td class="org-right">1801.377</td>
+</tr>
+
+<tr>
+<td class="org-right">3.000</td>
+<td class="org-right">25.000</td>
+<td class="org-right">0.030</td>
+<td class="org-right">3.000</td>
+<td class="org-right">7.000</td>
+<td class="org-right">0.310</td>
+<td class="org-right">0.350</td>
+<td class="org-right">1897.741</td>
+</tr>
+
+<tr>
+<td class="org-right">3.000</td>
+<td class="org-right">25.000</td>
+<td class="org-right">0.030</td>
+<td class="org-right">4.000</td>
+<td class="org-right">7.000</td>
+<td class="org-right">0.325</td>
+<td class="org-right">0.350</td>
+<td class="org-right">2090.469</td>
+</tr>
+
+<tr>
+<td class="org-right">7.000</td>
+<td class="org-right">25.000</td>
+<td class="org-right">0.030</td>
+<td class="org-right">2.500</td>
+<td class="org-right">3.000</td>
+<td class="org-right">0.248</td>
+<td class="org-right">0.300</td>
+<td class="org-right">1218.199</td>
+</tr>
+
+<tr>
+<td class="org-right">7.000</td>
+<td class="org-right">25.000</td>
+<td class="org-right">0.030</td>
+<td class="org-right">3.000</td>
+<td class="org-right">3.000</td>
+<td class="org-right">0.260</td>
+<td class="org-right">0.300</td>
+<td class="org-right">1340.104</td>
+</tr>
+
+<tr>
+<td class="org-right">7.000</td>
+<td class="org-right">25.000</td>
+<td class="org-right">0.030</td>
+<td class="org-right">4.000</td>
+<td class="org-right">3.000</td>
+<td class="org-right">0.283</td>
+<td class="org-right">0.300</td>
+<td class="org-right">1583.914</td>
+</tr>
+
+<tr>
+<td class="org-right">7.000</td>
+<td class="org-right">25.000</td>
+<td class="org-right">0.030</td>
+<td class="org-right">2.500</td>
+<td class="org-right">5.000</td>
+<td class="org-right">0.373</td>
+<td class="org-right">0.400</td>
+<td class="org-right">2763.891</td>
+</tr>
+
+<tr>
+<td class="org-right">7.000</td>
+<td class="org-right">25.000</td>
+<td class="org-right">0.030</td>
+<td class="org-right">3.000</td>
+<td class="org-right">5.000</td>
+<td class="org-right">0.387</td>
+<td class="org-right">0.400</td>
+<td class="org-right">2972.331</td>
+</tr>
+
+<tr>
+<td class="org-right">7.000</td>
+<td class="org-right">25.000</td>
+<td class="org-right">0.030</td>
+<td class="org-right">4.000</td>
+<td class="org-right">5.000</td>
+<td class="org-right">0.413</td>
+<td class="org-right">0.450</td>
+<td class="org-right">3408.560</td>
+</tr>
+
+<tr>
+<td class="org-right">7.000</td>
+<td class="org-right">25.000</td>
+<td class="org-right">0.030</td>
+<td class="org-right">2.500</td>
+<td class="org-right">7.000</td>
+<td class="org-right">0.495</td>
+<td class="org-right">0.500</td>
+<td class="org-right">4886.528</td>
+</tr>
+
+<tr>
+<td class="org-right">7.000</td>
+<td class="org-right">25.000</td>
+<td class="org-right">0.030</td>
+<td class="org-right">3.000</td>
+<td class="org-right">7.000</td>
+<td class="org-right">0.510</td>
+<td class="org-right">0.550</td>
+<td class="org-right">5203.776</td>
+</tr>
+
+<tr>
+<td class="org-right">7.000</td>
+<td class="org-right">25.000</td>
+<td class="org-right">0.030</td>
+<td class="org-right">4.000</td>
+<td class="org-right">7.000</td>
+<td class="org-right">0.538</td>
+<td class="org-right">0.550</td>
+<td class="org-right">5805.899</td>
+</tr>
+
+<tr>
+<td class="org-right">12.000</td>
+<td class="org-right">30.000</td>
+<td class="org-right">0.040</td>
+<td class="org-right">2.500</td>
+<td class="org-right">3.000</td>
+<td class="org-right">0.297</td>
+<td class="org-right">0.300</td>
+<td class="org-right">2191.178</td>
+</tr>
+
+<tr>
+<td class="org-right">12.000</td>
+<td class="org-right">30.000</td>
+<td class="org-right">0.040</td>
+<td class="org-right">3.000</td>
+<td class="org-right">3.000</td>
+<td class="org-right">0.311</td>
+<td class="org-right">0.350</td>
+<td class="org-right">2429.024</td>
+</tr>
+
+<tr>
+<td class="org-right">12.000</td>
+<td class="org-right">30.000</td>
+<td class="org-right">0.040</td>
+<td class="org-right">4.000</td>
+<td class="org-right">3.000</td>
+<td class="org-right">0.339</td>
+<td class="org-right">0.350</td>
+<td class="org-right">2881.825</td>
+</tr>
+
+<tr>
+<td class="org-right">12.000</td>
+<td class="org-right">30.000</td>
+<td class="org-right">0.040</td>
+<td class="org-right">2.500</td>
+<td class="org-right">5.000</td>
+<td class="org-right">0.444</td>
+<td class="org-right">0.450</td>
+<td class="org-right">4970.507</td>
+</tr>
+
+<tr>
+<td class="org-right">12.000</td>
+<td class="org-right">30.000</td>
+<td class="org-right">0.040</td>
+<td class="org-right">3.000</td>
+<td class="org-right">5.000</td>
+<td class="org-right">0.461</td>
+<td class="org-right">0.500</td>
+<td class="org-right">5388.739</td>
+</tr>
+
+<tr>
+<td class="org-right">12.000</td>
+<td class="org-right">30.000</td>
+<td class="org-right">0.040</td>
+<td class="org-right">4.000</td>
+<td class="org-right">5.000</td>
+<td class="org-right">0.493</td>
+<td class="org-right">0.500</td>
+<td class="org-right">6174.964</td>
+</tr>
+
+<tr>
+<td class="org-right">12.000</td>
+<td class="org-right">30.000</td>
+<td class="org-right">0.040</td>
+<td class="org-right">2.500</td>
+<td class="org-right">7.000</td>
+<td class="org-right">0.589</td>
+<td class="org-right">0.600</td>
+<td class="org-right">8792.859</td>
+</tr>
+
+<tr>
+<td class="org-right">12.000</td>
+<td class="org-right">30.000</td>
+<td class="org-right">0.040</td>
+<td class="org-right">3.000</td>
+<td class="org-right">7.000</td>
+<td class="org-right">0.607</td>
+<td class="org-right">0.650</td>
+<td class="org-right">9400.758</td>
+</tr>
+
+<tr>
+<td class="org-right">12.000</td>
+<td class="org-right">30.000</td>
+<td class="org-right">0.040</td>
+<td class="org-right">4.000</td>
+<td class="org-right">7.000</td>
+<td class="org-right">0.641</td>
+<td class="org-right">0.650</td>
+<td class="org-right">10538.969</td>
+</tr>
+
+<tr>
+<td class="org-right">16.000</td>
+<td class="org-right">30.000</td>
+<td class="org-right">0.040</td>
+<td class="org-right">2.500</td>
+<td class="org-right">3.000</td>
+<td class="org-right">0.345</td>
+<td class="org-right">0.350</td>
+<td class="org-right">2985.168</td>
+</tr>
+
+<tr>
+<td class="org-right">16.000</td>
+<td class="org-right">30.000</td>
+<td class="org-right">0.040</td>
+<td class="org-right">3.000</td>
+<td class="org-right">3.000</td>
+<td class="org-right">0.362</td>
+<td class="org-right">0.400</td>
+<td class="org-right">3321.090</td>
+</tr>
+
+<tr>
+<td class="org-right">16.000</td>
+<td class="org-right">30.000</td>
+<td class="org-right">0.040</td>
+<td class="org-right">4.000</td>
+<td class="org-right">3.000</td>
+<td class="org-right">0.395</td>
+<td class="org-right">0.400</td>
+<td class="org-right">3949.290</td>
+</tr>
+
+<tr>
+<td class="org-right">16.000</td>
+<td class="org-right">30.000</td>
+<td class="org-right">0.040</td>
+<td class="org-right">2.500</td>
+<td class="org-right">5.000</td>
+<td class="org-right">0.517</td>
+<td class="org-right">0.550</td>
+<td class="org-right">6801.550</td>
+</tr>
+
+<tr>
+<td class="org-right">16.000</td>
+<td class="org-right">30.000</td>
+<td class="org-right">0.040</td>
+<td class="org-right">3.000</td>
+<td class="org-right">5.000</td>
+<td class="org-right">0.537</td>
+<td class="org-right">0.550</td>
+<td class="org-right">7347.203</td>
+</tr>
+
+<tr>
+<td class="org-right">16.000</td>
+<td class="org-right">30.000</td>
+<td class="org-right">0.040</td>
+<td class="org-right">4.000</td>
+<td class="org-right">5.000</td>
+<td class="org-right">0.574</td>
+<td class="org-right">0.600</td>
+<td class="org-right">8518.185</td>
+</tr>
+
+<tr>
+<td class="org-right">16.000</td>
+<td class="org-right">30.000</td>
+<td class="org-right">0.040</td>
+<td class="org-right">2.500</td>
+<td class="org-right">7.000</td>
+<td class="org-right">0.685</td>
+<td class="org-right">0.700</td>
+<td class="org-right">12002.051</td>
+</tr>
+
+<tr>
+<td class="org-right">16.000</td>
+<td class="org-right">30.000</td>
+<td class="org-right">0.040</td>
+<td class="org-right">3.000</td>
+<td class="org-right">7.000</td>
+<td class="org-right">0.706</td>
+<td class="org-right">0.750</td>
+<td class="org-right">12872.461</td>
+</tr>
+
+<tr>
+<td class="org-right">16.000</td>
+<td class="org-right">30.000</td>
+<td class="org-right">0.040</td>
+<td class="org-right">4.000</td>
+<td class="org-right">7.000</td>
+<td class="org-right">0.746</td>
+<td class="org-right">0.750</td>
+<td class="org-right">14482.617</td>
+</tr>
+</tbody>
+</table>
+
+
+<div class="org-src-container">
+<pre class="src src-lisp">(<span style="color: #268bd2; font-weight: bold;">loop</span> for (n0 fck %steel h bw cw% cw pu) in data
+      for Ec = (Ec% fck) do
+        (<span style="color: #268bd2; font-weight: bold;">loop</span> for n in (cdr (find n0 '((3 . (1 2 3))
+                                       (7 . (4 5 6 7))
+                                       (12 . (8 9 10 11 12))
+                                       (16 . (13 14 15 16)))
+                                  <span style="color: #268bd2;">:key</span> #'car
+                                  <span style="color: #268bd2;">:test</span> #'=)) <span style="color: #dc752f; background-color: #262626;">do</span>
+                                    (setf (cs-and-Ec n h bw) (list cw Ec))))
+</pre>
+</div>
+</div>
+</div>
+
+
+
+<div id="outline-container-org045b617" class="outline-2">
+<h2 id="org045b617"><span class="section-number-2">4</span> Table 2</h2>
+<div class="outline-text-2" id="text-4">
+<div class="org-src-container">
+<pre class="src src-lisp">(table 3
+  (row <span style="color: #2aa198;">"N"</span> <span style="color: #2aa198;">"fck"</span> <span style="color: #2aa198;">"%steel"</span> <span style="color: #2aa198;">"h"</span> <span style="color: #2aa198;">"bw"</span> <span style="color: #2aa198;">"Cw"</span> <span style="color: #2aa198;">"Cw (rounded)"</span> <span style="color: #2aa198;">"Pu"</span> )
+  (<span style="color: #268bd2; font-weight: bold;">loop</span>
+    for N in '(3 7 12 16)
+    for *fck* in '(25 25 30 30)
+    for *%steel* in '(0.03 0.03 0.04 0.04) do 
+      (<span style="color: #268bd2; font-weight: bold;">loop</span> for bw in '(3 3.5 4 4.5 5 5.5 6 6.5 7)
+            with h = 4 
+            for cw = (column-width n h bw 0.3)
+            for rounded-cw = (coerce (round-up cw) 'single-float)
+            for Pu = (Pu n h bw rounded-cw) do 
+              (row n *fck* *%steel* h bw cw rounded-cw  Pu))))
 
 
 </pre>
@@ -406,22 +887,11 @@ Now this gives new estimate of 0.313 which can then be used to get new estimate 
 <td class="org-right">3.000</td>
 <td class="org-right">25.000</td>
 <td class="org-right">0.030</td>
-<td class="org-right">2.500</td>
+<td class="org-right">4.000</td>
 <td class="org-right">3.000</td>
-<td class="org-right">0.149</td>
-<td class="org-right">0.150</td>
-<td class="org-right">438.546</td>
-</tr>
-
-<tr>
-<td class="org-right">3.000</td>
-<td class="org-right">25.000</td>
-<td class="org-right">0.030</td>
-<td class="org-right">3.000</td>
-<td class="org-right">3.000</td>
-<td class="org-right">0.156</td>
-<td class="org-right">0.200</td>
-<td class="org-right">478.281</td>
+<td class="org-right">0.169</td>
+<td class="org-right">0.300</td>
+<td class="org-right">561.721</td>
 </tr>
 
 <tr>
@@ -429,32 +899,32 @@ Now this gives new estimate of 0.313 which can then be used to get new estimate 
 <td class="org-right">25.000</td>
 <td class="org-right">0.030</td>
 <td class="org-right">4.000</td>
-<td class="org-right">3.000</td>
-<td class="org-right">0.169</td>
-<td class="org-right">0.200</td>
-<td class="org-right">558.561</td>
+<td class="org-right">3.500</td>
+<td class="org-right">0.189</td>
+<td class="org-right">0.300</td>
+<td class="org-right">704.450</td>
 </tr>
 
 <tr>
 <td class="org-right">3.000</td>
 <td class="org-right">25.000</td>
 <td class="org-right">0.030</td>
-<td class="org-right">2.500</td>
-<td class="org-right">5.000</td>
-<td class="org-right">0.226</td>
-<td class="org-right">0.250</td>
-<td class="org-right">1008.804</td>
+<td class="org-right">4.000</td>
+<td class="org-right">4.000</td>
+<td class="org-right">0.209</td>
+<td class="org-right">0.300</td>
+<td class="org-right">860.867</td>
 </tr>
 
 <tr>
 <td class="org-right">3.000</td>
 <td class="org-right">25.000</td>
 <td class="org-right">0.030</td>
-<td class="org-right">3.000</td>
-<td class="org-right">5.000</td>
-<td class="org-right">0.234</td>
-<td class="org-right">0.250</td>
-<td class="org-right">1076.698</td>
+<td class="org-right">4.000</td>
+<td class="org-right">4.500</td>
+<td class="org-right">0.228</td>
+<td class="org-right">0.300</td>
+<td class="org-right">1030.970</td>
 </tr>
 
 <tr>
@@ -464,30 +934,41 @@ Now this gives new estimate of 0.313 which can then be used to get new estimate 
 <td class="org-right">4.000</td>
 <td class="org-right">5.000</td>
 <td class="org-right">0.248</td>
-<td class="org-right">0.250</td>
-<td class="org-right">1212.486</td>
+<td class="org-right">0.300</td>
+<td class="org-right">1214.762</td>
 </tr>
 
 <tr>
 <td class="org-right">3.000</td>
 <td class="org-right">25.000</td>
 <td class="org-right">0.030</td>
-<td class="org-right">2.500</td>
-<td class="org-right">7.000</td>
-<td class="org-right">0.302</td>
-<td class="org-right">0.350</td>
-<td class="org-right">1801.377</td>
+<td class="org-right">4.000</td>
+<td class="org-right">5.500</td>
+<td class="org-right">0.267</td>
+<td class="org-right">0.300</td>
+<td class="org-right">1412.240</td>
 </tr>
 
 <tr>
 <td class="org-right">3.000</td>
 <td class="org-right">25.000</td>
 <td class="org-right">0.030</td>
+<td class="org-right">4.000</td>
+<td class="org-right">6.000</td>
+<td class="org-right">0.287</td>
+<td class="org-right">0.300</td>
+<td class="org-right">1623.407</td>
+</tr>
+
+<tr>
 <td class="org-right">3.000</td>
-<td class="org-right">7.000</td>
-<td class="org-right">0.310</td>
+<td class="org-right">25.000</td>
+<td class="org-right">0.030</td>
+<td class="org-right">4.000</td>
+<td class="org-right">6.500</td>
+<td class="org-right">0.306</td>
 <td class="org-right">0.350</td>
-<td class="org-right">1897.741</td>
+<td class="org-right">1851.927</td>
 </tr>
 
 <tr>
@@ -503,307 +984,843 @@ Now this gives new estimate of 0.313 which can then be used to get new estimate 
 
 <tr>
 <td class="org-right">7.000</td>
-<td class="org-right">30.000</td>
-<td class="org-right">0.030</td>
-<td class="org-right">2.500</td>
-<td class="org-right">3.000</td>
-<td class="org-right">0.237</td>
-<td class="org-right">0.250</td>
-<td class="org-right">1214.443</td>
-</tr>
-
-<tr>
-<td class="org-right">7.000</td>
-<td class="org-right">30.000</td>
-<td class="org-right">0.030</td>
-<td class="org-right">3.000</td>
-<td class="org-right">3.000</td>
-<td class="org-right">0.249</td>
-<td class="org-right">0.250</td>
-<td class="org-right">1335.324</td>
-</tr>
-
-<tr>
-<td class="org-right">7.000</td>
-<td class="org-right">30.000</td>
+<td class="org-right">25.000</td>
 <td class="org-right">0.030</td>
 <td class="org-right">4.000</td>
 <td class="org-right">3.000</td>
-<td class="org-right">0.270</td>
+<td class="org-right">0.283</td>
 <td class="org-right">0.300</td>
 <td class="org-right">1583.914</td>
 </tr>
 
 <tr>
 <td class="org-right">7.000</td>
-<td class="org-right">30.000</td>
+<td class="org-right">25.000</td>
 <td class="org-right">0.030</td>
-<td class="org-right">2.500</td>
-<td class="org-right">5.000</td>
-<td class="org-right">0.356</td>
-<td class="org-right">0.400</td>
-<td class="org-right">2763.891</td>
+<td class="org-right">4.000</td>
+<td class="org-right">3.500</td>
+<td class="org-right">0.316</td>
+<td class="org-right">0.350</td>
+<td class="org-right">1986.540</td>
 </tr>
 
 <tr>
 <td class="org-right">7.000</td>
-<td class="org-right">30.000</td>
+<td class="org-right">25.000</td>
 <td class="org-right">0.030</td>
-<td class="org-right">3.000</td>
-<td class="org-right">5.000</td>
-<td class="org-right">0.369</td>
-<td class="org-right">0.400</td>
-<td class="org-right">2972.331</td>
+<td class="org-right">4.000</td>
+<td class="org-right">4.000</td>
+<td class="org-right">0.349</td>
+<td class="org-right">0.350</td>
+<td class="org-right">2413.601</td>
 </tr>
 
 <tr>
 <td class="org-right">7.000</td>
-<td class="org-right">30.000</td>
+<td class="org-right">25.000</td>
+<td class="org-right">0.030</td>
+<td class="org-right">4.000</td>
+<td class="org-right">4.500</td>
+<td class="org-right">0.381</td>
+<td class="org-right">0.400</td>
+<td class="org-right">2891.275</td>
+</tr>
+
+<tr>
+<td class="org-right">7.000</td>
+<td class="org-right">25.000</td>
 <td class="org-right">0.030</td>
 <td class="org-right">4.000</td>
 <td class="org-right">5.000</td>
-<td class="org-right">0.394</td>
-<td class="org-right">0.400</td>
-<td class="org-right">3389.211</td>
+<td class="org-right">0.413</td>
+<td class="org-right">0.450</td>
+<td class="org-right">3408.560</td>
 </tr>
 
 <tr>
 <td class="org-right">7.000</td>
-<td class="org-right">30.000</td>
+<td class="org-right">25.000</td>
 <td class="org-right">0.030</td>
-<td class="org-right">2.500</td>
-<td class="org-right">7.000</td>
-<td class="org-right">0.473</td>
-<td class="org-right">0.500</td>
-<td class="org-right">4886.528</td>
+<td class="org-right">4.000</td>
+<td class="org-right">5.500</td>
+<td class="org-right">0.444</td>
+<td class="org-right">0.450</td>
+<td class="org-right">3941.934</td>
 </tr>
 
 <tr>
 <td class="org-right">7.000</td>
-<td class="org-right">30.000</td>
+<td class="org-right">25.000</td>
 <td class="org-right">0.030</td>
-<td class="org-right">3.000</td>
-<td class="org-right">7.000</td>
-<td class="org-right">0.487</td>
+<td class="org-right">4.000</td>
+<td class="org-right">6.000</td>
+<td class="org-right">0.475</td>
 <td class="org-right">0.500</td>
-<td class="org-right">5183.753</td>
+<td class="org-right">4534.267</td>
 </tr>
 
 <tr>
 <td class="org-right">7.000</td>
-<td class="org-right">30.000</td>
+<td class="org-right">25.000</td>
+<td class="org-right">0.030</td>
+<td class="org-right">4.000</td>
+<td class="org-right">6.500</td>
+<td class="org-right">0.507</td>
+<td class="org-right">0.550</td>
+<td class="org-right">5166.213</td>
+</tr>
+
+<tr>
+<td class="org-right">7.000</td>
+<td class="org-right">25.000</td>
 <td class="org-right">0.030</td>
 <td class="org-right">4.000</td>
 <td class="org-right">7.000</td>
-<td class="org-right">0.513</td>
+<td class="org-right">0.538</td>
 <td class="org-right">0.550</td>
 <td class="org-right">5805.899</td>
 </tr>
 
 <tr>
 <td class="org-right">12.000</td>
-<td class="org-right">40.000</td>
-<td class="org-right">0.040</td>
-<td class="org-right">2.500</td>
-<td class="org-right">3.000</td>
-<td class="org-right">0.276</td>
-<td class="org-right">0.300</td>
-<td class="org-right">2191.178</td>
-</tr>
-
-<tr>
-<td class="org-right">12.000</td>
-<td class="org-right">40.000</td>
-<td class="org-right">0.040</td>
-<td class="org-right">3.000</td>
-<td class="org-right">3.000</td>
-<td class="org-right">0.290</td>
-<td class="org-right">0.300</td>
-<td class="org-right">2414.671</td>
-</tr>
-
-<tr>
-<td class="org-right">12.000</td>
-<td class="org-right">40.000</td>
+<td class="org-right">30.000</td>
 <td class="org-right">0.040</td>
 <td class="org-right">4.000</td>
 <td class="org-right">3.000</td>
-<td class="org-right">0.315</td>
+<td class="org-right">0.339</td>
 <td class="org-right">0.350</td>
 <td class="org-right">2881.825</td>
 </tr>
 
 <tr>
 <td class="org-right">12.000</td>
-<td class="org-right">40.000</td>
+<td class="org-right">30.000</td>
 <td class="org-right">0.040</td>
-<td class="org-right">2.500</td>
-<td class="org-right">5.000</td>
-<td class="org-right">0.414</td>
-<td class="org-right">0.450</td>
-<td class="org-right">4970.507</td>
+<td class="org-right">4.000</td>
+<td class="org-right">3.500</td>
+<td class="org-right">0.378</td>
+<td class="org-right">0.400</td>
+<td class="org-right">3612.389</td>
 </tr>
 
 <tr>
 <td class="org-right">12.000</td>
-<td class="org-right">40.000</td>
+<td class="org-right">30.000</td>
 <td class="org-right">0.040</td>
-<td class="org-right">3.000</td>
-<td class="org-right">5.000</td>
-<td class="org-right">0.429</td>
+<td class="org-right">4.000</td>
+<td class="org-right">4.000</td>
+<td class="org-right">0.417</td>
 <td class="org-right">0.450</td>
-<td class="org-right">5357.618</td>
+<td class="org-right">4413.229</td>
 </tr>
 
 <tr>
 <td class="org-right">12.000</td>
-<td class="org-right">40.000</td>
+<td class="org-right">30.000</td>
+<td class="org-right">0.040</td>
+<td class="org-right">4.000</td>
+<td class="org-right">4.500</td>
+<td class="org-right">0.455</td>
+<td class="org-right">0.500</td>
+<td class="org-right">5284.346</td>
+</tr>
+
+<tr>
+<td class="org-right">12.000</td>
+<td class="org-right">30.000</td>
 <td class="org-right">0.040</td>
 <td class="org-right">4.000</td>
 <td class="org-right">5.000</td>
-<td class="org-right">0.459</td>
+<td class="org-right">0.493</td>
 <td class="org-right">0.500</td>
 <td class="org-right">6174.964</td>
 </tr>
 
 <tr>
 <td class="org-right">12.000</td>
-<td class="org-right">40.000</td>
+<td class="org-right">30.000</td>
 <td class="org-right">0.040</td>
-<td class="org-right">2.500</td>
-<td class="org-right">7.000</td>
-<td class="org-right">0.549</td>
+<td class="org-right">4.000</td>
+<td class="org-right">5.500</td>
+<td class="org-right">0.530</td>
 <td class="org-right">0.550</td>
-<td class="org-right">8758.624</td>
+<td class="org-right">7178.983</td>
 </tr>
 
 <tr>
 <td class="org-right">12.000</td>
-<td class="org-right">40.000</td>
+<td class="org-right">30.000</td>
 <td class="org-right">0.040</td>
-<td class="org-right">3.000</td>
-<td class="org-right">7.000</td>
-<td class="org-right">0.565</td>
+<td class="org-right">4.000</td>
+<td class="org-right">6.000</td>
+<td class="org-right">0.567</td>
 <td class="org-right">0.600</td>
-<td class="org-right">9352.869</td>
+<td class="org-right">8253.279</td>
 </tr>
 
 <tr>
 <td class="org-right">12.000</td>
-<td class="org-right">40.000</td>
+<td class="org-right">30.000</td>
 <td class="org-right">0.040</td>
 <td class="org-right">4.000</td>
-<td class="org-right">7.000</td>
-<td class="org-right">0.597</td>
-<td class="org-right">0.600</td>
-<td class="org-right">10472.889</td>
-</tr>
-
-<tr>
-<td class="org-right">16.000</td>
-<td class="org-right">50.000</td>
-<td class="org-right">0.050</td>
-<td class="org-right">2.500</td>
-<td class="org-right">3.000</td>
-<td class="org-right">0.288</td>
-<td class="org-right">0.300</td>
-<td class="org-right">2969.561</td>
-</tr>
-
-<tr>
-<td class="org-right">16.000</td>
-<td class="org-right">50.000</td>
-<td class="org-right">0.050</td>
-<td class="org-right">3.000</td>
-<td class="org-right">3.000</td>
-<td class="org-right">0.303</td>
-<td class="org-right">0.350</td>
-<td class="org-right">3293.896</td>
-</tr>
-
-<tr>
-<td class="org-right">16.000</td>
-<td class="org-right">50.000</td>
-<td class="org-right">0.050</td>
-<td class="org-right">4.000</td>
-<td class="org-right">3.000</td>
-<td class="org-right">0.330</td>
-<td class="org-right">0.350</td>
-<td class="org-right">3911.352</td>
-</tr>
-
-<tr>
-<td class="org-right">16.000</td>
-<td class="org-right">50.000</td>
-<td class="org-right">0.050</td>
-<td class="org-right">2.500</td>
-<td class="org-right">5.000</td>
-<td class="org-right">0.432</td>
-<td class="org-right">0.450</td>
-<td class="org-right">6726.828</td>
-</tr>
-
-<tr>
-<td class="org-right">16.000</td>
-<td class="org-right">50.000</td>
-<td class="org-right">0.050</td>
-<td class="org-right">3.000</td>
-<td class="org-right">5.000</td>
-<td class="org-right">0.448</td>
-<td class="org-right">0.450</td>
-<td class="org-right">7254.706</td>
-</tr>
-
-<tr>
-<td class="org-right">16.000</td>
-<td class="org-right">50.000</td>
-<td class="org-right">0.050</td>
-<td class="org-right">4.000</td>
-<td class="org-right">5.000</td>
-<td class="org-right">0.479</td>
-<td class="org-right">0.500</td>
-<td class="org-right">8369.269</td>
-</tr>
-
-<tr>
-<td class="org-right">16.000</td>
-<td class="org-right">50.000</td>
-<td class="org-right">0.050</td>
-<td class="org-right">2.500</td>
-<td class="org-right">7.000</td>
-<td class="org-right">0.572</td>
-<td class="org-right">0.600</td>
-<td class="org-right">11890.035</td>
-</tr>
-
-<tr>
-<td class="org-right">16.000</td>
-<td class="org-right">50.000</td>
-<td class="org-right">0.050</td>
-<td class="org-right">3.000</td>
-<td class="org-right">7.000</td>
-<td class="org-right">0.589</td>
-<td class="org-right">0.600</td>
-<td class="org-right">12653.685</td>
-</tr>
-
-<tr>
-<td class="org-right">16.000</td>
-<td class="org-right">50.000</td>
-<td class="org-right">0.050</td>
-<td class="org-right">4.000</td>
-<td class="org-right">7.000</td>
-<td class="org-right">0.623</td>
+<td class="org-right">6.500</td>
+<td class="org-right">0.604</td>
 <td class="org-right">0.650</td>
-<td class="org-right">14271.095</td>
+<td class="org-right">9397.852</td>
+</tr>
+
+<tr>
+<td class="org-right">12.000</td>
+<td class="org-right">30.000</td>
+<td class="org-right">0.040</td>
+<td class="org-right">4.000</td>
+<td class="org-right">7.000</td>
+<td class="org-right">0.641</td>
+<td class="org-right">0.650</td>
+<td class="org-right">10538.969</td>
+</tr>
+
+<tr>
+<td class="org-right">16.000</td>
+<td class="org-right">30.000</td>
+<td class="org-right">0.040</td>
+<td class="org-right">4.000</td>
+<td class="org-right">3.000</td>
+<td class="org-right">0.395</td>
+<td class="org-right">0.400</td>
+<td class="org-right">3949.290</td>
+</tr>
+
+<tr>
+<td class="org-right">16.000</td>
+<td class="org-right">30.000</td>
+<td class="org-right">0.040</td>
+<td class="org-right">4.000</td>
+<td class="org-right">3.500</td>
+<td class="org-right">0.441</td>
+<td class="org-right">0.450</td>
+<td class="org-right">4949.300</td>
+</tr>
+
+<tr>
+<td class="org-right">16.000</td>
+<td class="org-right">30.000</td>
+<td class="org-right">0.040</td>
+<td class="org-right">4.000</td>
+<td class="org-right">4.000</td>
+<td class="org-right">0.485</td>
+<td class="org-right">0.500</td>
+<td class="org-right">6044.119</td>
+</tr>
+
+<tr>
+<td class="org-right">16.000</td>
+<td class="org-right">30.000</td>
+<td class="org-right">0.040</td>
+<td class="org-right">4.000</td>
+<td class="org-right">4.500</td>
+<td class="org-right">0.530</td>
+<td class="org-right">0.550</td>
+<td class="org-right">7233.747</td>
+</tr>
+
+<tr>
+<td class="org-right">16.000</td>
+<td class="org-right">30.000</td>
+<td class="org-right">0.040</td>
+<td class="org-right">4.000</td>
+<td class="org-right">5.000</td>
+<td class="org-right">0.574</td>
+<td class="org-right">0.600</td>
+<td class="org-right">8518.185</td>
+</tr>
+
+<tr>
+<td class="org-right">16.000</td>
+<td class="org-right">30.000</td>
+<td class="org-right">0.040</td>
+<td class="org-right">4.000</td>
+<td class="org-right">5.500</td>
+<td class="org-right">0.617</td>
+<td class="org-right">0.650</td>
+<td class="org-right">9897.432</td>
+</tr>
+
+<tr>
+<td class="org-right">16.000</td>
+<td class="org-right">30.000</td>
+<td class="org-right">0.040</td>
+<td class="org-right">4.000</td>
+<td class="org-right">6.000</td>
+<td class="org-right">0.660</td>
+<td class="org-right">0.700</td>
+<td class="org-right">11371.489</td>
+</tr>
+
+<tr>
+<td class="org-right">16.000</td>
+<td class="org-right">30.000</td>
+<td class="org-right">0.040</td>
+<td class="org-right">4.000</td>
+<td class="org-right">6.500</td>
+<td class="org-right">0.703</td>
+<td class="org-right">0.750</td>
+<td class="org-right">12940.355</td>
+</tr>
+
+<tr>
+<td class="org-right">16.000</td>
+<td class="org-right">30.000</td>
+<td class="org-right">0.040</td>
+<td class="org-right">4.000</td>
+<td class="org-right">7.000</td>
+<td class="org-right">0.746</td>
+<td class="org-right">0.750</td>
+<td class="org-right">14482.617</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div id="outline-container-orgae513b5" class="outline-3">
+<h3 id="orgae513b5"><span class="section-number-3">4.1</span> Grid</h3>
+<div class="outline-text-3" id="text-4-1">
+<div class="org-src-container">
+<pre class="src src-lisp">(table 3
+  (apply #'row  <span style="color: #2aa198;">"N / bw-&gt;&gt;"</span> (<span style="color: #268bd2; font-weight: bold;">loop</span> for bw from 3 to 7 by 0.5 collect bw))
+  (<span style="color: #268bd2; font-weight: bold;">loop</span>
+    for N from 1 to 16 
+    for *fck* = (<span style="color: #268bd2; font-weight: bold;">if</span> (&gt; N 7) 30 25) 
+    for *%steel* = (<span style="color: #268bd2; font-weight: bold;">if</span> (&gt; N 7) 0.04 0.03) do
+      (apply #'row  N
+             (<span style="color: #268bd2; font-weight: bold;">loop</span> for bw in '(3 3.5 4 4.5 5 5.5 6 6.5 7)
+                   with h = 4 
+                   for cw = (column-width n h bw 0.3)
+                   for rounded-cw = (coerce (round-up cw) 'single-float)
+                   for Pu = (Pu n h bw rounded-cw)
+                   collect (list cw rounded-cw)))))
+
+
+
+
+</pre>
+</div>
+
+<table id="org904620a" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-right" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-right">N / bw-&gt;&gt;</td>
+<td class="org-left">3.000</td>
+<td class="org-left">3.500</td>
+<td class="org-left">4.000</td>
+<td class="org-left">4.500</td>
+<td class="org-left">5.000</td>
+<td class="org-left">5.500</td>
+<td class="org-left">6.000</td>
+<td class="org-left">6.500</td>
+<td class="org-left">7.000</td>
+</tr>
+
+<tr>
+<td class="org-right">1.000</td>
+<td class="org-left">(0.051 0.300)</td>
+<td class="org-left">(0.059 0.300)</td>
+<td class="org-left">(0.068 0.300)</td>
+<td class="org-left">(0.076 0.300)</td>
+<td class="org-left">(0.084 0.300)</td>
+<td class="org-left">(0.093 0.300)</td>
+<td class="org-left">(0.101 0.300)</td>
+<td class="org-left">(0.110 0.300)</td>
+<td class="org-left">(0.118 0.300)</td>
+</tr>
+
+<tr>
+<td class="org-right">2.000</td>
+<td class="org-left">(0.125 0.300)</td>
+<td class="org-left">(0.140 0.300)</td>
+<td class="org-left">(0.155 0.300)</td>
+<td class="org-left">(0.170 0.300)</td>
+<td class="org-left">(0.185 0.300)</td>
+<td class="org-left">(0.200 0.300)</td>
+<td class="org-left">(0.215 0.300)</td>
+<td class="org-left">(0.230 0.300)</td>
+<td class="org-left">(0.245 0.300)</td>
+</tr>
+
+<tr>
+<td class="org-right">3.000</td>
+<td class="org-left">(0.169 0.300)</td>
+<td class="org-left">(0.189 0.300)</td>
+<td class="org-left">(0.209 0.300)</td>
+<td class="org-left">(0.228 0.300)</td>
+<td class="org-left">(0.248 0.300)</td>
+<td class="org-left">(0.267 0.300)</td>
+<td class="org-left">(0.287 0.300)</td>
+<td class="org-left">(0.306 0.350)</td>
+<td class="org-left">(0.325 0.350)</td>
+</tr>
+
+<tr>
+<td class="org-right">4.000</td>
+<td class="org-left">(0.203 0.300)</td>
+<td class="org-left">(0.228 0.300)</td>
+<td class="org-left">(0.251 0.300)</td>
+<td class="org-left">(0.275 0.300)</td>
+<td class="org-left">(0.298 0.300)</td>
+<td class="org-left">(0.321 0.350)</td>
+<td class="org-left">(0.344 0.350)</td>
+<td class="org-left">(0.367 0.400)</td>
+<td class="org-left">(0.389 0.400)</td>
+</tr>
+
+<tr>
+<td class="org-right">5.000</td>
+<td class="org-left">(0.233 0.300)</td>
+<td class="org-left">(0.260 0.300)</td>
+<td class="org-left">(0.287 0.300)</td>
+<td class="org-left">(0.314 0.350)</td>
+<td class="org-left">(0.340 0.350)</td>
+<td class="org-left">(0.367 0.400)</td>
+<td class="org-left">(0.393 0.400)</td>
+<td class="org-left">(0.418 0.450)</td>
+<td class="org-left">(0.444 0.450)</td>
+</tr>
+
+<tr>
+<td class="org-right">6.000</td>
+<td class="org-left">(0.259 0.300)</td>
+<td class="org-left">(0.290 0.300)</td>
+<td class="org-left">(0.320 0.350)</td>
+<td class="org-left">(0.349 0.350)</td>
+<td class="org-left">(0.378 0.400)</td>
+<td class="org-left">(0.407 0.450)</td>
+<td class="org-left">(0.436 0.450)</td>
+<td class="org-left">(0.465 0.500)</td>
+<td class="org-left">(0.493 0.500)</td>
+</tr>
+
+<tr>
+<td class="org-right">7.000</td>
+<td class="org-left">(0.283 0.300)</td>
+<td class="org-left">(0.316 0.350)</td>
+<td class="org-left">(0.349 0.350)</td>
+<td class="org-left">(0.381 0.400)</td>
+<td class="org-left">(0.413 0.450)</td>
+<td class="org-left">(0.444 0.450)</td>
+<td class="org-left">(0.475 0.500)</td>
+<td class="org-left">(0.507 0.550)</td>
+<td class="org-left">(0.538 0.550)</td>
+</tr>
+
+<tr>
+<td class="org-right">8.000</td>
+<td class="org-left">(0.272 0.300)</td>
+<td class="org-left">(0.303 0.350)</td>
+<td class="org-left">(0.334 0.350)</td>
+<td class="org-left">(0.365 0.400)</td>
+<td class="org-left">(0.396 0.400)</td>
+<td class="org-left">(0.426 0.450)</td>
+<td class="org-left">(0.456 0.500)</td>
+<td class="org-left">(0.486 0.500)</td>
+<td class="org-left">(0.515 0.550)</td>
+</tr>
+
+<tr>
+<td class="org-right">9.000</td>
+<td class="org-left">(0.290 0.300)</td>
+<td class="org-left">(0.324 0.350)</td>
+<td class="org-left">(0.357 0.400)</td>
+<td class="org-left">(0.390 0.400)</td>
+<td class="org-left">(0.422 0.450)</td>
+<td class="org-left">(0.454 0.500)</td>
+<td class="org-left">(0.486 0.500)</td>
+<td class="org-left">(0.518 0.550)</td>
+<td class="org-left">(0.549 0.550)</td>
+</tr>
+
+<tr>
+<td class="org-right">10.000</td>
+<td class="org-left">(0.307 0.350)</td>
+<td class="org-left">(0.343 0.350)</td>
+<td class="org-left">(0.378 0.400)</td>
+<td class="org-left">(0.413 0.450)</td>
+<td class="org-left">(0.447 0.450)</td>
+<td class="org-left">(0.481 0.500)</td>
+<td class="org-left">(0.515 0.550)</td>
+<td class="org-left">(0.548 0.550)</td>
+<td class="org-left">(0.581 0.600)</td>
+</tr>
+
+<tr>
+<td class="org-right">11.000</td>
+<td class="org-left">(0.323 0.350)</td>
+<td class="org-left">(0.361 0.400)</td>
+<td class="org-left">(0.398 0.400)</td>
+<td class="org-left">(0.434 0.450)</td>
+<td class="org-left">(0.470 0.500)</td>
+<td class="org-left">(0.506 0.550)</td>
+<td class="org-left">(0.541 0.550)</td>
+<td class="org-left">(0.577 0.600)</td>
+<td class="org-left">(0.612 0.650)</td>
+</tr>
+
+<tr>
+<td class="org-right">12.000</td>
+<td class="org-left">(0.339 0.350)</td>
+<td class="org-left">(0.378 0.400)</td>
+<td class="org-left">(0.417 0.450)</td>
+<td class="org-left">(0.455 0.500)</td>
+<td class="org-left">(0.493 0.500)</td>
+<td class="org-left">(0.530 0.550)</td>
+<td class="org-left">(0.567 0.600)</td>
+<td class="org-left">(0.604 0.650)</td>
+<td class="org-left">(0.641 0.650)</td>
+</tr>
+
+<tr>
+<td class="org-right">13.000</td>
+<td class="org-left">(0.354 0.400)</td>
+<td class="org-left">(0.395 0.400)</td>
+<td class="org-left">(0.435 0.450)</td>
+<td class="org-left">(0.475 0.500)</td>
+<td class="org-left">(0.514 0.550)</td>
+<td class="org-left">(0.553 0.600)</td>
+<td class="org-left">(0.592 0.600)</td>
+<td class="org-left">(0.630 0.650)</td>
+<td class="org-left">(0.669 0.700)</td>
+</tr>
+
+<tr>
+<td class="org-right">14.000</td>
+<td class="org-left">(0.368 0.400)</td>
+<td class="org-left">(0.411 0.450)</td>
+<td class="org-left">(0.452 0.500)</td>
+<td class="org-left">(0.494 0.500)</td>
+<td class="org-left">(0.535 0.550)</td>
+<td class="org-left">(0.575 0.600)</td>
+<td class="org-left">(0.615 0.650)</td>
+<td class="org-left">(0.655 0.700)</td>
+<td class="org-left">(0.695 0.700)</td>
+</tr>
+
+<tr>
+<td class="org-right">15.000</td>
+<td class="org-left">(0.382 0.400)</td>
+<td class="org-left">(0.426 0.450)</td>
+<td class="org-left">(0.469 0.500)</td>
+<td class="org-left">(0.512 0.550)</td>
+<td class="org-left">(0.554 0.600)</td>
+<td class="org-left">(0.596 0.600)</td>
+<td class="org-left">(0.638 0.650)</td>
+<td class="org-left">(0.680 0.700)</td>
+<td class="org-left">(0.721 0.750)</td>
+</tr>
+
+<tr>
+<td class="org-right">16.000</td>
+<td class="org-left">(0.395 0.400)</td>
+<td class="org-left">(0.441 0.450)</td>
+<td class="org-left">(0.485 0.500)</td>
+<td class="org-left">(0.530 0.550)</td>
+<td class="org-left">(0.574 0.600)</td>
+<td class="org-left">(0.617 0.650)</td>
+<td class="org-left">(0.660 0.700)</td>
+<td class="org-left">(0.703 0.750)</td>
+<td class="org-left">(0.746 0.750)</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div id="outline-container-org24b2590" class="outline-4">
+<h4 id="org24b2590"><span class="section-number-4">4.1.1</span> Only final sizes</h4>
+<div class="outline-text-4" id="text-4-1-1">
+<div class="org-src-container">
+<pre class="src src-lisp">(<span style="color: #268bd2; font-weight: bold;">loop</span> for (N . s) in data 
+      collect (cons N  (<span style="color: #268bd2; font-weight: bold;">loop</span> for val  in s
+                       for (cs cs-round) = (read-from-string val)
+                             collect cs-round)))
+</pre>
+</div>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-right">N / bw-&gt;&gt;</th>
+<th scope="col" class="org-right">3.0</th>
+<th scope="col" class="org-right">3.5</th>
+<th scope="col" class="org-right">4.0</th>
+<th scope="col" class="org-right">4.5</th>
+<th scope="col" class="org-right">5.0</th>
+<th scope="col" class="org-right">5.5</th>
+<th scope="col" class="org-right">6.0</th>
+<th scope="col" class="org-right">6.5</th>
+<th scope="col" class="org-right">7.0</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-right">1.0</td>
+<td class="org-right">0.3</td>
+<td class="org-right">0.3</td>
+<td class="org-right">0.3</td>
+<td class="org-right">0.3</td>
+<td class="org-right">0.3</td>
+<td class="org-right">0.3</td>
+<td class="org-right">0.3</td>
+<td class="org-right">0.3</td>
+<td class="org-right">0.3</td>
+</tr>
+
+<tr>
+<td class="org-right">2.0</td>
+<td class="org-right">0.3</td>
+<td class="org-right">0.3</td>
+<td class="org-right">0.3</td>
+<td class="org-right">0.3</td>
+<td class="org-right">0.3</td>
+<td class="org-right">0.3</td>
+<td class="org-right">0.3</td>
+<td class="org-right">0.3</td>
+<td class="org-right">0.3</td>
+</tr>
+
+<tr>
+<td class="org-right">3.0</td>
+<td class="org-right">0.3</td>
+<td class="org-right">0.3</td>
+<td class="org-right">0.3</td>
+<td class="org-right">0.3</td>
+<td class="org-right">0.3</td>
+<td class="org-right">0.3</td>
+<td class="org-right">0.3</td>
+<td class="org-right">0.35</td>
+<td class="org-right">0.35</td>
+</tr>
+
+<tr>
+<td class="org-right">4.0</td>
+<td class="org-right">0.3</td>
+<td class="org-right">0.3</td>
+<td class="org-right">0.3</td>
+<td class="org-right">0.3</td>
+<td class="org-right">0.3</td>
+<td class="org-right">0.35</td>
+<td class="org-right">0.35</td>
+<td class="org-right">0.4</td>
+<td class="org-right">0.4</td>
+</tr>
+
+<tr>
+<td class="org-right">5.0</td>
+<td class="org-right">0.3</td>
+<td class="org-right">0.3</td>
+<td class="org-right">0.3</td>
+<td class="org-right">0.35</td>
+<td class="org-right">0.35</td>
+<td class="org-right">0.4</td>
+<td class="org-right">0.4</td>
+<td class="org-right">0.45</td>
+<td class="org-right">0.45</td>
+</tr>
+
+<tr>
+<td class="org-right">6.0</td>
+<td class="org-right">0.3</td>
+<td class="org-right">0.3</td>
+<td class="org-right">0.35</td>
+<td class="org-right">0.35</td>
+<td class="org-right">0.4</td>
+<td class="org-right">0.45</td>
+<td class="org-right">0.45</td>
+<td class="org-right">0.5</td>
+<td class="org-right">0.5</td>
+</tr>
+
+<tr>
+<td class="org-right">7.0</td>
+<td class="org-right">0.3</td>
+<td class="org-right">0.35</td>
+<td class="org-right">0.35</td>
+<td class="org-right">0.4</td>
+<td class="org-right">0.45</td>
+<td class="org-right">0.45</td>
+<td class="org-right">0.5</td>
+<td class="org-right">0.55</td>
+<td class="org-right">0.55</td>
+</tr>
+
+<tr>
+<td class="org-right">8.0</td>
+<td class="org-right">0.3</td>
+<td class="org-right">0.35</td>
+<td class="org-right">0.35</td>
+<td class="org-right">0.4</td>
+<td class="org-right">0.4</td>
+<td class="org-right">0.45</td>
+<td class="org-right">0.5</td>
+<td class="org-right">0.5</td>
+<td class="org-right">0.55</td>
+</tr>
+
+<tr>
+<td class="org-right">9.0</td>
+<td class="org-right">0.3</td>
+<td class="org-right">0.35</td>
+<td class="org-right">0.4</td>
+<td class="org-right">0.4</td>
+<td class="org-right">0.45</td>
+<td class="org-right">0.5</td>
+<td class="org-right">0.5</td>
+<td class="org-right">0.55</td>
+<td class="org-right">0.55</td>
+</tr>
+
+<tr>
+<td class="org-right">10.0</td>
+<td class="org-right">0.35</td>
+<td class="org-right">0.35</td>
+<td class="org-right">0.4</td>
+<td class="org-right">0.45</td>
+<td class="org-right">0.45</td>
+<td class="org-right">0.5</td>
+<td class="org-right">0.55</td>
+<td class="org-right">0.55</td>
+<td class="org-right">0.6</td>
+</tr>
+
+<tr>
+<td class="org-right">11.0</td>
+<td class="org-right">0.35</td>
+<td class="org-right">0.4</td>
+<td class="org-right">0.4</td>
+<td class="org-right">0.45</td>
+<td class="org-right">0.5</td>
+<td class="org-right">0.55</td>
+<td class="org-right">0.55</td>
+<td class="org-right">0.6</td>
+<td class="org-right">0.65</td>
+</tr>
+
+<tr>
+<td class="org-right">12.0</td>
+<td class="org-right">0.35</td>
+<td class="org-right">0.4</td>
+<td class="org-right">0.45</td>
+<td class="org-right">0.5</td>
+<td class="org-right">0.5</td>
+<td class="org-right">0.55</td>
+<td class="org-right">0.6</td>
+<td class="org-right">0.65</td>
+<td class="org-right">0.65</td>
+</tr>
+
+<tr>
+<td class="org-right">13.0</td>
+<td class="org-right">0.4</td>
+<td class="org-right">0.4</td>
+<td class="org-right">0.45</td>
+<td class="org-right">0.5</td>
+<td class="org-right">0.55</td>
+<td class="org-right">0.6</td>
+<td class="org-right">0.6</td>
+<td class="org-right">0.65</td>
+<td class="org-right">0.7</td>
+</tr>
+
+<tr>
+<td class="org-right">14.0</td>
+<td class="org-right">0.4</td>
+<td class="org-right">0.45</td>
+<td class="org-right">0.5</td>
+<td class="org-right">0.5</td>
+<td class="org-right">0.55</td>
+<td class="org-right">0.6</td>
+<td class="org-right">0.65</td>
+<td class="org-right">0.7</td>
+<td class="org-right">0.7</td>
+</tr>
+
+<tr>
+<td class="org-right">15.0</td>
+<td class="org-right">0.4</td>
+<td class="org-right">0.45</td>
+<td class="org-right">0.5</td>
+<td class="org-right">0.55</td>
+<td class="org-right">0.6</td>
+<td class="org-right">0.6</td>
+<td class="org-right">0.65</td>
+<td class="org-right">0.7</td>
+<td class="org-right">0.75</td>
+</tr>
+
+<tr>
+<td class="org-right">16.0</td>
+<td class="org-right">0.4</td>
+<td class="org-right">0.45</td>
+<td class="org-right">0.5</td>
+<td class="org-right">0.55</td>
+<td class="org-right">0.6</td>
+<td class="org-right">0.65</td>
+<td class="org-right">0.7</td>
+<td class="org-right">0.75</td>
+<td class="org-right">0.75</td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
 </div>
+</div>
+</div>
 <div id="postamble" class="status">
-<p class="date">Created: 2020-07-07 Tue 20:28</p>
+<p class="date">Created: 2020-07-10 Fri 12:34</p>
 <p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

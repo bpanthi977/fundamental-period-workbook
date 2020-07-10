@@ -24,9 +24,9 @@
 		     (sg (moi::make-structural-geometry :beam-height 0.5d0)))
 		 (setf data nil)
 		 (loop for bay-size from 5 to 50 by 0.2 do
-		       (setf (moi::bg-l bg) (make-array bays-x :initial-element bay-size))
-		       (setf (moi::bg-b bg) (make-array bays-y :initial-element bay-size))
-		       (push (list bay-size (moi::fundamental-time-period bg sg)) data))
+		   (setf (moi::bg-l bg) (make-array bays-x :initial-element bay-size))
+		   (setf (moi::bg-b bg) (make-array bays-y :initial-element bay-size))
+		   (push (list bay-size (moi::fundamental-time-period bg sg)) data))
 		 (gui::add-frame plotter height data)))			   
 	     (update ()
 	       (setf (slot-value plotter 'gui::origin-x) 1.0
@@ -82,8 +82,8 @@
 		     (sg (moi::make-structural-geometry :beam-height 0.1d0)))
 		 (setf data nil)
 		 (loop for h from 0.11 to height by 0.5 do
-		       (setf (moi::bg-h bg) h)
-		       (push (list h (moi::fundamental-time-period bg sg)) data))))
+		   (setf (moi::bg-h bg) h)
+		   (push (list h (moi::fundamental-time-period bg sg)) data))))
 	     (update ()
 	       (calculate)
 	       (setf (slot-value plotter 'gui::origin-x) 0.0

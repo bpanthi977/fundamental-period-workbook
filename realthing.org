@@ -2518,7 +2518,6 @@ nil
    #+RESULTS:
    : NIL
 
-
 * Fittings 
 ** big  fit 
  Biggest regression fitting!! 
@@ -2650,12 +2649,12 @@ T = a (Nh)^b
 
  #+Name:simplefitparams
  #+RESULTS:
- | Equation =          |                a*x^b |
- | Parameter           |       Confidence +/- |
- | 0.02443610366754634 | 0.006464088479019525 |
- | 0.9860868348372415  |  0.07664185518767795 |
- | chisq/dof           |   1.5624271015888844 |
- | R^2                 |   0.9921361814457136 |
+ | Equation =            |                  a*x^b |
+ | Parameter             |         Confidence +/- |
+ | 0.03415927637784191d0 | 0.010126006602171589d0 |
+ | 0.8131438130928438d0  |  0.08690063277352969d0 |
+ | chisq/dof             |   3.2783309445378155d0 |
+ | R^2                   |   0.9336717886816157d0 |
 
 
  
@@ -2666,7 +2665,7 @@ T = a (Nh)^b
     #+end_src
 
     #+RESULTS:
-    : 23.335710875564157
+    : 33\.88282667480804d0
    
 *** plot 
 
@@ -2681,7 +2680,7 @@ T = a (Nh)^b
    #+RESULTS:
    : NIL
    
-   #+Name: checkFit
+   #+Name: checkFitw
    #+begin_src gnuplot :var x="Nh" y="Fundamental Timeperiod" csv="fullPlot1.csv" :results file :file "img/fullPlot1.png"
      set terminal png 
      set output "img/fullPlot1.png"
@@ -2692,6 +2691,9 @@ T = a (Nh)^b
      set ylabel y
      plot csv with point title "data", csv using 1:3 with line title "fit"
    #+end_src
+
+   #+RESULTS: checkFitw
+   [[file:img/fullPlot1.png]]
 
    #+RESULTS: checkFit
    [[file:img/fullPlot1.png]]
@@ -2724,21 +2726,25 @@ There is lots of variation in timeperiod for higher Nh~40
 : *NH40*
 
    #+begin_src lisp 
-(defparameter *n16nh40* (loop for d in *bigdata*
-			     for (x tp) = d
-			     for (n h ._) = x
-			     when (and (= (* n h) 40) (= n 16))
-			       collect d))
-(defparameter *n10nh40* (loop for d in *bigdata*
-			     for (x tp) = d
-			     for (n h ._) = x
-			     when (and (= (* n h) 40) (= n 10))
-			       collect d))
-
+     (defparameter *n16nh40* (loop for d in *bigdata*
+				  for (x tp) = d
+				  for (n h ._) = x
+				  when (and (= (* n h) 40) (= n 16))
+				    collect d))
+     (defparameter *n10nh40* (loop for d in *bigdata*
+				  for (x tp) = d
+				  for (n h ._) = x
+				  when (and (= (* n h) 40) (= n 10))
+				    collect d))
+     (defparameter *n16nh40bx5by5* (loop for d in *bigdata*
+					 for (x tp) = d
+					 for (n h bw bx by) = x
+					 when (and (= (* n h) 40) (= n 10) (= bw 5 ) (= by 2))
+					   collect d) )
     #+end_src
 
     #+RESULTS:
-    : *N10NH40*
+    : *N16NH40BX5BY5*
 
 *** plot  (not really)
 #+begin_src lisp :results file 
@@ -2778,9 +2784,9 @@ linear variation with tp. but tere must be a lot of unexplained variance.
 #+end_src
 
 #+RESULTS:
-| Slope                         | 0.025393453519833943d0 |
-| Intercept                     |   0.8517726323861926d0 |
-| R^2 (Coeff. of Determination) |   0.6974688794369629d0 |
+| Slope                         | -0.041315306726689247d0 |
+| Intercept                     |    0.8594413721337439d0 |
+| R^2 (Coeff. of Determination) |    0.3717438520002681d0 |
 
 70% variance is explained by bay width.
 
@@ -2892,6 +2898,38 @@ For nh40
 |               chisq/dof | 0.19494817085898813d0 |
 |                     R^2 |  0.6036228493926368d0 |
 
+*** custom
+    #+begin_src lisp 
+      (defun data(&key n h bw bx by)
+	(loop for d in *bigdata*
+	      for (x tp) = d
+	      for (nn hh bwbw bxbx byby) = x
+	      when (and (or (not n) (= n nn))
+			(or (not h) (= h hh))
+			(or (not bw) (= bw bwbw))
+			(or (not bx) (= bx bxbx))
+			(or (not by) (= by byby)))
+		collect d))
+    #+end_src
+
+    #+RESULTS:
+    : DATA
+
+    #+begin_src lisp :results file 
+      (with-plot "n16nh40-custom.png"
+	(setup)
+	(let ((data (mapcar (lambda (d)
+			      (destructuring-bind (n h bw bx by) (first d)
+				(list (/ (first (cs-and-ec n h bw)) n) (second d))))
+			    (data :bx 2 :bw 4 :h 2.5 :by 3))))
+	  (ezplot data 
+		  :title "x=bw at nh=40, y=tp"
+		  :with '(:points))))
+#+end_src
+
+#+RESULTS:
+[[file:./img/n16nh40-custom.png]]
+
 ** aN^b h^c
  #+begin_src lisp  :exports code
    (fit (lambda (x a b c)
@@ -2904,12 +2942,12 @@ For nh40
 
   #+Name:fitparams123
   #+RESULTS:
-  |             Parameter |        Confidence +/- |
-  | 0.02935362109815474d0 | 0.00899428948004111d0 |
-  |  0.9837565913243099d0 | 0.07578523098936221d0 |
-  |  0.8468863005241314d0 |  0.1625842413853486d0 |
-  |             chisq/dof |  1.3041930082507758d0 |
-  |                   R^2 |  0.9947215305618592d0 |
+  |             Parameter |         Confidence +/- |
+  | 0.02756792258506322d0 | 0.010111856410228395d0 |
+  |   0.812898902606503d0 |  0.08784735948740999d0 |
+  |  1.0022181515827586d0 |   0.2064944327324176d0 |
+  |             chisq/dof |   3.1219943582387777d0 |
+  |                   R^2 |   0.9398470504536163d0 |
 
   #+begin_src lisp :var params=fitparams123
     (destructuring-bind (a b c) (fit-params params)
@@ -2917,7 +2955,7 @@ For nh40
  #+end_src 
 
  #+RESULTS:
- : 20\.486771678882086d0
+ : 34\.85976912117027d0
 
 *** scatter plot 
  #+begin_src lisp  :results silent  :exports code  :var params=fitparams123
@@ -2930,7 +2968,6 @@ For nh40
 
  #+RESULTS:
  [[file:scatter123.png]]
-
 
 ** aN^bh^c + d bw + e min(bx,by)
  #+begin_src lisp  :exports code
@@ -2947,14 +2984,14 @@ For nh40
 
   #+Name:fitparams124
   #+RESULTS:
-  |               Parameter |         Confidence +/- |
-  |   0.02667582130484351d0 | 0.015375751639462889d0 |
-  |    1.0079706103467088d0 |  0.14363954343807028d0 |
-  |    0.8687451997796636d0 |  0.19912996923891446d0 |
-  | 0.0010382973467478334d0 |  0.00970105043207456d0 |
-  | 0.0018198675073493524d0 | 0.013527722216786655d0 |
-  |               chisq/dof |    1.288474972723881d0 |
-  |                     R^2 |    0.994847995299216d0 |
+  |              Parameter |         Confidence +/- |
+  |  0.05321579033363873d0 | 0.030282906291672802d0 |
+  |   0.6669160279735613d0 |  0.12432296114848311d0 |
+  |   0.8295520304254036d0 |  0.21516252498794852d0 |
+  | -0.01873860956807513d0 | 0.010785779180488668d0 |
+  | 0.006540414097982228d0 | 0.014325568799149015d0 |
+  |              chisq/dof |    2.577579669964622d0 |
+  |                    R^2 |   0.9589968808690665d0 |
 
   #+begin_src lisp :var params=fitparams124
     (destructuring-bind (a b c d e) (fit-params params)
@@ -2968,7 +3005,7 @@ For nh40
  #+end_src 
 
  #+RESULTS:
- : 17\.786453202680306d0
+ : 2986\.7427312049003d0
 
 *** scatter plot 
  #+begin_src lisp  :results silent  :exports code  :var params=fitparams124
@@ -2983,10 +3020,10 @@ For nh40
 		  "scatter124.csv"))
    #+end_src
   
- #+Call: scatterPlot(file="scatter124.csv") :results file :file scatter124.png
+ #+Call: scatterPlot(file="scatter124.csv") :results file :file img/scatter124.png
 
  #+RESULTS:
- [[file:scatter124.png]]
+ [[file:img/scatter124.png]]
 
 Not much better
 
@@ -3003,8 +3040,8 @@ d=sqrt(bw * min(bx,by))
   #+end_src 
 
   #+RESULTS:
-  |  max %diff |      R^2 | Params              |
-  | 107.803762 | 0.790204 | (0.087337 0.983059) |
+  | max %diff |      R^2 | Params              |
+  | 79.848281 | 0.796836 | (0.117704 0.817729) |
 
 ** a(Nh)^b + c* d'^d
 d'=sqrt(bw * min(bx,by))
@@ -3018,8 +3055,8 @@ d'=sqrt(bw * min(bx,by))
   #+end_src 
 
   #+RESULTS:
-  | max %diff |      R^2 | Params                                |
-  | 12.059461 | 0.992092 | (0.022246 1.013805 0.006443 0.277502) |
+  |  max %diff |      R^2 | Params                                 |
+  | 225.616221 | 0.938397 | (0.050271 0.722514 -0.007463 0.653467) |
 
 ** a(Nh)^b + c* bw^d
 d'=sqrt(bw * min(bx,by))
@@ -3033,8 +3070,8 @@ d'=sqrt(bw * min(bx,by))
   #+end_src 
 
   #+RESULTS:
-  | max %diff |      R^2 | Params                                |
-  | 12.997873 | 0.992261 | (0.022071 1.011164 0.003248 0.749372) |
+  | max %diff |      R^2 | Params                                  |
+  | 60.749567 | 0.958553 | (0.027307 0.866459 24.332878 -5.027566) |
 
   Previous Results (for incorrect beam thickness)
   | max %diff |      R^2 | Params                                |
@@ -3053,12 +3090,96 @@ T =a Nh + c * bw^d
   #+end_src
 
   #+RESULTS:
-  | max %diff |      R^2 | Params                       |
-  | 12.674340 | 0.992050 | (0.023491 0.005051 0.323202) |
+  | max %diff |      R^2 | Params                        |
+  | 61.589900 | 0.954648 | (0.016211 1.064157 -1.982970) |
 
   #+begin_src lisp 
   
   #+end_src
+** a N^b h^c cw^d
+   #+begin_src lisp
+     (defun cw (x)
+       (first (cs-and-ec (first x) (second x) (third x))))
+
+     (fit (lambda (x a b c d)
+	       (* a
+		  (expt (first x) b)
+		  (expt (second x) c)
+		  (expt (cw x) d)))
+	     '(1 1 1 1)
+	  :data *bigdata*)
+   #+end_src
+
+   #+Name: fitparamscw
+   #+RESULTS:
+   |              Parameter |         Confidence +/- |
+   | 0.013223141937445157d0 | 0.005907176485873817d0 |
+   |    0.919735151201254d0 |  0.09366610584901972d0 |
+   |   1.1353848767340402d0 |  0.21184625702367824d0 |
+   |  -0.4658869811903956d0 |   0.1615704937010952d0 |
+   |              chisq/dof |   1.4039966051222985d0 |
+   |                    R^2 |   0.9878346442086318d0 |
+
+    #+begin_src lisp  :results value   :exports code  :var params=fitparamscw
+    (destructuring-bind (a b c d) (fit-params  params)
+      (max-%diff (lambda (x)
+	       (* a
+		  (expt (first x) b)
+		  (expt (second x) c)
+		  (expt (cw x) d)))))
+    #+end_src
+
+    #+RESULTS:
+    : 20\.631860299405698d0
+
+     #+begin_src lisp  :results value   :exports code  :var params=fitparamscw
+       (destructuring-bind (a b c d) (fit-params params)
+	 (fit-check-csv (lambda (x)
+		  (* a
+		     (expt (first x) b)
+		     (expt (second x) c)
+		     (expt (cw x) d)))
+			(lambda (x)
+		  (* a
+		     (expt (first x) b)
+		     (expt (second x) c)
+		     (expt (cw x) d)))
+			"fullPlot2.csv"))
+    #+end_src
+
+   #+RESULTS:
+   : NIL
+
+#+begin_src gnuplot :var x="Nh" y="Fundamental Timeperiod" csv="fullPlot2.csv" :results file :file "img/fullPlot2.png"
+     set terminal png 
+     set output "img/fullPlot2.png"
+     cd "./img/"
+     set datafile separator ","
+     set terminal png font "Times New Roman, 30pt" size 1500,1100
+     set xlabel x
+     set ylabel y
+     plot csv with point title "data", csv using 1:3 with line title "fit"
+   #+end_src
+
+   #+RESULTS:
+   [[file:img/fullPlot2.png]]
+
+*** scatter plot 
+ #+begin_src lisp  :results silent  :exports code  :var params=fitparamscw
+  (destructuring-bind (a b c d) (fit-params params)
+     (scatter-csv (lambda (x)
+	       (* a
+		  (expt (first x) b)
+		  (expt (second x) c)
+		  (expt (cw x) d)))
+		  "scattercw.csv"))
+   #+end_src
+  
+ #+Call: scatterPlot(file="scattercw.csv") :results file :file scattercw.png
+
+ #+RESULTS:
+ [[file:scattercw.png]]
+  
 ** NBC 105 
 #+begin_src lisp 
   (max-%diff (lambda (x)
@@ -3068,7 +3189,7 @@ T =a Nh + c * bw^d
   #+end_src 
 
   #+RESULTS:
-  : 58\.527810921542034d0
+  : 59\.15579464174792d0
 
 * Notes 
 + For lower bay width (~3) T vs H is not exactly linear. but for higher bay widths it is exactly linear.  In all cases linear fit works reasonably well.[[*Conclusion][(.)]]
