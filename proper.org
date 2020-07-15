@@ -1,0 +1,310 @@
+* Big Data  (Non-designed) (Designed)
+** Generate 
+ Generate data 
+  #+begin_src lisp  :results silent  :exports code  
+    (defparameter *bigdata* nil)
+    (with-open-file (stream (merge-pathnames "bigdata-nd.csv" *img-path*) :direction :output
+									  :if-exists :supersede)
+      (let (bigdata)
+	(loop for h from 3 to 4 by 0.5 do 
+	  (loop for n from 2 to (truncate 40 h) by 1 do
+	    (loop for bw from 3 to 6 by 0.5 do 
+	      (loop for bx from 2 to 5 do
+		(loop for by from bx to 5 
+		      for exact = (simple-building-ftp* :number-of-storey n
+							:height h
+							:bays-x bx
+							:bays-y by
+							:bay-width bw
+							:designed nil)
+		      do 
+			 (cl-csv:write-csv-row (list n h bw bx by exact)
+					       :stream stream)
+			 (push (list (list n h bw bx by) exact) bigdata))))))
+	(setf *bigdata* bigdata)))
+
+    #+end_src
+
+** Read
+   #+begin_src lisp
+     (let (bigdata)
+       (cl-csv:read-csv (merge-pathnames "bigdata-nd.csv" *img-path*)
+			:data-map-fn #'(lambda (data &key csv-reader)
+					 (declare (ignore csv-reader))
+					 (let (( *read-default-float-format* 'double-float))
+					   (read-from-string data)))
+			:row-fn #'(lambda (row)
+				    (push (list (butlast row) (first (last row)))
+					  bigdata)))
+       (setf *bigdata* (reverse bigdata)))
+
+nil
+   #+end_src  
+
+   #+RESULTS:
+   : NIL
+
+* Simple Fit
+  T = a*N^b*h^c 
+  #+Name: simpleFit 
+  #+begin_src lisp 
+    (max-fit-%diff (lambda (x a b c)
+		     (destructuring-bind (n h bw bx by) x
+		       (* a
+			  (expt n b)
+			  (expt h c))))
+		   '(1 1 1))
+  #+end_src
+
+  #+RESULTS: simpleFit
+  | max %diff |      R^2 |     rmse | Params                       |
+  |  8.215055 | 0.995390 | 0.015803 | (0.025761 0.990109 0.917816) |
+
+  Simpler: T = a(Nh)^b
+  #+begin_src lisp 
+    (max-fit-%diff (lambda (x a b)
+		     (destructuring-bind (n h bw bx by) x
+		       (* a
+			  (expt (* n h) b)
+			  )))
+		   '(1 1)
+		   :save '/simpler-fit)
+  #+end_src
+
+  #+RESULTS:
+  | max %diff |      R^2 |     rmse | Params              |
+  |  9.125395 | 0.994939 | 0.016554 | (0.023657 0.988867) |
+
+  The difference in R^2 of simple vs simpler formula is not much. And they explain almost 99% of the variation.
+
+* N
+  Buildings with N=1 are like outliers, and degrade the regression.  So skip them.
+  #+begin_src lisp
+    (max-fit-%diff (lambda (x a b)
+		     (* a (expt (first x) b)))
+		   '(1 1)
+		   :data (filter-data :h 3.5 :bw 5 :bx 4 :by 4)
+		   :save '/simpler-N-fit)
+  #+end_src
+
+  #+RESULTS:
+  | max %diff |      R^2 |     rmse | Params              |
+  |  1.563193 | 0.999980 | 0.001098 | (0.079616 0.989822) |
+
+  #+begin_src lisp :results file 
+     (scatter-plot /simpler-N-fit "psimpler-N-fit.png" (filter-data :h 3.5 :bw 5 :bx 4 :by 4))
+  #+end_src
+
+  #+RESULTS:
+  [[file:./img/psimpler-N-fit.png]]
+
+  So, for any given H,bw,bx,by. The formula T=aN*b explains most of the variation (99.98%).
+  The constants a, and b varry as follows.
+  #+begin_src lisp 
+    (table 5 (row "H" "params" "R^2" "RMSE")
+      (loop for h from 3 to 4 by 0.5 do
+	    (multiple-value-bind (params r^2 rmse) (fit::fit (lambda (x a b)
+							  (* a (expt (first x) b)))
+							(filter-data :h h :bw 5 :bx 4 :by 4)
+							'(1 1)
+							t nil)
+	  (row h params r^2 rmse))))
+  #+end_src
+
+  #+RESULTS:
+  |       H | params            |     R^2 |    RMSE |
+  |       3 | (0.06963 0.99158) | 0.99998 | 0.00100 |
+  | 3.50000 | (0.07962 0.98982) | 0.99998 | 0.00110 |
+  | 4.00000 | (0.08998 0.98875) | 0.99998 | 0.00120 |
+
+After testing with other combinations of bw, bx, and by too. It is clear that, the exponent of N in the formula T =a*N^b remains almost same, withing 0.98 to 0.99. and the explained variation is above 99%.
+
+
+Thus we have established that when N is independent variable T = aN^b is the formula for timeperiod.  
+#+begin_src lisp 
+  (fit::partial-fit (mapcar (lambda (d)
+			     (destructuring-bind (x tp) d
+			       (destructuring-bind (n . r) x
+				 (list n r tp))))
+			   ,*bigdata*)
+		   #'*
+		   #'(lambda (n b)
+		       (expt n b))
+		   '(1)
+		   t
+		   t
+		   1000)
+#+end_src
+d
+#+RESULTS:
+| Parameter                          |          Confidence +/- |
+| 0.9902215269790791d0               |   0.11424895986490906d0 |
+| chisq/dof (for all parameters too) |   0.04756090410494799d0 |
+| R^2                                |    0.9999807320702044d0 |
+| RMS                                | 0.0010209870527485708d0 |
+
+The best value for the exponent b is found to be 0.9847.
+And since RMSE = 0.001, if for a given building the coefficient a is known then T = aN^0.9847 gives timeperiod within 2*0.001 = 0.002 seconds with 95% confidence. 
+
+* h
+  after checking with T/N^0.9847 = a h, a(h+b), ah^b. a(h+b) thre goodness of fit are near about. 
+  #+begin_src lisp 
+    (append
+     (max-fit-%diff (lambda (x a b) (* a (+ (second x) b) (expt (first x) 0.9847)))
+		    '(1 1))
+     (max-fit-%diff (lambda (x a b) (* a (expt (second x) b) (expt (first x) 0.9847)))
+		    '(1 1))
+     (max-fit-%diff (lambda (x a) (* a (second x) (expt (first x) 0.9847)))
+		    '(1)))
+
+  #+end_src
+
+  #+RESULTS:
+  | max %diff |      R^2 |     rmse | Params              |
+  |  8.351377 | 0.995367 | 0.015839 | (0.021494 0.326036) |
+  | max %diff |      R^2 |     rmse | Params              |
+  |  8.318934 | 0.995372 | 0.015831 | (0.026214 0.913078) |
+  | max %diff |      R^2 |     rmse | Params              |
+  |  9.504357 | 0.994718 | 0.016908 | (0.023542)          |
+
+  #+begin_src lisp
+    (fit::partial-fit (mapcar (lambda (d)
+				 (destructuring-bind (x tp) d
+				   (destructuring-bind (n h . r) x
+				     (list (list n h) r tp))))
+			       *bigdata*)
+		       #'*
+		       #'(lambda (nh a b)
+			   (* a (expt (second nh) b) (expt (first nh) 0.9847)))
+		       '(1 1)
+		       t
+		       t)
+  #+end_src
+
+  #+RESULTS:
+  | Parameter                          |         Confidence +/- |
+  | 0.1610438788730471d0               |   3.002604704245855d12 |
+  | 0.9140651928959022d0               |   0.3377979703663743d0 |
+  | chisq/dof (for all parameters too) |   0.3301120790771905d0 |
+  | R^2                                |    0.999071765548038d0 |
+  | RMS                                | 0.007086496042001423d0 |
+
+  #+begin_src lisp 
+    (fit::partial-fit (mapcar (lambda (d)
+				(destructuring-bind (x tp) d
+				  (destructuring-bind (n h . r) x
+				    (list (list n h) r tp))))
+			      ,*bigdata*)
+		      #'*
+		      #'(lambda (nh a b)
+			  (* a (+ (second nh) b) (expt (first nh) 0.9847)))
+		      '(1 1)
+		      t
+		      t)
+  #+end_src
+
+  #+RESULTS:
+  | Parameter                          |         Confidence +/- |
+  | -0.2184548037124398d0              |  3.9525919728590435d12 |
+  | 0.32190177899483896d0              |   1.5605206313727522d0 |
+  | chisq/dof (for all parameters too) |   0.3310312276894695d0 |
+  | R^2                                |   0.9990665892867178d0 |
+  | RMS                                | 0.007106227349686802d0 |
+  
+  #+begin_src lisp :results file 
+    (with-plot "ph1.png"
+      (setup :xlabel "h" :ylabel "T/N^{0.9847}")
+      (ezplot (mapcar (lambda (d)
+		     (destructuring-bind (x tp) d
+		       (list (second x) (/ tp (expt (first x) 0.9847)))))
+		   (filter-data :bw 5 :bx 4 :by 4))
+	      :with '(:point)))
+  #+end_src
+
+  #+RESULTS:
+  [[file:./img/ph1.png]]
+
+  with T = a (h + b) N^0.9847
+  #+begin_src lisp 
+    (table 5 (row "BW" "params" "R^2" "RMSE")
+      (loop for bw from 3 to 7 by 1 do
+	(multiple-value-bind (params r^2 rmse)
+	    (fit::fit (lambda (x a b)
+			(* a
+			   (+ (second x) b)
+			   (expt (first x) 0.9847)))
+		      (filter-data :bw bw :bx 2  :by 2)
+		      '(1 1)
+		      t nil)
+	  (row bw params r^2 rmse))))
+  #+end_src
+
+  #+RESULTS:
+  |      BW | params             |     R^2 |    RMSE |
+  | 3.00000 | (0.02131 0.47153)  | 0.99948 | 0.04185 |
+  | 4.00000 | (0.02432 -0.06094) | 0.99995 | 0.01328 |
+  | 5.00000 | (0.02003 0.56685)  | 0.99996 | 0.01130 |
+  | 6.00000 | (0.01739 1.16420)  | 0.99996 | 0.01052 |
+  | 7.00000 | (0.01566 1.71743)  | 0.99997 | 0.01034 |
+  a and b both change with BW, but a changes less with bx,by.
+  
+  with T = a h^b N^0.9847
+  #+begin_src lisp 
+    (table 5 (row "BW" "params" "R^2" "RMSE")
+      (loop for bw from 3 to 7 by 1 do
+	(multiple-value-bind (params r^2 rmse)
+	    (fit::fit (lambda (x a b)
+			(* a
+			   (expt (second x) b)
+			   (expt (first x) 0.9847)))
+		      (filter-data :bw bw :bx 4 :by 4)
+		      '(1 1)
+		      t nil)
+	  (row bw params r^2 rmse))))
+  #+end_src
+
+  #+RESULTS:
+  |      BW | params            |     R^2 |    RMSE |
+  | 3.00000 | (0.02570 0.92491) | 0.99954 | 0.03822 |
+  | 4.00000 | (0.02148 1.05546) | 0.99995 | 0.01218 |
+  | 5.00000 | (0.02556 0.89372) | 0.99995 | 0.01165 |
+  | 6.00000 | (0.02923 0.78040) | 0.99996 | 0.01119 |
+  | 7.00000 | (0.03253 0.69859) | 0.99996 | 0.01092 |
+
+  both changes with BW, and also both change only slightly with bx by 
+
+  #+begin_src lisp 
+    (table 5 (row "BW" "params" "R^2" "RMSE")
+      (loop for bw from 3 to 7 by 1 do
+	(multiple-value-bind (params r^2 rmse)
+	    (fit::fit (lambda (x a b)
+			(* a
+			   (expt (second x) b)
+			   (expt (first x) 0.9847)))
+		      (filter-data :bw bw)
+		      '(1 1)
+		      t nil)
+	  (row bw params r^2 rmse))))
+
+  #+end_src
+
+  #+RESULTS:
+  |      BW | params            |     R^2 |    RMSE |
+  | 3.00000 | (0.02771 0.89657) | 0.99753 | 0.29162 |
+  | 4.00000 | (0.02308 1.03250) | 0.99765 | 0.28074 |
+  | 5.00000 | (0.02751 0.87161) | 0.99739 | 0.28853 |
+  | 6.00000 | (0.03153 0.75914) | 0.99717 | 0.29958 |
+  | 7.00000 | (0.03513 0.67813) | 0.99698 | 0.31248 |
+
+  #+begin_src lisp 
+    (max-fit-%diff (lambda (x a b)
+		     (* a
+			(expt (second x) b)
+			(expt (first x) 0.9847)))
+		   '(1 1)
+		   :save '/simpler-h-fit)
+  #+end_src
+
+  #+RESULTS:
+  | max %diff |      R^2 |     rmse | Params              |
+  |  8.318934 | 0.995372 | 0.015831 | (0.026214 0.913078) |

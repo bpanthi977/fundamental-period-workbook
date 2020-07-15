@@ -1,0 +1,176 @@
+#    -*- mode: org -*-
+
+
+Archived entries from file /home/bpanthi/Documents/synced/BE/Corona Time/SD/code/workbook/proper-designed.org
+
+
+* Distribution of errors
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2020-07-14 Tue 13:57
+  :ARCHIVE_FILE: ~/Documents/synced/BE/Corona Time/SD/code/workbook/proper-designed.org
+  :ARCHIVE_OLPATH: Lower Bound
+  :ARCHIVE_CATEGORY: proper-designed
+  :END:
+  #+begin_src lisp :results file 
+    (let ((data (loop for (x tp) in *bigdata*
+		      for fit-tp = (funcall /simpler-bw-fit x)
+		      collect (- fit-tp tp))))
+      (with-plot "ddistribution-of-residues.png"
+	(setup :xlabel "Residue" :ylabel "Number of Residue")
+	(ezplot  (histogram-list data :steps 0.008)
+		 :title "distribution of residues of fit"
+		 :with :line)))
+  #+end_src
+
+  #+RESULTS:
+  [[file:./img/ddistribution-of-residues.png]]
+  
+  
+
+  #+begin_src lisp :results file 
+    (let ((data  (loop for (x tp) in *bigdata*
+		       for fit-tp = (funcall /simpler-bw-fit x)
+		       collect (list (first x)  (- fit-tp tp)))))
+      (with-plot "ddistribution-of-residues3.png"
+	(setup :xlabel "Residue" :ylabel "Number of Residue" :title "Distribution of residues of fit")
+	(ezplot data
+		:with :point)))
+  #+end_src
+
+  #+RESULTS:
+  [[file:./img/ddistribution-of-residues3.png]]
+
+ Histogram of the residues of fit. i.e fitted timeperiod - exact timeperiod appears to be normally distributed
+  #+begin_src lisp :results file 
+    (flet ((data (n) (loop for (x tp) in (filter-data :n n)
+			   for fit-tp = (funcall /simpler-bw-fit x)
+			   collect (- fit-tp tp))))
+      (with-plot "ddistribution-of-residues2.png"
+	(setup :xlabel "Residue" :ylabel "Number of Residue" :title "Distribution of residues of fit")
+	(loop for n from 3 to 11 by 2 do 
+	  (ezplot  (histogram-list (data n) :steps 0.008)
+		   :title (format nil "n=~d" n)
+		   :with :line))))
+  #+end_src
+
+  #+RESULTS:
+  [[file:./img/ddistribution-of-residues2.png]]
+
+* Lower Bound1
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2020-07-14 Tue 16:51
+  :ARCHIVE_FILE: ~/Documents/synced/BE/Corona Time/SD/code/workbook/proper-designed.org
+  :ARCHIVE_CATEGORY: proper-designed
+  :END:
+  From the above figure ref:simpler-bw. It is clear that the building timeperiods are scattered around the best fit line. But practically, it is better to have approximations to lower bound of Timeperiod rather than best fit approximation.
+
+
+** nlopt 
+  #+begin_src lisp
+
+    (in-package :nlopt)
+
+    (defun q(n)
+      (if (>= n 0)
+	  n
+	  (exp (- n))))
+
+    (nloptimize ((a b c)  :initial '(0.041723 0.8594 0.004816))
+      (:minimize (loop for (x tp) in moi::*bigdata*
+		       with p = (print (list a b c))
+			      for (n h bw bx by) = x 
+			      for fit = (- (* a (expt (* n h) b))
+					   (* c n bw))
+		       summing (q (- tp fit)))))
+
+  #+end_src
+
+  This resulted in error. the partial result is 
+  #+Name: lowerBoundFit-partial 
+  |                     a |                    b |                      c |
+  | 0.03548187640491413   | 0.9265238731151743   | 0.008356336773130772   |
+
+  #+Name: lowerBoundFit
+  |     a |    b |      c |
+  | 0.040 | 0.85 | 0.0045 |
+
+
+  #+begin_src lisp :var params=lowerBoundFit :results file
+    (destructuring-bind (a b c) (second params)
+      (comparision-scatter-plot /simpler-bw-fit 
+				(list (lambda (x)
+					(destructuring-bind (n h bw . _) x
+					  (- (* a (expt (* n h) b))
+					     (* c n bw)))))
+				'("Lower Bound")
+				"dLowerBoundFit.png"))
+  #+end_src
+
+  #+RESULTS:
+  [[file:./img/dLowerBoundFit.png]]
+** CI
+    #+begin_src lisp :var params=lowerBoundFit :results file
+      (comparision-scatter-plot /simpler-bw-fit 
+				(list (lambda (x)
+					(destructuring-bind (n h bw . _) x
+				    (* 0.8 (funcall /simpler-bw-fit x)))))
+
+				'("Lower Bound")
+				"dLowerBoundFit2.png"))
+  #+end_src
+
+  #+RESULTS:
+  [[file:./img/dLowerBoundFit2.png]]
+
+  #+begin_src lisp :results file 
+    (comparision-scatter-plot /simpler-bw-fit 
+			      (list (lambda (x)
+				      (- (funcall /simpler-bw-fit x) 0.04)))
+			      '("95% CI Lower Bound")
+			      "dLowerBoundFit3.png")
+
+  #+end_src
+
+  #+RESULTS:
+  [[file:./img/dLowerBoundFit3.png]]
+
+
+* Lower Bound
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2020-07-14 Tue 17:57
+  :ARCHIVE_FILE: ~/Documents/synced/BE/Corona Time/SD/code/workbook/proper-designed.org
+  :ARCHIVE_CATEGORY: proper-designed
+  :END:
+  
+ Histogram of the residues of fit. i.e fitted timeperiod - exact timeperiod appears to be normally distributed
+  #+begin_src lisp :results file 
+    (flet ((data (n) (loop for (x tp) in (filter-data :n n)
+			   for fit-tp = (funcall /simpler-bw-fit x)
+			   collect (- fit-tp tp))))
+      (with-plot "ddistribution-of-residues2.png"
+	(setup :xlabel "Residue" :ylabel "Number of Residue" :title "Distribution of residues of fit")
+	(loop for n from 3 to 11 by 2 do 
+	  (ezplot  (histogram-list (data n) :steps 0.008)
+		   :title (format nil "n=~d" n)
+		   :with :line))))
+  #+end_src
+
+  #+RESULTS:
+  [[file:./img/ddistribution-of-residues2.png]]
+
+Hence, the 95% confidence interval can be estimated by fitted-tp - 1.96 SSE; sse = standard error of estimation/
+
+  #+begin_src lisp :results file 
+    (comparision-scatter-plot /simpler-bw-fit 
+			      (list (lambda (x)
+				      (- (funcall /simpler-bw-fit x) 0.04)))
+			      '("95% CI Lower Bound")
+			      "dLowerBoundFit3.png")
+
+  #+end_src
+
+  #+RESULTS:
+  [[file:./img/dLowerBoundFit3.png]]
+
+  Alternatively, the 
+

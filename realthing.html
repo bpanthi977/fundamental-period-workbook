@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2020-07-01 Wed 13:38 -->
+<!-- 2020-07-11 Sat 10:45 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>&lrm;</title>
@@ -193,50 +193,28 @@
   /*]]>*/-->
 </style>
 <script type="text/javascript">
-/*
-@licstart  The following is the entire license notice for the
-JavaScript code in this tag.
-
-Copyright (C) 2012-2020 Free Software Foundation, Inc.
-
-The JavaScript code in this tag is free software: you can
-redistribute it and/or modify it under the terms of the GNU
-General Public License (GNU GPL) as published by the Free Software
-Foundation, either version 3 of the License, or (at your option)
-any later version.  The code is distributed WITHOUT ANY WARRANTY;
-without even the implied warranty of MERCHANTABILITY or FITNESS
-FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
-
-As additional permission under GNU GPL version 3 section 7, you
-may distribute non-source (e.g., minimized or compacted) forms of
-that code without the copy of the GNU GPL normally required by
-section 4, provided you include this license notice and a URL
-through which recipients can access the Corresponding Source.
-
-
-@licend  The above is the entire license notice
-for the JavaScript code in this tag.
-*/
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
 <!--/*--><![CDATA[/*><!--*/
- function CodeHighlightOn(elem, id)
- {
-   var target = document.getElementById(id);
-   if(null != target) {
-     elem.cacheClassElem = elem.className;
-     elem.cacheClassTarget = target.className;
-     target.className = "code-highlighted";
-     elem.className   = "code-highlighted";
-   }
- }
- function CodeHighlightOff(elem, id)
- {
-   var target = document.getElementById(id);
-   if(elem.cacheClassElem)
-     elem.className = elem.cacheClassElem;
-   if(elem.cacheClassTarget)
-     target.className = elem.cacheClassTarget;
- }
-/*]]>*///-->
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
 </script>
 <script type="text/x-mathjax-config">
     MathJax.Hub.Config({
@@ -267,104 +245,135 @@ for the JavaScript code in this tag.
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org40fa2d5">1. Height</a>
+<li><a href="#org4ca5402">1. Archive</a>
 <ul>
-<li><a href="#orga1204e0">1.1. Height  (BW = 3)</a>
+<li><a href="#org42d4066">1.1. Height</a>
 <ul>
-<li><a href="#orgbba559c">1.1.1. Data</a></li>
-<li><a href="#org760c60a">1.1.2. Fitting</a></li>
+<li><a href="#orgd770a4b">1.1.1. Height  (BW = 3)</a></li>
+<li><a href="#orgf0168a4">1.1.2. Height  (BW = 7)</a></li>
+<li><a href="#orge718212">1.1.3. Height  (BW = 5)</a></li>
+<li><a href="#org4e7c947">1.1.4. Conclusion</a></li>
 </ul>
 </li>
-<li><a href="#org0fd82c4">1.2. Height  (BW = 7)</a>
+<li><a href="#org8fc337f">1.2. Number of storeys</a>
 <ul>
-<li><a href="#orgdf12457">1.2.1. Data</a></li>
-<li><a href="#org051bb65">1.2.2. Fitting</a></li>
+<li><a href="#org7eec4c4">1.2.1. N  (BW = 3)</a></li>
+<li><a href="#org91d7a0b">1.2.2. N  (BW = 7)</a></li>
+<li><a href="#org1977112">1.2.3. Conclusion</a></li>
 </ul>
 </li>
-<li><a href="#org9faa1b3">1.3. Height  (BW = 5)</a>
+<li><a href="#org3bd84b6">1.3. H and N</a>
 <ul>
-<li><a href="#org39fde40">1.3.1. Data</a></li>
-<li><a href="#orgad364c6">1.3.2. Fitting</a></li>
+<li><a href="#org407ba94">1.3.1. Linear</a></li>
+<li><a href="#org5afe848">1.3.2. Power</a></li>
+<li><a href="#org70bb00b">1.3.3. Linear Product</a></li>
+<li><a href="#org5e2cc4c">1.3.4. Multilinear</a></li>
+<li><a href="#org65fb07a">1.3.5. Power (BW=3)</a></li>
+<li><a href="#orgfb685d3">1.3.6. Conclusion</a></li>
 </ul>
 </li>
-<li><a href="#orgbd27b2a">1.4. Conclusion</a></li>
-</ul>
-</li>
-<li><a href="#org079db1c">2. Number of storeys</a>
+<li><a href="#orgd708d6d">1.4. Bay Count</a>
 <ul>
-<li><a href="#orge8972fd">2.1. N  (BW = 3)</a>
+<li><a href="#org8122be3">1.4.1. Contour</a></li>
+<li><a href="#org30f471f">1.4.2. Combined</a></li>
+<li><a href="#org8fa13b4">1.4.3. Single</a></li>
+<li><a href="#org2022977">1.4.4. Conclusion</a></li>
+</ul>
+</li>
+<li><a href="#orgc78cfc6">1.5. Bay Width for Hight Bx By</a></li>
+<li><a href="#org9aefe2d">1.6. Tabular</a>
 <ul>
-<li><a href="#org9a29dab">2.1.1. Data</a></li>
-<li><a href="#org6a594fd">2.1.2. Fitting</a></li>
+<li><a href="#org92eca1a">1.6.1. Power</a></li>
+<li><a href="#org8f8083c">1.6.2. Checking (Scatter Plot)</a></li>
+<li><a href="#orga539325">1.6.3. Further Relation</a></li>
+<li><a href="#org18ced79">1.6.4. Equation (for bw&gt;3.8)</a></li>
 </ul>
 </li>
-<li><a href="#orga57fcb9">2.2. N  (BW = 7)</a>
+<li><a href="#org643e265">1.7. Variation in Bay width</a>
 <ul>
-<li><a href="#org87923c0">2.2.1. Data</a></li>
-<li><a href="#orge7d4be4">2.2.2. Fitting</a></li>
+<li><a href="#org98a639a">1.7.1. Lets consider only 2by2 bays buildings</a></li>
+<li><a href="#org710b64e">1.7.2. Lets randomize 50%</a></li>
+<li><a href="#org1a5a433">1.7.3. For 2 by 2 bays</a></li>
 </ul>
 </li>
-<li><a href="#orgf166c8f">2.3. Conclusion</a></li>
 </ul>
 </li>
-<li><a href="#orgada25cb">3. H and N</a>
+<li><a href="#orgcbd4f29">2. Big Data</a>
 <ul>
-<li><a href="#orgf93e93a">3.1. Linear</a></li>
-<li><a href="#org560e0d4">3.2. Power</a></li>
-<li><a href="#orgbf357eb">3.3. Linear Product</a></li>
-<li><a href="#orgb25a83d">3.4. Multilinear</a></li>
-<li><a href="#org8593f18">3.5. Power (BW=3)</a></li>
-<li><a href="#org838e26e">3.6. Conclusion</a></li>
+<li><a href="#org24bd489">2.1. Generate</a></li>
+<li><a href="#orgddab14c">2.2. Read</a></li>
 </ul>
 </li>
-<li><a href="#org1887878">4. Bay Count</a>
+<li><a href="#orge42f72d">3. Fittings</a>
 <ul>
-<li><a href="#orgbcbcc01">4.1. Contour</a></li>
-<li><a href="#orgd3f857b">4.2. Combined</a>
+<li><a href="#org1cb5642">3.1. big  fit</a>
 <ul>
-<li><a href="#orgf3a24c9">4.2.1. Ratio? No</a></li>
-<li><a href="#org5a59cb9">4.2.2. Product? No</a></li>
-<li><a href="#org45a2f80">4.2.3. Wall area</a></li>
+<li><a href="#org26a94d9">3.1.1. Scatter Plot</a></li>
+<li><a href="#orgf6c5d6a">3.1.2. Results</a></li>
 </ul>
 </li>
-<li><a href="#org97557e8">4.3. Single</a></li>
-<li><a href="#orgd3eb801">4.4. Conclusion</a></li>
-</ul>
-</li>
-<li><a href="#orgcb32719">5. Bay Width for Hight Bx By</a></li>
-<li><a href="#org790ccc4">6. Tabular</a>
+<li><a href="#orgd29d2b1">3.2. Another fitting</a></li>
+<li><a href="#orgaa6120a">3.3. Simple Power Formula</a>
 <ul>
-<li><a href="#orgebf8b36">6.1. Power</a></li>
-<li><a href="#org9eb907f">6.2. Checking (Scatter Plot)</a></li>
-<li><a href="#org67b0647">6.3. Further Relation</a>
+<li><a href="#orgf55c5c6">3.3.1. plot</a></li>
+<li><a href="#org4e5d1ad">3.3.2. scatter plot</a></li>
+</ul>
+</li>
+<li><a href="#org69b8e14">3.4. Variations at higher Nh~40</a>
 <ul>
-<li><a href="#orga943549">6.3.1. For (Bx,By) = (2,2)</a></li>
-<li><a href="#org459f134">6.3.2. Does this generalize to other Bx,By's ?</a></li>
-<li><a href="#orga23b045">6.3.3. For Bx,By &gt; 20</a></li>
+<li><a href="#orgecc1417">3.4.1. data</a></li>
+<li><a href="#orgc244b61">3.4.2. plot  (not really)</a></li>
+<li><a href="#org84167a5">3.4.3. bay width</a></li>
+<li><a href="#org020e7e2">3.4.4. bay count bx</a></li>
+<li><a href="#orga6fcf2a">3.4.5. bay count min</a></li>
+<li><a href="#org53bea72">3.4.6. multilinear regression</a></li>
+<li><a href="#org8d5fa4f">3.4.7. custom</a></li>
 </ul>
 </li>
-<li><a href="#org63082d1">6.4. Equation (for bw&gt;3.8)</a></li>
+<li><a href="#orgd3fb544">3.5. aN<sup>b</sup> h<sup>c</sup></a>
+<ul>
+<li><a href="#orgad5bf98">3.5.1. scatter plot</a></li>
 </ul>
 </li>
-<li><a href="#orga55d48b">7. Finally</a></li>
-<li><a href="#orgb70fbe4">8. Variation in Bay width</a></li>
+<li><a href="#org638f9c8">3.6. aN<sup>bh</sup><sup>c</sup> + d bw + e min(bx,by)</a>
+<ul>
+<li><a href="#org89a59ad">3.6.1. scatter plot</a></li>
+</ul>
+</li>
+<li><a href="#orgc831575">3.7. a(Nh)<sup>b</sup>/sqrt(d)</a></li>
+<li><a href="#org11c23a3">3.8. a(Nh)<sup>b</sup> + c* d'<sup>d</sup></a></li>
+<li><a href="#orgcd80428">3.9. a(Nh)<sup>b</sup> + c* bw<sup>d</sup></a></li>
+<li><a href="#org5fccbe5">3.10. a N<sup>b</sup> h<sup>c</sup> cw<sup>d</sup></a>
+<ul>
+<li><a href="#org368d3c6">3.10.1. scatter plot</a></li>
+</ul>
+</li>
+<li><a href="#orgae1d64e">3.11. a N<sup>b</sup> h<sup>c</sup> cw<sup>d</sup> (Removing bay width variation (bw=5))</a></li>
+<li><a href="#orgfea7c6a">3.12. NBC 105</a></li>
+</ul>
+</li>
+<li><a href="#org07f1069">4. Notes</a></li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org40fa2d5" class="outline-2">
-<h2 id="org40fa2d5"><span class="section-number-2">1</span> Height</h2>
+<div id="outline-container-org4ca5402" class="outline-2">
+<h2 id="org4ca5402"><span class="section-number-2">1</span> Archive</h2>
 <div class="outline-text-2" id="text-1">
 </div>
-<div id="outline-container-orga1204e0" class="outline-3">
-<h3 id="orga1204e0"><span class="section-number-3">1.1</span> Height  (BW = 3)</h3>
+<div id="outline-container-org42d4066" class="outline-3">
+<h3 id="org42d4066"><span class="section-number-3">1.1</span> Height</h3>
 <div class="outline-text-3" id="text-1-1">
 </div>
-<div id="outline-container-orgbba559c" class="outline-4">
-<h4 id="orgbba559c"><span class="section-number-4">1.1.1</span> Data</h4>
+<div id="outline-container-orgd770a4b" class="outline-4">
+<h4 id="orgd770a4b"><span class="section-number-4">1.1.1</span> Height  (BW = 3)</h4>
 <div class="outline-text-4" id="text-1-1-1">
+</div>
+<ol class="org-ol">
+<li><a id="org8075204"></a>Data<br />
+<div class="outline-text-5" id="text-1-1-1-1">
 <div class="org-src-container">
 <pre class="src src-lisp">(table 10
-  (<span style="color: #F0DFAF; font-weight: bold;">loop</span> for h from 2.5 to 4 by 0.1
+  (<span style="color: #7F9F7F; font-weight: bold;">loop</span> for h from 2.5 to 4 by 0.1
                 for tp = (nth-value 2 
                                                         (simple-building <span style="color: #DCDCCC; font-weight: bold;">:number-of-storey</span> 4
                                                                                          <span style="color: #DCDCCC; font-weight: bold;">:height</span> h
@@ -375,7 +384,7 @@ for the JavaScript code in this tag.
 </pre>
 </div>
 
-<table id="org288e6ea" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<table id="org4dcd0b4" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
 <colgroup>
@@ -467,7 +476,7 @@ for the JavaScript code in this tag.
 </table>
 
 <div class="org-src-container">
-<pre class="src src-lisp">(plot2 data <span style="color: #CC9393;">"height1.png"</span>)
+<pre class="src src-lisp">(plot2 data <span style="color: #93E0E3;">"height1.png"</span>)
 </pre>
 </div>
 
@@ -477,11 +486,10 @@ for the JavaScript code in this tag.
 </p>
 </div>
 </div>
-</div>
+</li>
 
-<div id="outline-container-org760c60a" class="outline-4">
-<h4 id="org760c60a"><span class="section-number-4">1.1.2</span> Fitting</h4>
-<div class="outline-text-4" id="text-1-1-2">
+<li><a id="orgc48a777"></a>Fitting<br />
+<div class="outline-text-5" id="text-1-1-1-2">
 <div class="org-src-container">
 <pre class="src src-lisp">(linear-fit <span style="color: #DCDCCC; font-weight: bold;">:data</span> data)
 </pre>
@@ -661,19 +669,20 @@ for the JavaScript code in this tag.
 </tbody>
 </table>
 </div>
-</div>
+</li>
+</ol>
 </div>
 
-<div id="outline-container-org0fd82c4" class="outline-3">
-<h3 id="org0fd82c4"><span class="section-number-3">1.2</span> Height  (BW = 7)</h3>
-<div class="outline-text-3" id="text-1-2">
+<div id="outline-container-orgf0168a4" class="outline-4">
+<h4 id="orgf0168a4"><span class="section-number-4">1.1.2</span> Height  (BW = 7)</h4>
+<div class="outline-text-4" id="text-1-1-2">
 </div>
-<div id="outline-container-orgdf12457" class="outline-4">
-<h4 id="orgdf12457"><span class="section-number-4">1.2.1</span> Data</h4>
-<div class="outline-text-4" id="text-1-2-1">
+<ol class="org-ol">
+<li><a id="orga752eef"></a>Data<br />
+<div class="outline-text-5" id="text-1-1-2-1">
 <div class="org-src-container">
 <pre class="src src-lisp">(table 10
-  (<span style="color: #F0DFAF; font-weight: bold;">loop</span> for h from 2.5 to 4 by 0.1
+  (<span style="color: #7F9F7F; font-weight: bold;">loop</span> for h from 2.5 to 4 by 0.1
                 for tp = (nth-value 2 
                                                         (simple-building <span style="color: #DCDCCC; font-weight: bold;">:number-of-storey</span> 4
                                                                                          <span style="color: #DCDCCC; font-weight: bold;">:height</span> h
@@ -684,7 +693,7 @@ for the JavaScript code in this tag.
 </pre>
 </div>
 
-<table id="org0b54612" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<table id="org7ebc293" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
 <colgroup>
@@ -776,7 +785,7 @@ for the JavaScript code in this tag.
 </table>
 
 <div class="org-src-container">
-<pre class="src src-lisp">(plot2 data <span style="color: #CC9393;">"height2.png"</span>)
+<pre class="src src-lisp">(plot2 data <span style="color: #93E0E3;">"height2.png"</span>)
 </pre>
 </div>
 
@@ -786,11 +795,10 @@ for the JavaScript code in this tag.
 </p>
 </div>
 </div>
-</div>
+</li>
 
-<div id="outline-container-org051bb65" class="outline-4">
-<h4 id="org051bb65"><span class="section-number-4">1.2.2</span> Fitting</h4>
-<div class="outline-text-4" id="text-1-2-2">
+<li><a id="org75fc286"></a>Fitting<br />
+<div class="outline-text-5" id="text-1-1-2-2">
 <div class="org-src-container">
 <pre class="src src-lisp">(linear-fit <span style="color: #DCDCCC; font-weight: bold;">:data</span> data)
 </pre>
@@ -971,19 +979,20 @@ for the JavaScript code in this tag.
 </tbody>
 </table>
 </div>
-</div>
+</li>
+</ol>
 </div>
 
-<div id="outline-container-org9faa1b3" class="outline-3">
-<h3 id="org9faa1b3"><span class="section-number-3">1.3</span> Height  (BW = 5)</h3>
-<div class="outline-text-3" id="text-1-3">
+<div id="outline-container-orge718212" class="outline-4">
+<h4 id="orge718212"><span class="section-number-4">1.1.3</span> Height  (BW = 5)</h4>
+<div class="outline-text-4" id="text-1-1-3">
 </div>
-<div id="outline-container-org39fde40" class="outline-4">
-<h4 id="org39fde40"><span class="section-number-4">1.3.1</span> Data</h4>
-<div class="outline-text-4" id="text-1-3-1">
+<ol class="org-ol">
+<li><a id="orga22b265"></a>Data<br />
+<div class="outline-text-5" id="text-1-1-3-1">
 <div class="org-src-container">
 <pre class="src src-lisp">(table 10
-  (<span style="color: #F0DFAF; font-weight: bold;">loop</span> for h from 2.5 to 4 by 0.1
+  (<span style="color: #7F9F7F; font-weight: bold;">loop</span> for h from 2.5 to 4 by 0.1
                 for tp = (nth-value 2 
                                                         (simple-building <span style="color: #DCDCCC; font-weight: bold;">:number-of-storey</span> 4
                                                                                          <span style="color: #DCDCCC; font-weight: bold;">:height</span> h
@@ -994,7 +1003,7 @@ for the JavaScript code in this tag.
 </pre>
 </div>
 
-<table id="orgeaa666b" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<table id="org19eeded" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
 <colgroup>
@@ -1086,7 +1095,7 @@ for the JavaScript code in this tag.
 </table>
 
 <div class="org-src-container">
-<pre class="src src-lisp">(plot2 data <span style="color: #CC9393;">"height3.png"</span>)
+<pre class="src src-lisp">(plot2 data <span style="color: #93E0E3;">"height3.png"</span>)
 </pre>
 </div>
 
@@ -1096,11 +1105,10 @@ for the JavaScript code in this tag.
 </p>
 </div>
 </div>
-</div>
+</li>
 
-<div id="outline-container-orgad364c6" class="outline-4">
-<h4 id="orgad364c6"><span class="section-number-4">1.3.2</span> Fitting</h4>
-<div class="outline-text-4" id="text-1-3-2">
+<li><a id="org8aa831c"></a>Fitting<br />
+<div class="outline-text-5" id="text-1-1-3-2">
 <div class="org-src-container">
 <pre class="src src-lisp">(linear-fit <span style="color: #DCDCCC; font-weight: bold;">:data</span> data)
 </pre>
@@ -1281,12 +1289,13 @@ for the JavaScript code in this tag.
 </tbody>
 </table>
 </div>
-</div>
+</li>
+</ol>
 </div>
 
-<div id="outline-container-orgbd27b2a" class="outline-3">
-<h3 id="orgbd27b2a"><span class="section-number-3">1.4</span> Conclusion</h3>
-<div class="outline-text-3" id="text-1-4">
+<div id="outline-container-org4e7c947" class="outline-4">
+<h4 id="org4e7c947"><span class="section-number-4">1.1.4</span> Conclusion</h4>
+<div class="outline-text-4" id="text-1-1-4">
 <p>
  For lower bay width (~3) T vs H is not exactly linear. but for higher bay widths it is exactly linear. 
 In all cases linear fit works reasonably well.
@@ -1295,20 +1304,20 @@ In all cases linear fit works reasonably well.
 </div>
 </div>
 
-<div id="outline-container-org079db1c" class="outline-2">
-<h2 id="org079db1c"><span class="section-number-2">2</span> Number of storeys</h2>
-<div class="outline-text-2" id="text-2">
+<div id="outline-container-org8fc337f" class="outline-3">
+<h3 id="org8fc337f"><span class="section-number-3">1.2</span> Number of storeys</h3>
+<div class="outline-text-3" id="text-1-2">
 </div>
-<div id="outline-container-orge8972fd" class="outline-3">
-<h3 id="orge8972fd"><span class="section-number-3">2.1</span> N  (BW = 3)</h3>
-<div class="outline-text-3" id="text-2-1">
+<div id="outline-container-org7eec4c4" class="outline-4">
+<h4 id="org7eec4c4"><span class="section-number-4">1.2.1</span> N  (BW = 3)</h4>
+<div class="outline-text-4" id="text-1-2-1">
 </div>
-<div id="outline-container-org9a29dab" class="outline-4">
-<h4 id="org9a29dab"><span class="section-number-4">2.1.1</span> Data</h4>
-<div class="outline-text-4" id="text-2-1-1">
+<ol class="org-ol">
+<li><a id="org84e4227"></a>Data<br />
+<div class="outline-text-5" id="text-1-2-1-1">
 <div class="org-src-container">
 <pre class="src src-lisp">(table 10
-  (<span style="color: #F0DFAF; font-weight: bold;">loop</span> for n from 1 to 8 by 1
+  (<span style="color: #7F9F7F; font-weight: bold;">loop</span> for n from 1 to 8 by 1
                 for tp = (nth-value 2 
                                                         (simple-building <span style="color: #DCDCCC; font-weight: bold;">:number-of-storey</span> n
                                                                                          <span style="color: #DCDCCC; font-weight: bold;">:height</span> 3
@@ -1319,7 +1328,7 @@ In all cases linear fit works reasonably well.
 </pre>
 </div>
 
-<table id="org65aceed" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<table id="org051c815" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
 <colgroup>
@@ -1371,7 +1380,7 @@ In all cases linear fit works reasonably well.
 </table>
 
 <div class="org-src-container">
-<pre class="src src-lisp">(plot2 data <span style="color: #CC9393;">"n1.png"</span>)
+<pre class="src src-lisp">(plot2 data <span style="color: #93E0E3;">"n1.png"</span>)
 </pre>
 </div>
 
@@ -1381,11 +1390,10 @@ In all cases linear fit works reasonably well.
 </p>
 </div>
 </div>
-</div>
+</li>
 
-<div id="outline-container-org6a594fd" class="outline-4">
-<h4 id="org6a594fd"><span class="section-number-4">2.1.2</span> Fitting</h4>
-<div class="outline-text-4" id="text-2-1-2">
+<li><a id="org76a34cd"></a>Fitting<br />
+<div class="outline-text-5" id="text-1-2-1-2">
 <div class="org-src-container">
 <pre class="src src-lisp">(linear-fit <span style="color: #DCDCCC; font-weight: bold;">:data</span> data)
 </pre>
@@ -1514,19 +1522,20 @@ In all cases linear fit works reasonably well.
 </tbody>
 </table>
 </div>
-</div>
+</li>
+</ol>
 </div>
 
-<div id="outline-container-orga57fcb9" class="outline-3">
-<h3 id="orga57fcb9"><span class="section-number-3">2.2</span> N  (BW = 7)</h3>
-<div class="outline-text-3" id="text-2-2">
+<div id="outline-container-org91d7a0b" class="outline-4">
+<h4 id="org91d7a0b"><span class="section-number-4">1.2.2</span> N  (BW = 7)</h4>
+<div class="outline-text-4" id="text-1-2-2">
 </div>
-<div id="outline-container-org87923c0" class="outline-4">
-<h4 id="org87923c0"><span class="section-number-4">2.2.1</span> Data</h4>
-<div class="outline-text-4" id="text-2-2-1">
+<ol class="org-ol">
+<li><a id="org74fb68b"></a>Data<br />
+<div class="outline-text-5" id="text-1-2-2-1">
 <div class="org-src-container">
 <pre class="src src-lisp">(table 10
-  (<span style="color: #F0DFAF; font-weight: bold;">loop</span> for n from 1 to 8 by 1
+  (<span style="color: #7F9F7F; font-weight: bold;">loop</span> for n from 1 to 8 by 1
                 for tp = (nth-value 2 
                                                         (simple-building <span style="color: #DCDCCC; font-weight: bold;">:number-of-storey</span> n
                                                                                          <span style="color: #DCDCCC; font-weight: bold;">:height</span> 3
@@ -1537,7 +1546,7 @@ In all cases linear fit works reasonably well.
 </pre>
 </div>
 
-<table id="orgf0889f4" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<table id="org3c85dde" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
 <colgroup>
@@ -1589,7 +1598,7 @@ In all cases linear fit works reasonably well.
 </table>
 
 <div class="org-src-container">
-<pre class="src src-lisp">(plot2 data <span style="color: #CC9393;">"n2.png"</span>)
+<pre class="src src-lisp">(plot2 data <span style="color: #93E0E3;">"n2.png"</span>)
 </pre>
 </div>
 
@@ -1599,11 +1608,10 @@ In all cases linear fit works reasonably well.
 </p>
 </div>
 </div>
-</div>
+</li>
 
-<div id="outline-container-orge7d4be4" class="outline-4">
-<h4 id="orge7d4be4"><span class="section-number-4">2.2.2</span> Fitting</h4>
-<div class="outline-text-4" id="text-2-2-2">
+<li><a id="org2473466"></a>Fitting<br />
+<div class="outline-text-5" id="text-1-2-2-2">
 <div class="org-src-container">
 <pre class="src src-lisp">(linear-fit <span style="color: #DCDCCC; font-weight: bold;">:data</span> data)
 </pre>
@@ -1732,12 +1740,13 @@ In all cases linear fit works reasonably well.
 </tbody>
 </table>
 </div>
-</div>
+</li>
+</ol>
 </div>
 
-<div id="outline-container-orgf166c8f" class="outline-3">
-<h3 id="orgf166c8f"><span class="section-number-3">2.3</span> Conclusion</h3>
-<div class="outline-text-3" id="text-2-3">
+<div id="outline-container-org1977112" class="outline-4">
+<h4 id="org1977112"><span class="section-number-4">1.2.3</span> Conclusion</h4>
+<div class="outline-text-4" id="text-1-2-3">
 <p>
 T vs N is linear in both case. 
 </p>
@@ -1745,13 +1754,13 @@ T vs N is linear in both case.
 </div>
 </div>
 
-<div id="outline-container-orgada25cb" class="outline-2">
-<h2 id="orgada25cb"><span class="section-number-2">3</span> H and N</h2>
-<div class="outline-text-2" id="text-3">
+<div id="outline-container-org3bd84b6" class="outline-3">
+<h3 id="org3bd84b6"><span class="section-number-3">1.3</span> H and N</h3>
+<div class="outline-text-3" id="text-1-3">
 <div class="org-src-container">
 <pre class="src src-lisp">(table 10
-      (<span style="color: #F0DFAF; font-weight: bold;">loop</span> for n from 1 to 8 by 1 do 
-        (<span style="color: #F0DFAF; font-weight: bold;">loop</span> for h from 2.5 to 4 by 0.1 
+      (<span style="color: #7F9F7F; font-weight: bold;">loop</span> for n from 1 to 8 by 1 do 
+        (<span style="color: #7F9F7F; font-weight: bold;">loop</span> for h from 2.5 to 4 by 0.1 
                       for tp = (nth-value 2 
                                                               (simple-building <span style="color: #DCDCCC; font-weight: bold;">:number-of-storey</span> n
                                                                                                <span style="color: #DCDCCC; font-weight: bold;">:height</span> h
@@ -1762,7 +1771,7 @@ T vs N is linear in both case.
 </pre>
 </div>
 
-<table id="orgc64bed1" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<table id="org3710fe8" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
 <colgroup>
@@ -2543,12 +2552,12 @@ T vs N is linear in both case.
 </tbody>
 </table>
 </div>
-<div id="outline-container-orgf93e93a" class="outline-3">
-<h3 id="orgf93e93a"><span class="section-number-3">3.1</span> Linear</h3>
-<div class="outline-text-3" id="text-3-1">
+<div id="outline-container-org407ba94" class="outline-4">
+<h4 id="org407ba94"><span class="section-number-4">1.3.1</span> Linear</h4>
+<div class="outline-text-4" id="text-1-3-1">
 <div class="org-src-container">
-<pre class="src src-lisp"><span style="color: #5F7F5F;">;; </span><span style="color: #7F9F7F;">T = m (N*H) + c</span>
-   (linear-fit <span style="color: #DCDCCC; font-weight: bold;">:data</span> (mapcar (<span style="color: #F0DFAF; font-weight: bold;">lambda</span> (r) (list (* (first r) (second r))
+<pre class="src src-lisp"><span style="color: #878777;">;; </span><span style="color: #878777;">T = m (N*H) + c</span>
+   (linear-fit <span style="color: #DCDCCC; font-weight: bold;">:data</span> (mapcar (<span style="color: #7F9F7F; font-weight: bold;">lambda</span> (r) (list (* (first r) (second r))
                                                                                   (third r)))
                                                          data))
 </pre>
@@ -2582,12 +2591,12 @@ T vs N is linear in both case.
 </div>
 </div>
 
-<div id="outline-container-org560e0d4" class="outline-3">
-<h3 id="org560e0d4"><span class="section-number-3">3.2</span> Power</h3>
-<div class="outline-text-3" id="text-3-2">
+<div id="outline-container-org5afe848" class="outline-4">
+<h4 id="org5afe848"><span class="section-number-4">1.3.2</span> Power</h4>
+<div class="outline-text-4" id="text-1-3-2">
 <div class="org-src-container">
-<pre class="src src-lisp"><span style="color: #5F7F5F;">;; </span><span style="color: #7F9F7F;">T = a + (N*H)^b</span>
-   (power-fit <span style="color: #DCDCCC; font-weight: bold;">:data</span> (mapcar (<span style="color: #F0DFAF; font-weight: bold;">lambda</span> (r) (list (* (first r) (second r))
+<pre class="src src-lisp"><span style="color: #878777;">;; </span><span style="color: #878777;">T = a + (N*H)^b</span>
+   (power-fit <span style="color: #DCDCCC; font-weight: bold;">:data</span> (mapcar (<span style="color: #7F9F7F; font-weight: bold;">lambda</span> (r) (list (* (first r) (second r))
                                                                                   (third r)))
                                                          data))
 </pre>
@@ -2639,16 +2648,16 @@ No better than linear.
 </p>
 </div>
 </div>
-<div id="outline-container-orgbf357eb" class="outline-3">
-<h3 id="orgbf357eb"><span class="section-number-3">3.3</span> Linear Product</h3>
-<div class="outline-text-3" id="text-3-3">
+<div id="outline-container-org70bb00b" class="outline-4">
+<h4 id="org70bb00b"><span class="section-number-4">1.3.3</span> Linear Product</h4>
+<div class="outline-text-4" id="text-1-3-3">
 <div class="org-src-container">
-<pre class="src src-lisp"><span style="color: #5F7F5F;">;; </span><span style="color: #7F9F7F;">T = (a + b n)( c + d h)</span>
-         (fit (<span style="color: #F0DFAF; font-weight: bold;">lambda</span> (x a b c d)
+<pre class="src src-lisp"><span style="color: #878777;">;; </span><span style="color: #878777;">T = (a + b n)( c + d h)</span>
+         (fit (<span style="color: #7F9F7F; font-weight: bold;">lambda</span> (x a b c d)
                         (* (+ a (* b (first x)))
                            (+ c (* d (first x)))))
                   '(1 1 1 1)
-                  <span style="color: #DCDCCC; font-weight: bold;">:data</span> (mapcar (<span style="color: #F0DFAF; font-weight: bold;">lambda</span> (r) (list (list (first r) (second r))
+                  <span style="color: #DCDCCC; font-weight: bold;">:data</span> (mapcar (<span style="color: #7F9F7F; font-weight: bold;">lambda</span> (r) (list (list (first r) (second r))
                                                                          (third r)))
                                                 data))
 </pre>
@@ -2706,15 +2715,15 @@ Works well
 </div>
 </div>
 
-<div id="outline-container-orgb25a83d" class="outline-3">
-<h3 id="orgb25a83d"><span class="section-number-3">3.4</span> Multilinear</h3>
-<div class="outline-text-3" id="text-3-4">
+<div id="outline-container-org5e2cc4c" class="outline-4">
+<h4 id="org5e2cc4c"><span class="section-number-4">1.3.4</span> Multilinear</h4>
+<div class="outline-text-4" id="text-1-3-4">
 <div class="org-src-container">
-<pre class="src src-lisp"><span style="color: #5F7F5F;">;; </span><span style="color: #7F9F7F;">T = (a + b n + c h)</span>
-         (fit (<span style="color: #F0DFAF; font-weight: bold;">lambda</span> (x a b c)
+<pre class="src src-lisp"><span style="color: #878777;">;; </span><span style="color: #878777;">T = (a + b n + c h)</span>
+         (fit (<span style="color: #7F9F7F; font-weight: bold;">lambda</span> (x a b c)
                         (+ a (* b (first x)) (* c (second x))))
                   '(1 1 1)
-                  <span style="color: #DCDCCC; font-weight: bold;">:data</span> (mapcar (<span style="color: #F0DFAF; font-weight: bold;">lambda</span> (r) (list (list (first r) (second r))
+                  <span style="color: #DCDCCC; font-weight: bold;">:data</span> (mapcar (<span style="color: #7F9F7F; font-weight: bold;">lambda</span> (r) (list (list (first r) (second r))
                                                                          (third r)))
                                                 data))
 </pre>
@@ -2767,13 +2776,13 @@ Good!!
 </div>
 </div>
 
-<div id="outline-container-org8593f18" class="outline-3">
-<h3 id="org8593f18"><span class="section-number-3">3.5</span> Power (BW=3)</h3>
-<div class="outline-text-3" id="text-3-5">
+<div id="outline-container-org65fb07a" class="outline-4">
+<h4 id="org65fb07a"><span class="section-number-4">1.3.5</span> Power (BW=3)</h4>
+<div class="outline-text-4" id="text-1-3-5">
 <div class="org-src-container">
 <pre class="src src-lisp">(table 10
-      (<span style="color: #F0DFAF; font-weight: bold;">loop</span> for n from 1 to 8 by 1 do 
-        (<span style="color: #F0DFAF; font-weight: bold;">loop</span> for h from 2.5 to 4 by 0.1 
+      (<span style="color: #7F9F7F; font-weight: bold;">loop</span> for n from 1 to 8 by 1 do 
+        (<span style="color: #7F9F7F; font-weight: bold;">loop</span> for h from 2.5 to 4 by 0.1 
                       for tp = (nth-value 2 
                                                               (simple-building <span style="color: #DCDCCC; font-weight: bold;">:number-of-storey</span> n
                                                                                                <span style="color: #DCDCCC; font-weight: bold;">:height</span> h
@@ -2784,7 +2793,7 @@ Good!!
 </pre>
 </div>
 
-<table id="org183a03d" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<table id="orgee4fb61" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
 <colgroup>
@@ -3566,8 +3575,8 @@ Good!!
 </table>
 
 <div class="org-src-container">
-<pre class="src src-lisp">       <span style="color: #5F7F5F;">;; </span><span style="color: #7F9F7F;">T = (a + b n + c h)</span>
-(power-fit <span style="color: #DCDCCC; font-weight: bold;">:data</span> (mapcar (<span style="color: #F0DFAF; font-weight: bold;">lambda</span> (r) (list (* (first r) (second r))
+<pre class="src src-lisp">       <span style="color: #878777;">;; </span><span style="color: #878777;">T = (a + b n + c h)</span>
+(power-fit <span style="color: #DCDCCC; font-weight: bold;">:data</span> (mapcar (<span style="color: #7F9F7F; font-weight: bold;">lambda</span> (r) (list (* (first r) (second r))
                                                                                  (third r)))
                                                         data))
 </pre>
@@ -3616,9 +3625,9 @@ Good!!
 </div>
 </div>
 
-<div id="outline-container-org838e26e" class="outline-3">
-<h3 id="org838e26e"><span class="section-number-3">3.6</span> Conclusion</h3>
-<div class="outline-text-3" id="text-3-6">
+<div id="outline-container-orgfb685d3" class="outline-4">
+<h4 id="orgfb685d3"><span class="section-number-4">1.3.6</span> Conclusion</h4>
+<div class="outline-text-4" id="text-1-3-6">
 <p>
 Timeperiod is power function in N and H (for our range of values)
 </p>
@@ -3626,12 +3635,12 @@ Timeperiod is power function in N and H (for our range of values)
 </div>
 </div>
 
-<div id="outline-container-org1887878" class="outline-2">
-<h2 id="org1887878"><span class="section-number-2">4</span> Bay Count</h2>
-<div class="outline-text-2" id="text-4">
+<div id="outline-container-orgd708d6d" class="outline-3">
+<h3 id="orgd708d6d"><span class="section-number-3">1.4</span> Bay Count</h3>
+<div class="outline-text-3" id="text-1-4">
 <div class="org-src-container">
 <pre class="src src-lisp">(table 10
-      (<span style="color: #F0DFAF; font-weight: bold;">loop</span> for n_bx from 5 to 20
+      (<span style="color: #7F9F7F; font-weight: bold;">loop</span> for n_bx from 5 to 20
                 for tp3 = (nth-value 2 
                                                              (simple-building <span style="color: #DCDCCC; font-weight: bold;">:number-of-storey</span> 4
                                                                                               <span style="color: #DCDCCC; font-weight: bold;">:height</span> 3
@@ -3657,7 +3666,7 @@ Timeperiod is power function in N and H (for our range of values)
 </pre>
 </div>
 
-<table id="orgd6f48d9" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<table id="org4e66805" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
 <colgroup>
@@ -3785,7 +3794,7 @@ Timeperiod is power function in N and H (for our range of values)
 </table>
 
 <div class="org-src-container">
-<pre class="src src-lisp">(plot2 data <span style="color: #CC9393;">"nbx1-nostrut.png"</span> '(<span style="color: #CC9393;">"n_{by}=3"</span> <span style="color: #CC9393;">"n_{by}=5"</span> <span style="color: #CC9393;">"n_{by}=10"</span>))
+<pre class="src src-lisp">(plot2 data <span style="color: #93E0E3;">"nbx1-nostrut.png"</span> '(<span style="color: #93E0E3;">"n_{by}=3"</span> <span style="color: #93E0E3;">"n_{by}=5"</span> <span style="color: #93E0E3;">"n_{by}=10"</span>))
 </pre>
 </div>
 
@@ -3802,13 +3811,13 @@ Timeperiod is power function in N and H (for our range of values)
 </div>
 </div>
 
-<div id="outline-container-orgbcbcc01" class="outline-3">
-<h3 id="orgbcbcc01"><span class="section-number-3">4.1</span> Contour</h3>
-<div class="outline-text-3" id="text-4-1">
+<div id="outline-container-org8122be3" class="outline-4">
+<h4 id="org8122be3"><span class="section-number-4">1.4.1</span> Contour</h4>
+<div class="outline-text-4" id="text-1-4-1">
 <div class="org-src-container">
 <pre class="src src-lisp">(table 10
-      (<span style="color: #F0DFAF; font-weight: bold;">loop</span> for n_bx from 1 to 20 do 
-        (<span style="color: #F0DFAF; font-weight: bold;">loop</span> for n_by from 1 to 20   
+      (<span style="color: #7F9F7F; font-weight: bold;">loop</span> for n_bx from 1 to 20 do 
+        (<span style="color: #7F9F7F; font-weight: bold;">loop</span> for n_by from 1 to 20   
                       for tp =  (nth-value 2 
                                                                (simple-building <span style="color: #DCDCCC; font-weight: bold;">:number-of-storey</span> 4
                                                                                                 <span style="color: #DCDCCC; font-weight: bold;">:height</span> 3
@@ -3820,7 +3829,7 @@ Timeperiod is power function in N and H (for our range of values)
 </pre>
 </div>
 
-<table id="orgf6d4667" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<table id="orgde90493" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
 <colgroup>
@@ -6234,59 +6243,59 @@ Timeperiod is power function in N and H (for our range of values)
 </table>
 
 <div class="org-src-container">
-<pre class="src src-gnuplot"><span style="color: #5F7F5F;"># </span><span style="color: #7F9F7F;">set terminal pngcairo  transparent enhanced font "arial,10" fontscale 1.0 size 600, 400 </span>
-<span style="color: #5F7F5F;"># </span><span style="color: #7F9F7F;">set output 'contours.1.png'</span>
-<span style="color: #BFEBBF;">set</span> <span style="color: #93E0E3;">pm3d</span> map 
-<span style="color: #BFEBBF;">set</span> <span style="color: #7CB8BB;">title</span> <span style="color: #CC9393;">"contour plot"</span> 
-<span style="color: #BFEBBF;">set</span> dgrid3d 20,20 gauss 10e-6,10e-6
-<span style="color: #BFEBBF;">set</span> key at screen 1, 0.9 right top vertical Right noreverse enhanced autotitle nobox
-<span style="color: #BFEBBF;">set</span> style increment default
-<span style="color: #BFEBBF;">set</span> style textbox opaque margins  0.5,  0.5 fc  bgnd noborder <span style="color: #7CB8BB;">linewidth</span>  1.0
-<span style="color: #BFEBBF;">set</span> view 60, 30, 0.85, 1.1
-<span style="color: #BFEBBF;">set</span> contour base
-<span style="color: #BFEBBF;">set</span> style data <span style="color: #93E0E3;">lines</span>
-<span style="color: #BFEBBF;">set</span> <span style="color: #7CB8BB;">title</span> <span style="color: #CC9393;">"contour plot"</span> 
-<span style="color: #BFEBBF;">set</span> xlabel <span style="color: #CC9393;">"X axis"</span> 
-<span style="color: #BFEBBF;">set</span> xrange [<span style="color: #BFEBBF;"> * : * </span>] noreverse writeback
-<span style="color: #BFEBBF;">set</span> x2range [<span style="color: #BFEBBF;"> * : * </span>] noreverse writeback
-<span style="color: #BFEBBF;">set</span> ylabel <span style="color: #CC9393;">"Y axis"</span> 
-<span style="color: #BFEBBF;">set</span> yrange [<span style="color: #BFEBBF;"> * : * </span>] noreverse writeback
-<span style="color: #BFEBBF;">set</span> y2range [<span style="color: #BFEBBF;"> * : * </span>] noreverse writeback
-<span style="color: #BFEBBF;">set</span> zlabel <span style="color: #CC9393;">"Z "</span> 
-<span style="color: #BFEBBF;">set</span> zlabel  offset character 1, 0, 0 font <span style="color: #CC9393;">""</span> textcolor <span style="color: #7CB8BB;">lt</span> -1 norotate
-<span style="color: #BFEBBF;">set</span> zrange [<span style="color: #BFEBBF;"> * : * </span>] noreverse writeback
-<span style="color: #BFEBBF;">set</span> cbrange [<span style="color: #BFEBBF;"> * : * </span>] noreverse writeback
-<span style="color: #BFEBBF;">set</span> rrange [<span style="color: #BFEBBF;"> * : * </span>] noreverse writeback
-<span style="color: #5F7F5F;">#</span><span style="color: #7F9F7F;">set palette rgbformulae 22,13,10</span>
-<span style="color: #F0DFAF; font-weight: bold;">splot</span> data  
+<pre class="src src-gnuplot"><span style="color: #878777;"># </span><span style="color: #878777;">set terminal pngcairo  transparent enhanced font "arial,10" fontscale 1.0 size 600, 400 </span>
+<span style="color: #878777;"># </span><span style="color: #878777;">set output 'contours.1.png'</span>
+<span style="color: #8CD0D3; font-weight: bold;">set</span> <span style="color: #8CD0D3;">pm3d</span> map 
+<span style="color: #8CD0D3; font-weight: bold;">set</span> <span style="color: #F0DFAF;">title</span> <span style="color: #93E0E3;">"contour plot"</span> 
+<span style="color: #8CD0D3; font-weight: bold;">set</span> dgrid3d 20,20 gauss 10e-6,10e-6
+<span style="color: #8CD0D3; font-weight: bold;">set</span> key at screen 1, 0.9 right top vertical Right noreverse enhanced autotitle nobox
+<span style="color: #8CD0D3; font-weight: bold;">set</span> style increment default
+<span style="color: #8CD0D3; font-weight: bold;">set</span> style textbox opaque margins  0.5,  0.5 fc  bgnd noborder <span style="color: #F0DFAF;">linewidth</span>  1.0
+<span style="color: #8CD0D3; font-weight: bold;">set</span> view 60, 30, 0.85, 1.1
+<span style="color: #8CD0D3; font-weight: bold;">set</span> contour base
+<span style="color: #8CD0D3; font-weight: bold;">set</span> style data <span style="color: #8CD0D3;">lines</span>
+<span style="color: #8CD0D3; font-weight: bold;">set</span> <span style="color: #F0DFAF;">title</span> <span style="color: #93E0E3;">"contour plot"</span> 
+<span style="color: #8CD0D3; font-weight: bold;">set</span> xlabel <span style="color: #93E0E3;">"X axis"</span> 
+<span style="color: #8CD0D3; font-weight: bold;">set</span> xrange [<span style="color: #8CD0D3; font-weight: bold;"> * : * </span>] noreverse writeback
+<span style="color: #8CD0D3; font-weight: bold;">set</span> x2range [<span style="color: #8CD0D3; font-weight: bold;"> * : * </span>] noreverse writeback
+<span style="color: #8CD0D3; font-weight: bold;">set</span> ylabel <span style="color: #93E0E3;">"Y axis"</span> 
+<span style="color: #8CD0D3; font-weight: bold;">set</span> yrange [<span style="color: #8CD0D3; font-weight: bold;"> * : * </span>] noreverse writeback
+<span style="color: #8CD0D3; font-weight: bold;">set</span> y2range [<span style="color: #8CD0D3; font-weight: bold;"> * : * </span>] noreverse writeback
+<span style="color: #8CD0D3; font-weight: bold;">set</span> zlabel <span style="color: #93E0E3;">"Z "</span> 
+<span style="color: #8CD0D3; font-weight: bold;">set</span> zlabel  offset character 1, 0, 0 font <span style="color: #93E0E3;">""</span> textcolor <span style="color: #F0DFAF;">lt</span> -1 norotate
+<span style="color: #8CD0D3; font-weight: bold;">set</span> zrange [<span style="color: #8CD0D3; font-weight: bold;"> * : * </span>] noreverse writeback
+<span style="color: #8CD0D3; font-weight: bold;">set</span> cbrange [<span style="color: #8CD0D3; font-weight: bold;"> * : * </span>] noreverse writeback
+<span style="color: #8CD0D3; font-weight: bold;">set</span> rrange [<span style="color: #8CD0D3; font-weight: bold;"> * : * </span>] noreverse writeback
+<span style="color: #878777;">#</span><span style="color: #878777;">set palette rgbformulae 22,13,10</span>
+<span style="color: #7F9F7F; font-weight: bold;">splot</span> data  
 </pre>
 </div>
 
 
-<div class="figure">
+<div id="org42549f5" class="figure">
 <p><img src="contour2.png" alt="contour2.png" />
 </p>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgd3f857b" class="outline-3">
-<h3 id="orgd3f857b"><span class="section-number-3">4.2</span> Combined</h3>
-<div class="outline-text-3" id="text-4-2">
+<div id="outline-container-org30f471f" class="outline-4">
+<h4 id="org30f471f"><span class="section-number-4">1.4.2</span> Combined</h4>
+<div class="outline-text-4" id="text-1-4-2">
 </div>
-<div id="outline-container-orgf3a24c9" class="outline-4">
-<h4 id="orgf3a24c9"><span class="section-number-4">4.2.1</span> Ratio? No</h4>
-<div class="outline-text-4" id="text-4-2-1">
+<ol class="org-ol">
+<li><a id="org933d559"></a>Ratio? No<br />
+<div class="outline-text-5" id="text-1-4-2-1">
 <div class="org-src-container">
 <pre class="src src-lisp">(table 10
-      (<span style="color: #F0DFAF; font-weight: bold;">loop</span> for (n_bx t3 t5 t10) in data do 
+      (<span style="color: #7F9F7F; font-weight: bold;">loop</span> for (n_bx t3 t5 t10) in data do 
         (row (/ n_bx 3) t3)
         (row (/ n_bx 5) t5)
-        (row (<span style="color: #F0DFAF; font-weight: bold;">if</span> (&gt;= n_bx 10) (/ n_bx 10) (/ 10 n_bx)) t10)))
+        (row (<span style="color: #7F9F7F; font-weight: bold;">if</span> (&gt;= n_bx 10) (/ n_bx 10) (/ 10 n_bx)) t10)))
 </pre>
 </div>
 
-<table id="org17c3904" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<table id="orgb3922d9" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
 <colgroup>
@@ -6538,7 +6547,7 @@ Timeperiod is power function in N and H (for our range of values)
 </table>
 
 <div class="org-src-container">
-<pre class="src src-lisp">(plot2 (sort data  #'&lt; <span style="color: #DCDCCC; font-weight: bold;">:key</span> #'first) <span style="color: #CC9393;">"nbx2.png"</span>)
+<pre class="src src-lisp">(plot2 (sort data  #'&lt; <span style="color: #DCDCCC; font-weight: bold;">:key</span> #'first) <span style="color: #93E0E3;">"nbx2.png"</span>)
 </pre>
 </div>
 
@@ -6548,19 +6557,18 @@ Timeperiod is power function in N and H (for our range of values)
 </p>
 </div>
 </div>
-</div>
+</li>
 
-<div id="outline-container-org5a59cb9" class="outline-4">
-<h4 id="org5a59cb9"><span class="section-number-4">4.2.2</span> Product? No</h4>
-<div class="outline-text-4" id="text-4-2-2">
+<li><a id="orgadafce7"></a>Product? No<br />
+<div class="outline-text-5" id="text-1-4-2-2">
 <div class="org-src-container">
 <pre class="src src-lisp">(table nil
-      (<span style="color: #F0DFAF; font-weight: bold;">loop</span> for (n_bx t3 t5 t10) in data do 
+      (<span style="color: #7F9F7F; font-weight: bold;">loop</span> for (n_bx t3 t5 t10) in data do 
         (row (* n_bx 3) t3)
         (row (* n_bx 5) t5)
         (row (* n_bx 10) t10))
 
-        (plot2 (sort (table-data)  #'&lt; <span style="color: #DCDCCC; font-weight: bold;">:key</span> #'first) <span style="color: #CC9393;">"nbx3-nostrut.png"</span>))
+        (plot2 (sort (table-data)  #'&lt; <span style="color: #DCDCCC; font-weight: bold;">:key</span> #'first) <span style="color: #93E0E3;">"nbx3-nostrut.png"</span>))
 </pre>
 </div>
 
@@ -6570,13 +6578,12 @@ Timeperiod is power function in N and H (for our range of values)
 </p>
 </div>
 </div>
-</div>
+</li>
 
-<div id="outline-container-org45a2f80" class="outline-4">
-<h4 id="org45a2f80"><span class="section-number-4">4.2.3</span> Wall area</h4>
-<div class="outline-text-4" id="text-4-2-3">
+<li><a id="orgc6b4885"></a>Wall area<br />
+<div class="outline-text-5" id="text-1-4-2-3">
 <div class="org-src-container">
-<pre class="src src-lisp">(plot2 (sort (<span style="color: #F0DFAF; font-weight: bold;">loop</span> for (bx by tp) in data collect (list (* bx (- by 1)) tp)) #'&gt; <span style="color: #DCDCCC; font-weight: bold;">:key</span> #'first)  <span style="color: #CC9393;">"bxby2.png"</span> )
+<pre class="src src-lisp">(plot2 (sort (<span style="color: #7F9F7F; font-weight: bold;">loop</span> for (bx by tp) in data collect (list (* bx (- by 1)) tp)) #'&gt; <span style="color: #DCDCCC; font-weight: bold;">:key</span> #'first)  <span style="color: #93E0E3;">"bxby2.png"</span> )
 </pre>
 </div>
 
@@ -6591,10 +6598,10 @@ This gives something for interpretation. May be at higher bay counts, the wall s
 </p>
 
 <div class="org-src-container">
-<pre class="src src-lisp">(plot2 (sort (<span style="color: #F0DFAF; font-weight: bold;">loop</span> for (bx by tp) in data collect 
+<pre class="src src-lisp">(plot2 (sort (<span style="color: #7F9F7F; font-weight: bold;">loop</span> for (bx by tp) in data collect 
                                                                                       (list (+ (* bx (1- by)) (* by (1- bx))) tp))
                          #'&gt; <span style="color: #DCDCCC; font-weight: bold;">:key</span> #'first) 
-               <span style="color: #CC9393;">"bxby3.png"</span> )
+               <span style="color: #93E0E3;">"bxby3.png"</span> )
 </pre>
 </div>
 
@@ -6610,8 +6617,8 @@ Let's increase bay width and check Infill shear vs Column shear
 
 <div class="org-src-container">
 <pre class="src src-lisp">(table 10
-      (<span style="color: #F0DFAF; font-weight: bold;">loop</span> for n_bx from 1 to 20 do 
-        (<span style="color: #F0DFAF; font-weight: bold;">loop</span> for n_by from 1 to 20   
+      (<span style="color: #7F9F7F; font-weight: bold;">loop</span> for n_bx from 1 to 20 do 
+        (<span style="color: #7F9F7F; font-weight: bold;">loop</span> for n_by from 1 to 20   
                       for tp =  (nth-value 2 
                                                                (simple-building <span style="color: #DCDCCC; font-weight: bold;">:number-of-storey</span> 4
                                                                                                 <span style="color: #DCDCCC; font-weight: bold;">:height</span> 3
@@ -6622,7 +6629,7 @@ Let's increase bay width and check Infill shear vs Column shear
                       do (row n_bx n_by tp))))
 </pre>
 </div>
-<table id="org4a286ab" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<table id="orga12777e" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
 <colgroup>
@@ -9037,10 +9044,10 @@ Let's increase bay width and check Infill shear vs Column shear
 
 
 <div class="org-src-container">
-<pre class="src src-lisp">(plot2 (sort (<span style="color: #F0DFAF; font-weight: bold;">loop</span> for (bx by tp) in data collect 
+<pre class="src src-lisp">(plot2 (sort (<span style="color: #7F9F7F; font-weight: bold;">loop</span> for (bx by tp) in data collect 
                                                                                       (list (+ (* bx (1- by)) (* by (1- bx))) tp))
                              #'&gt; <span style="color: #DCDCCC; font-weight: bold;">:key</span> #'first) 
-               <span style="color: #CC9393;">"bxby4.png"</span> )
+               <span style="color: #93E0E3;">"bxby4.png"</span> )
 </pre>
 </div>
 
@@ -9050,14 +9057,15 @@ Let's increase bay width and check Infill shear vs Column shear
 </p>
 </div>
 </div>
-</div>
+</li>
+</ol>
 </div>
 
-<div id="outline-container-org97557e8" class="outline-3">
-<h3 id="org97557e8"><span class="section-number-3">4.3</span> Single</h3>
-<div class="outline-text-3" id="text-4-3">
+<div id="outline-container-org8fa13b4" class="outline-4">
+<h4 id="org8fa13b4"><span class="section-number-4">1.4.3</span> Single</h4>
+<div class="outline-text-4" id="text-1-4-3">
 <div class="org-src-container">
-<pre class="src src-lisp">(linear-fit <span style="color: #DCDCCC; font-weight: bold;">:data</span> (mapcar (<span style="color: #F0DFAF; font-weight: bold;">lambda</span> (r) (list (first r) (second r)))
+<pre class="src src-lisp">(linear-fit <span style="color: #DCDCCC; font-weight: bold;">:data</span> (mapcar (<span style="color: #7F9F7F; font-weight: bold;">lambda</span> (r) (list (first r) (second r)))
                                                   data))
 </pre>
 </div>
@@ -9089,7 +9097,7 @@ Let's increase bay width and check Infill shear vs Column shear
 </table>
 
 <div class="org-src-container">
-<pre class="src src-lisp">(linear-fit <span style="color: #DCDCCC; font-weight: bold;">:data</span> (mapcar (<span style="color: #F0DFAF; font-weight: bold;">lambda</span> (r) (list (first r) (exp (second r))))
+<pre class="src src-lisp">(linear-fit <span style="color: #DCDCCC; font-weight: bold;">:data</span> (mapcar (<span style="color: #7F9F7F; font-weight: bold;">lambda</span> (r) (list (first r) (exp (second r))))
                                                   data))
 </pre>
 </div>
@@ -9122,30 +9130,30 @@ Let's increase bay width and check Infill shear vs Column shear
 </div>
 </div>
 
-<div id="outline-container-orgd3eb801" class="outline-3">
-<h3 id="orgd3eb801"><span class="section-number-3">4.4</span> Conclusion</h3>
-<div class="outline-text-3" id="text-4-4">
+<div id="outline-container-org2022977" class="outline-4">
+<h4 id="org2022977"><span class="section-number-4">1.4.4</span> Conclusion</h4>
+<div class="outline-text-4" id="text-1-4-4">
 <p>
 When both bx and by increases the Timeperiod becomes independent of bx by 
 </p>
 </div>
 </div>
 </div>
-<div id="outline-container-orgcb32719" class="outline-2">
-<h2 id="orgcb32719"><span class="section-number-2">5</span> Bay Width for Hight Bx By</h2>
-<div class="outline-text-2" id="text-5">
+<div id="outline-container-orgc78cfc6" class="outline-3">
+<h3 id="orgc78cfc6"><span class="section-number-3">1.5</span> Bay Width for Hight Bx By</h3>
+<div class="outline-text-3" id="text-1-5">
 <div class="org-src-container">
 <pre class="src src-lisp">(table nil 
-        (<span style="color: #F0DFAF; font-weight: bold;">loop</span> for bw from 10 to 40 
-                   for tp =  (nth-value 2 
-                                                                  (simple-building <span style="color: #DCDCCC; font-weight: bold;">:number-of-storey</span> 5
-                                                                                                   <span style="color: #DCDCCC; font-weight: bold;">:height</span> 3
-                                                                                                   <span style="color: #DCDCCC; font-weight: bold;">:bays-x</span> 20
-                                                                                                   <span style="color: #DCDCCC; font-weight: bold;">:bays-y</span> 20
-                                                                                                   <span style="color: #DCDCCC; font-weight: bold;">:bay-width</span> bw
-                                                                                                   <span style="color: #DCDCCC; font-weight: bold;">:strut</span> t))
-                                                                                                   collect (row bw tp))
-(plot-table <span style="color: #DCDCCC; font-weight: bold;">:file</span> <span style="color: #CC9393;">"bw1.png"</span>))
+  (<span style="color: #7F9F7F; font-weight: bold;">loop</span> for bw from 10 to 40 
+        for tp =  (nth-value 2 
+                             (simple-building <span style="color: #DCDCCC; font-weight: bold;">:number-of-storey</span> 5
+                                              <span style="color: #DCDCCC; font-weight: bold;">:height</span> 3
+                                              <span style="color: #DCDCCC; font-weight: bold;">:bays-x</span> 20
+                                              <span style="color: #DCDCCC; font-weight: bold;">:bays-y</span> 20
+                                              <span style="color: #DCDCCC; font-weight: bold;">:bay-width</span> bw
+                                              <span style="color: #DCDCCC; font-weight: bold;">:strut</span> t))
+        collect (row bw tp))
+  (plot-table <span style="color: #DCDCCC; font-weight: bold;">:file</span> <span style="color: #93E0E3;">"bw1.png"</span>))
 </pre>
 </div>
 
@@ -9162,9 +9170,9 @@ which incorporates bay width too when bx,by&gt;20.
 </div>
 </div>
 
-<div id="outline-container-org790ccc4" class="outline-2">
-<h2 id="org790ccc4"><span class="section-number-2">6</span> Tabular</h2>
-<div class="outline-text-2" id="text-6">
+<div id="outline-container-org9aefe2d" class="outline-3">
+<h3 id="org9aefe2d"><span class="section-number-3">1.6</span> Tabular</h3>
+<div class="outline-text-3" id="text-1-6">
 <p>
 Generate a table of regression parameters for T(h,N;a,b) = a(Nh)<sup>b</sup>
 </p>
@@ -9271,14 +9279,14 @@ Generate a table of regression parameters for T(h,N;a,b) = a(Nh)<sup>b</sup>
 </table>
 </div>
 
-<div id="outline-container-orgebf8b36" class="outline-3">
-<h3 id="orgebf8b36"><span class="section-number-3">6.1</span> Power</h3>
-<div class="outline-text-3" id="text-6-1">
+<div id="outline-container-org92eca1a" class="outline-4">
+<h4 id="org92eca1a"><span class="section-number-4">1.6.1</span> Power</h4>
+<div class="outline-text-4" id="text-1-6-1">
 <div class="org-src-container">
-<pre class="src src-lisp">(<span style="color: #F0DFAF; font-weight: bold;">defun</span> <span style="color: #93E0E3;">multilinear-params</span> (bw bx by)
-      (<span style="color: #F0DFAF; font-weight: bold;">let</span> ((data nil))
-        (<span style="color: #F0DFAF; font-weight: bold;">loop</span> for n from 1 to 8 by 1 do 
-              (<span style="color: #F0DFAF; font-weight: bold;">loop</span> for h from 2.5 to 4 by 0.1 
+<pre class="src src-lisp">(<span style="color: #7F9F7F; font-weight: bold;">defun</span> <span style="color: #8CD0D3;">multilinear-params</span> (bw bx by)
+      (<span style="color: #7F9F7F; font-weight: bold;">let</span> ((data nil))
+        (<span style="color: #7F9F7F; font-weight: bold;">loop</span> for n from 1 to 8 by 1 do 
+              (<span style="color: #7F9F7F; font-weight: bold;">loop</span> for h from 2.5 to 4 by 0.1 
                         for tp = (simple-building-ftp* <span style="color: #DCDCCC; font-weight: bold;">:number-of-storey</span> n
                                                                                        <span style="color: #DCDCCC; font-weight: bold;">:height</span> h
                                                                                        <span style="color: #DCDCCC; font-weight: bold;">:bays-x</span> bx
@@ -9286,42 +9294,42 @@ Generate a table of regression parameters for T(h,N;a,b) = a(Nh)<sup>b</sup>
                                                                                        <span style="color: #DCDCCC; font-weight: bold;">:bay-width</span> bw)
                         do (push (list (list n h) tp) data)))
 
-        <span style="color: #5F7F5F;">;; </span><span style="color: #7F9F7F;">T = (a * (Nh)^b)</span>
-        (<span style="color: #F0DFAF; font-weight: bold;">multiple-value-bind</span> (parameters r^2)
-                (fit::fit  (<span style="color: #F0DFAF; font-weight: bold;">lambda</span> (x a b)
+        <span style="color: #878777;">;; </span><span style="color: #878777;">T = (a * (Nh)^b)</span>
+        (<span style="color: #7F9F7F; font-weight: bold;">multiple-value-bind</span> (parameters r^2)
+                (fit::fit  (<span style="color: #7F9F7F; font-weight: bold;">lambda</span> (x a b)
                                              (* a (expt (* (first x) (second x)) b)))
                                        data 
                                        '(1 1)
                                        t
                                        nil)
-              (<span style="color: #F0DFAF; font-weight: bold;">if</span> (&lt; r^2 0.99) 
+              (<span style="color: #7F9F7F; font-weight: bold;">if</span> (&lt; r^2 0.99) 
                       (append parameters (list r^2))
                       parameters))))
 
-(<span style="color: #F0DFAF; font-weight: bold;">let</span> ((hashtable (make-hash-table <span style="color: #DCDCCC; font-weight: bold;">:test</span> #'equal)))
-      (<span style="color: #F0DFAF; font-weight: bold;">defun</span> <span style="color: #93E0E3;">multilinear-params*</span> (bw bx by)
+(<span style="color: #7F9F7F; font-weight: bold;">let</span> ((hashtable (make-hash-table <span style="color: #DCDCCC; font-weight: bold;">:test</span> #'equal)))
+      (<span style="color: #7F9F7F; font-weight: bold;">defun</span> <span style="color: #8CD0D3;">multilinear-params*</span> (bw bx by)
         (or (gethash (list (coerce bw 'float)
                                                (coerce bx 'float)
                                                (coerce by 'float))
                                      hashtable)
                 (add-mparam bw bx by (multilinear-params bw bx by))))
 
-      (<span style="color: #F0DFAF; font-weight: bold;">defun</span> <span style="color: #93E0E3;">add-mparam</span> (bw bx by value)
+      (<span style="color: #7F9F7F; font-weight: bold;">defun</span> <span style="color: #8CD0D3;">add-mparam</span> (bw bx by value)
         (setf (gethash (list (coerce bw 'float)
                                                      (coerce bx 'float)
                                                      (coerce by 'float))
                                        hashtable)
                       value))
 
-      (<span style="color: #F0DFAF; font-weight: bold;">defun</span> <span style="color: #93E0E3;">inspect-hash</span> () 
+      (<span style="color: #7F9F7F; font-weight: bold;">defun</span> <span style="color: #8CD0D3;">inspect-hash</span> () 
         hashtable)
 
       (table 7
-        (row <span style="color: #CC9393;">"(Bx,By)/ Bw "</span> '(2 2) '(2 3) '(2 4) '(2 5) '(3 3) '(3 4) '(3 5) '(4 4) '(4 5) '(5 5))
-        (<span style="color: #F0DFAF; font-weight: bold;">loop</span> for bw from 3 to 7 by 0.5
+        (row <span style="color: #93E0E3;">"(Bx,By)/ Bw "</span> '(2 2) '(2 3) '(2 4) '(2 5) '(3 3) '(3 4) '(3 5) '(4 4) '(4 5) '(5 5))
+        (<span style="color: #7F9F7F; font-weight: bold;">loop</span> for bw from 3 to 7 by 0.5
                       for data = nil do
-                        (<span style="color: #F0DFAF; font-weight: bold;">loop</span> for bx from 2 to 5 do
-                              (<span style="color: #F0DFAF; font-weight: bold;">loop</span> for by from bx to 5
+                        (<span style="color: #7F9F7F; font-weight: bold;">loop</span> for bx from 2 to 5 do
+                              (<span style="color: #7F9F7F; font-weight: bold;">loop</span> for by from bx to 5
                                         for params =  (multilinear-params* bw bx by)
                                         do
                                                (push params data)))
@@ -9331,7 +9339,7 @@ Generate a table of regression parameters for T(h,N;a,b) = a(Nh)<sup>b</sup>
 </pre>
 </div>
 
-<table id="org1f99f7d" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<table id="orged77cae" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
 <colgroup>
@@ -9502,20 +9510,20 @@ Generate a table of regression parameters for T(h,N;a,b) = a(Nh)<sup>b</sup>
 </div>
 </div>
 
-<div id="outline-container-org9eb907f" class="outline-3">
-<h3 id="org9eb907f"><span class="section-number-3">6.2</span> Checking (Scatter Plot)</h3>
-<div class="outline-text-3" id="text-6-2">
+<div id="outline-container-org8f8083c" class="outline-4">
+<h4 id="org8f8083c"><span class="section-number-4">1.6.2</span> Checking (Scatter Plot)</h4>
+<div class="outline-text-4" id="text-1-6-2">
 <div class="org-src-container">
-<pre class="src src-lisp">(<span style="color: #F0DFAF; font-weight: bold;">defun</span> <span style="color: #93E0E3;">simple-building-fitted</span> (<span style="color: #7CB8BB;">&amp;key</span> number-of-storey height bays-x bays-y bay-width)
-      (<span style="color: #F0DFAF; font-weight: bold;">destructuring-bind</span> (a b . r^2) (multilinear-params* bay-width bays-x bays-y)
+<pre class="src src-lisp">(<span style="color: #7F9F7F; font-weight: bold;">defun</span> <span style="color: #8CD0D3;">simple-building-fitted</span> (<span style="color: #F0DFAF;">&amp;key</span> number-of-storey height bays-x bays-y bay-width)
+      (<span style="color: #7F9F7F; font-weight: bold;">destructuring-bind</span> (a b . r^2) (multilinear-params* bay-width bays-x bays-y)
         (* a (expt (* number-of-storey height) b))))
 
 (table nil
-      (<span style="color: #F0DFAF; font-weight: bold;">loop</span> for h from 2.5 to 4 by 0.5 do 
-        (<span style="color: #F0DFAF; font-weight: bold;">loop</span> for n from 1 to 8 by 1 do
-              (<span style="color: #F0DFAF; font-weight: bold;">loop</span> for bw from 3 to 7 by 0.5 do 
-                (<span style="color: #F0DFAF; font-weight: bold;">loop</span> for bx from 2 to 5 do
-                      (<span style="color: #F0DFAF; font-weight: bold;">loop</span> for by from bx to 5 
+      (<span style="color: #7F9F7F; font-weight: bold;">loop</span> for h from 2.5 to 4 by 0.5 do 
+        (<span style="color: #7F9F7F; font-weight: bold;">loop</span> for n from 1 to 8 by 1 do
+              (<span style="color: #7F9F7F; font-weight: bold;">loop</span> for bw from 3 to 7 by 0.5 do 
+                (<span style="color: #7F9F7F; font-weight: bold;">loop</span> for bx from 2 to 5 do
+                      (<span style="color: #7F9F7F; font-weight: bold;">loop</span> for by from bx to 5 
                                 for exact = (simple-building-ftp* <span style="color: #DCDCCC; font-weight: bold;">:number-of-storey</span> n
                                                                                                       <span style="color: #DCDCCC; font-weight: bold;">:height</span> h
                                                                                                       <span style="color: #DCDCCC; font-weight: bold;">:bays-x</span> bx
@@ -9530,17 +9538,17 @@ Generate a table of regression parameters for T(h,N;a,b) = a(Nh)<sup>b</sup>
                                        (row exact fitted))))))
 
        (cl-csv:write-csv (slot-value *table* 'list)
-                                         <span style="color: #DCDCCC; font-weight: bold;">:stream</span> (merge-pathnames <span style="color: #CC9393;">"scatter1.csv"</span> *img-path*)))
+                                         <span style="color: #DCDCCC; font-weight: bold;">:stream</span> (merge-pathnames <span style="color: #93E0E3;">"scatter1.csv"</span> *img-path*)))
 </pre>
 </div>
 
 <div class="org-src-container">
-<pre class="src src-gnuplot"><span style="color: #BFEBBF;">cd</span> <span style="color: #CC9393;">"./img/"</span>
-<span style="color: #BFEBBF;">set</span> datafile separator <span style="color: #CC9393;">","</span>
-<span style="color: #BFEBBF;">set</span> terminal png font <span style="color: #CC9393;">"Times New Roman, 30pt"</span> size 1500,1100
-<span style="color: #BFEBBF;">set</span> xlabel <span style="color: #CC9393;">"Exact Timeperiod"</span>
-<span style="color: #BFEBBF;">set</span> ylabel <span style="color: #CC9393;">"Fitted Timeperiod"</span>
-<span style="color: #F0DFAF; font-weight: bold;">plot</span> <span style="color: #CC9393;">'scatter1.csv'</span> <span style="color: #7CB8BB;">with</span> point <span style="color: #7CB8BB;">title</span> <span style="color: #CC9393;">"fit"</span>, x <span style="color: #7CB8BB;">with</span> <span style="color: #93E0E3;">lines</span> <span style="color: #7CB8BB;">title</span> <span style="color: #CC9393;">"exact"</span>
+<pre class="src src-gnuplot"><span style="color: #8CD0D3; font-weight: bold;">cd</span> <span style="color: #93E0E3;">"./img/"</span>
+<span style="color: #8CD0D3; font-weight: bold;">set</span> datafile separator <span style="color: #93E0E3;">","</span>
+<span style="color: #8CD0D3; font-weight: bold;">set</span> terminal png font <span style="color: #93E0E3;">"Times New Roman, 30pt"</span> size 1500,1100
+<span style="color: #8CD0D3; font-weight: bold;">set</span> xlabel <span style="color: #93E0E3;">"Exact Timeperiod"</span>
+<span style="color: #8CD0D3; font-weight: bold;">set</span> ylabel <span style="color: #93E0E3;">"Fitted Timeperiod"</span>
+<span style="color: #7F9F7F; font-weight: bold;">plot</span> <span style="color: #93E0E3;">'scatter1.csv'</span> <span style="color: #F0DFAF;">with</span> point <span style="color: #F0DFAF;">title</span> <span style="color: #93E0E3;">"fit"</span>, x <span style="color: #F0DFAF;">with</span> <span style="color: #8CD0D3;">lines</span> <span style="color: #F0DFAF;">title</span> <span style="color: #93E0E3;">"exact"</span>
 </pre>
 </div>
 
@@ -9555,9 +9563,9 @@ Maximum difference between exact and fitted timeperiod is:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-lisp">(<span style="color: #F0DFAF; font-weight: bold;">loop</span> for (exact fitted) in   (cl-csv:read-csv (merge-pathnames <span style="color: #CC9393;">"scatter1.csv"</span> *img-path*)
-                                                                                               <span style="color: #DCDCCC; font-weight: bold;">:data-map-fn</span> (<span style="color: #F0DFAF; font-weight: bold;">lambda</span> (f <span style="color: #7CB8BB;">&amp;key</span> csv-reader)
-                                                                                                                              (<span style="color: #F0DFAF; font-weight: bold;">declare</span> (ignore csv-reader))
+<pre class="src src-lisp">(<span style="color: #7F9F7F; font-weight: bold;">loop</span> for (exact fitted) in   (cl-csv:read-csv (merge-pathnames <span style="color: #93E0E3;">"scatter1.csv"</span> *img-path*)
+                                                                                               <span style="color: #DCDCCC; font-weight: bold;">:data-map-fn</span> (<span style="color: #7F9F7F; font-weight: bold;">lambda</span> (f <span style="color: #F0DFAF;">&amp;key</span> csv-reader)
+                                                                                                                              (<span style="color: #7F9F7F; font-weight: bold;">declare</span> (ignore csv-reader))
                                                                                                                               (parse-float:parse-float f)))
               maximizing (abs (- exact fitted)))
 
@@ -9570,25 +9578,23 @@ Maximum difference between exact and fitted timeperiod is:
 </div>
 </div>
 
-<div id="outline-container-org67b0647" class="outline-3">
-<h3 id="org67b0647"><span class="section-number-3">6.3</span> Further Relation</h3>
-<div class="outline-text-3" id="text-6-3">
-</div>
-<div id="outline-container-orga943549" class="outline-4">
-<h4 id="orga943549"><span class="section-number-4">6.3.1</span> For (Bx,By) = (2,2)</h4>
-<div class="outline-text-4" id="text-6-3-1">
+<div id="outline-container-orga539325" class="outline-4">
+<h4 id="orga539325"><span class="section-number-4">1.6.3</span> Further Relation</h4>
+<div class="outline-text-4" id="text-1-6-3">
 </div>
 <ol class="org-ol">
-<li><a id="org4ad701c"></a>parameter 'a'<br />
-<div class="outline-text-5" id="text-6-3-1-1">
+<li><a id="org82fb1dc"></a>For (Bx,By) = (2,2)<br />
+<ol class="org-ol">
+<li><a id="org4bad222"></a>parameter 'a'<br />
+<div class="outline-text-6" id="text-1-6-3-1-1">
 <div class="org-src-container">
 <pre class="src src-lisp">(table nil 
-         (<span style="color: #F0DFAF; font-weight: bold;">loop</span> with bx = 2 
+         (<span style="color: #7F9F7F; font-weight: bold;">loop</span> with bx = 2 
                        with by = 2
                        for bw from 3 to 7 by 0.1
                        for (a b) = (multilinear-params bw bx by) 
                        do (row bw a b))
-                       (plot-table <span style="color: #DCDCCC; font-weight: bold;">:file</span> <span style="color: #CC9393;">"a.png"</span>))
+                       (plot-table <span style="color: #DCDCCC; font-weight: bold;">:file</span> <span style="color: #93E0E3;">"a.png"</span>))
 </pre>
 </div>
 
@@ -9609,12 +9615,12 @@ Seems that for bay width &gt; 3.8m a linear relation can be developed
 
 <div class="org-src-container">
 <pre class="src src-lisp">(table nil 
-         (<span style="color: #F0DFAF; font-weight: bold;">loop</span> with bx = 2 
+         (<span style="color: #7F9F7F; font-weight: bold;">loop</span> with bx = 2 
                        with by = 2
                        for bw from 3.8 to 7 by 0.1
                        for (a b) = (multilinear-params bw bx by) 
                        do (row bw a b))
-(plot-table <span style="color: #DCDCCC; font-weight: bold;">:file</span> <span style="color: #CC9393;">"a2.png"</span>)
+(plot-table <span style="color: #DCDCCC; font-weight: bold;">:file</span> <span style="color: #93E0E3;">"a2.png"</span>)
 (linear-fit))
 </pre>
 </div>
@@ -9656,16 +9662,16 @@ a = 0.019918 + 0.000997 * BW
 </div>
 </li>
 
-<li><a id="org306ea20"></a>parameter 'b'<br />
-<div class="outline-text-5" id="text-6-3-1-2">
+<li><a id="org5b8c7f1"></a>parameter 'b'<br />
+<div class="outline-text-6" id="text-1-6-3-1-2">
 <div class="org-src-container">
 <pre class="src src-lisp">(table nil 
-         (<span style="color: #F0DFAF; font-weight: bold;">loop</span> with bx = 2 
+         (<span style="color: #7F9F7F; font-weight: bold;">loop</span> with bx = 2 
                        with by = 2
                        for bw from 3 to 7 by 0.1
                        for (a b) = (multilinear-params bw bx by) 
                        do (row bw b))
-                       (plot-table <span style="color: #DCDCCC; font-weight: bold;">:file</span> <span style="color: #CC9393;">"b.png"</span>))
+                       (plot-table <span style="color: #DCDCCC; font-weight: bold;">:file</span> <span style="color: #93E0E3;">"b.png"</span>))
 </pre>
 </div>
 
@@ -9681,7 +9687,7 @@ This also seems to be well represented by linear or 2nd degree curve
 
 <div class="org-src-container">
 <pre class="src src-lisp">(table nil 
-         (<span style="color: #F0DFAF; font-weight: bold;">loop</span> with bx = 2 
+         (<span style="color: #7F9F7F; font-weight: bold;">loop</span> with bx = 2 
                        with by = 2
                        for bw from 3.8 to 7 by 0.1
                        for (a b) = (multilinear-params bw bx by) 
@@ -9718,7 +9724,7 @@ This also seems to be well represented by linear or 2nd degree curve
 
 <div class="org-src-container">
 <pre class="src src-lisp">(table nil 
-         (<span style="color: #F0DFAF; font-weight: bold;">loop</span> with bx = 2 
+         (<span style="color: #7F9F7F; font-weight: bold;">loop</span> with bx = 2 
                        with by = 2
                        for bw from 3.8 to 7 by 0.1
                        for (a b) = (multilinear-params bw bx by) 
@@ -9781,35 +9787,32 @@ for Bw&gt;3.8 b = 0.00323 * x<sup>2</sup> -0.05436 x + 1.1278
 </div>
 </li>
 </ol>
-</div>
+</li>
 
-<div id="outline-container-org459f134" class="outline-4">
-<h4 id="org459f134"><span class="section-number-4">6.3.2</span> Does this generalize to other Bx,By's ?</h4>
-<div class="outline-text-4" id="text-6-3-2">
-</div>
+<li><a id="org91e4747"></a>Does this generalize to other Bx,By's ?<br />
 <ol class="org-ol">
-<li><a id="orgfc5d3a3"></a>parameter<br />
-<div class="outline-text-5" id="text-6-3-2-1">
+<li><a id="org647e652"></a>parameter<br />
+<div class="outline-text-6" id="text-1-6-3-2-1">
 <div class="org-src-container">
-<pre class="src src-lisp">(<span style="color: #F0DFAF; font-weight: bold;">defun</span> <span style="color: #93E0E3;">bw-params</span> (bx by)
-      (<span style="color: #F0DFAF; font-weight: bold;">let</span> (as bs)
-        (<span style="color: #F0DFAF; font-weight: bold;">loop</span> for bw from 3 to 7 by 0.1
+<pre class="src src-lisp">(<span style="color: #7F9F7F; font-weight: bold;">defun</span> <span style="color: #8CD0D3;">bw-params</span> (bx by)
+      (<span style="color: #7F9F7F; font-weight: bold;">let</span> (as bs)
+        (<span style="color: #7F9F7F; font-weight: bold;">loop</span> for bw from 3 to 7 by 0.1
                       for (a b) = (multilinear-params* bw bx by)  do 
                                               (push (list bw a) as)
                                               (push (list bw b) bs))
-        (<span style="color: #F0DFAF; font-weight: bold;">multiple-value-bind</span> (_ slope intercept) (linear-fit <span style="color: #DCDCCC; font-weight: bold;">:data</span> as)
-              (<span style="color: #F0DFAF; font-weight: bold;">destructuring-bind</span> (a b c) (fit::fit (<span style="color: #F0DFAF; font-weight: bold;">lambda</span> (x a b c) (+  c (* b x) (* a (expt x 2)))) bs '(1 1 1) t nil)
+        (<span style="color: #7F9F7F; font-weight: bold;">multiple-value-bind</span> (_ slope intercept) (linear-fit <span style="color: #DCDCCC; font-weight: bold;">:data</span> as)
+              (<span style="color: #7F9F7F; font-weight: bold;">destructuring-bind</span> (a b c) (fit::fit (<span style="color: #7F9F7F; font-weight: bold;">lambda</span> (x a b c) (+  c (* b x) (* a (expt x 2)))) bs '(1 1 1) t nil)
                 (list slope intercept a b c)))))
 
 (table 10
-      (<span style="color: #F0DFAF; font-weight: bold;">loop</span> for bx from 2 to 5 do
-        (<span style="color: #F0DFAF; font-weight: bold;">loop</span> for by from bx to 5 do
+      (<span style="color: #7F9F7F; font-weight: bold;">loop</span> for bx from 2 to 5 do
+        (<span style="color: #7F9F7F; font-weight: bold;">loop</span> for by from bx to 5 do
               (apply #'row bx by (bw-params bx by)))))
 
 </pre>
 </div>
 
-<table id="org0e2d599" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<table id="orgd71936d" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
 <colgroup>
@@ -9936,24 +9939,21 @@ Doesn't seem so.
 </div>
 </li>
 </ol>
-</div>
+</li>
 
-<div id="outline-container-orga23b045" class="outline-4">
-<h4 id="orga23b045"><span class="section-number-4">6.3.3</span> For Bx,By &gt; 20</h4>
-<div class="outline-text-4" id="text-6-3-3">
-</div>
+<li><a id="orgb51d39c"></a>For Bx,By &gt; 20<br />
 <ol class="org-ol">
-<li><a id="org16e1ce6"></a>Data<br />
-<div class="outline-text-5" id="text-6-3-3-1">
+<li><a id="orga02f4a8"></a>Data<br />
+<div class="outline-text-6" id="text-1-6-3-3-1">
 <div class="org-src-container">
 <pre class="src src-lisp">(table 10 
-(<span style="color: #F0DFAF; font-weight: bold;">loop</span> for bw from 3 to 7 by 0.5
+(<span style="color: #7F9F7F; font-weight: bold;">loop</span> for bw from 3 to 7 by 0.5
 for (a b) = (multilinear-params* bw 20 20) do 
 (row bw a b)))
 </pre>
 </div>
 
-<table id="orga812988" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<table id="orgceb87ab" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
 <colgroup>
@@ -10022,13 +10022,13 @@ for (a b) = (multilinear-params* bw 20 20) do
 
 <div class="org-src-container">
 <pre class="src src-lisp">(table 10 
-(<span style="color: #F0DFAF; font-weight: bold;">loop</span> for bw from 3 to 7 by 0.5
+(<span style="color: #7F9F7F; font-weight: bold;">loop</span> for bw from 3 to 7 by 0.5
 for (a b) = (multilinear-params* bw 30 30) do 
 (row bw a b)))
 </pre>
 </div>
 
-<table id="org4130359" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<table id="org0dee453" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
 <colgroup>
@@ -10097,13 +10097,13 @@ for (a b) = (multilinear-params* bw 30 30) do
 
 <div class="org-src-container">
 <pre class="src src-lisp">(table 10 
-(<span style="color: #F0DFAF; font-weight: bold;">loop</span> for bw from 3 to 7 by 0.5
+(<span style="color: #7F9F7F; font-weight: bold;">loop</span> for bw from 3 to 7 by 0.5
 for (a b) = (multilinear-params* bw 40 40) do 
 (row bw a b)))
 </pre>
 </div>
 
-<table id="org34e188b" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<table id="org0f30056" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
 <colgroup>
@@ -10172,13 +10172,13 @@ for (a b) = (multilinear-params* bw 40 40) do
 
 <div class="org-src-container">
 <pre class="src src-lisp">(table 10 
-(<span style="color: #F0DFAF; font-weight: bold;">loop</span> for bw from 3 to 7 by 0.5
+(<span style="color: #7F9F7F; font-weight: bold;">loop</span> for bw from 3 to 7 by 0.5
 for (a b) = (multilinear-params* bw 50 30) do 
 (row bw a b)))
 </pre>
 </div>
 
-<table id="orgb5ad27e" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<table id="org447c495" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
 <colgroup>
@@ -10247,16 +10247,16 @@ for (a b) = (multilinear-params* bw 50 30) do
 </div>
 </li>
 
-<li><a id="org6134d6a"></a>Average Trend<br />
-<div class="outline-text-5" id="text-6-3-3-2">
+<li><a id="orgfb0562a"></a>Average Trend<br />
+<div class="outline-text-6" id="text-1-6-3-3-2">
 <div class="org-src-container">
 <pre class="src src-lisp">(table 10
-      (<span style="color: #F0DFAF; font-weight: bold;">loop</span> for bw from 3 to 7 by 0.5
+      (<span style="color: #7F9F7F; font-weight: bold;">loop</span> for bw from 3 to 7 by 0.5
                 with n = 4
                 for sa = 0 
                 for sb = 0  
                 for i from 0 do 
-                      (<span style="color: #F0DFAF; font-weight: bold;">loop</span> for data in (list data1 data2 data3 data4)
+                      (<span style="color: #7F9F7F; font-weight: bold;">loop</span> for data in (list data1 data2 data3 data4)
                                 for (_ a b) = (nth i data) do 
                                 (incf sa a)
                                 (incf sb b))
@@ -10264,7 +10264,7 @@ for (a b) = (multilinear-params* bw 50 30) do
 </pre>
 </div>
 
-<table id="orga0c0875" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<table id="orgab642de" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
 <colgroup>
@@ -10332,10 +10332,10 @@ for (a b) = (multilinear-params* bw 50 30) do
 </table>
 </div>
 </li>
-<li><a id="org28fe446"></a>Plot<br />
-<div class="outline-text-5" id="text-6-3-3-3">
+<li><a id="orgb2d2f86"></a>Plot<br />
+<div class="outline-text-6" id="text-1-6-3-3-3">
 <div class="org-src-container">
-<pre class="src src-gnuplot"><span style="color: #F0DFAF; font-weight: bold;">plot</span> avg <span style="color: #7CB8BB;">with</span> <span style="color: #93E0E3;">lines</span> <span style="color: #7CB8BB;">title</span> <span style="color: #CC9393;">"Average"</span>, data <span style="color: #7CB8BB;">using</span> 1:2 <span style="color: #7CB8BB;">with</span> <span style="color: #93E0E3;">points</span> <span style="color: #7CB8BB;">title</span> <span style="color: #CC9393;">"(50,30)"</span>, data2 <span style="color: #7CB8BB;">title</span> <span style="color: #CC9393;">"(40,40)"</span>, data3 <span style="color: #7CB8BB;">title</span> <span style="color: #CC9393;">"(30,30)"</span>, data4 <span style="color: #7CB8BB;">title</span> <span style="color: #CC9393;">"(20,20)"</span>
+<pre class="src src-gnuplot"><span style="color: #7F9F7F; font-weight: bold;">plot</span> avg <span style="color: #F0DFAF;">with</span> <span style="color: #8CD0D3;">lines</span> <span style="color: #F0DFAF;">title</span> <span style="color: #93E0E3;">"Average"</span>, data <span style="color: #F0DFAF;">using</span> 1:2 <span style="color: #F0DFAF;">with</span> <span style="color: #8CD0D3;">points</span> <span style="color: #F0DFAF;">title</span> <span style="color: #93E0E3;">"(50,30)"</span>, data2 <span style="color: #F0DFAF;">title</span> <span style="color: #93E0E3;">"(40,40)"</span>, data3 <span style="color: #F0DFAF;">title</span> <span style="color: #93E0E3;">"(30,30)"</span>, data4 <span style="color: #F0DFAF;">title</span> <span style="color: #93E0E3;">"(20,20)"</span>
 </pre>
 </div>
 
@@ -10346,7 +10346,7 @@ for (a b) = (multilinear-params* bw 50 30) do
 </div>
 
 <div class="org-src-container">
-<pre class="src src-gnuplot"><span style="color: #F0DFAF; font-weight: bold;">plot</span> avg <span style="color: #7CB8BB;">using</span> 1:3 <span style="color: #7CB8BB;">with</span> <span style="color: #93E0E3;">lines</span> <span style="color: #7CB8BB;">title</span> <span style="color: #CC9393;">"Average"</span> , data <span style="color: #7CB8BB;">using</span> 1:3 <span style="color: #7CB8BB;">with</span> <span style="color: #93E0E3;">points</span> <span style="color: #7CB8BB;">title</span> <span style="color: #CC9393;">"(50,30)"</span>, data2 <span style="color: #7CB8BB;">using</span> 1:3 <span style="color: #7CB8BB;">title</span> <span style="color: #CC9393;">"(40,40)"</span>, data3 <span style="color: #7CB8BB;">using</span> 1:3 <span style="color: #7CB8BB;">title</span> <span style="color: #CC9393;">"(30,30)"</span>, data4 <span style="color: #7CB8BB;">using</span> 1:3 <span style="color: #7CB8BB;">title</span> <span style="color: #CC9393;">"(20,20)"</span>
+<pre class="src src-gnuplot"><span style="color: #7F9F7F; font-weight: bold;">plot</span> avg <span style="color: #F0DFAF;">using</span> 1:3 <span style="color: #F0DFAF;">with</span> <span style="color: #8CD0D3;">lines</span> <span style="color: #F0DFAF;">title</span> <span style="color: #93E0E3;">"Average"</span> , data1 <span style="color: #F0DFAF;">using</span> 1:3 <span style="color: #F0DFAF;">with</span> <span style="color: #8CD0D3;">points</span> <span style="color: #F0DFAF;">title</span> <span style="color: #93E0E3;">"(50,30)"</span>, data2 <span style="color: #F0DFAF;">using</span> 1:3 <span style="color: #F0DFAF;">title</span> <span style="color: #93E0E3;">"(40,40)"</span>, data3 <span style="color: #F0DFAF;">using</span> 1:3 <span style="color: #F0DFAF;">title</span> <span style="color: #93E0E3;">"(30,30)"</span>, data4 <span style="color: #F0DFAF;">using</span> 1:3 <span style="color: #F0DFAF;">title</span> <span style="color: #93E0E3;">"(20,20)"</span>
 </pre>
 </div>
 
@@ -10358,18 +10358,145 @@ for (a b) = (multilinear-params* bw 50 30) do
 </div>
 </li>
 </ol>
-</div>
+</li>
+
+
+<li><a id="org6924de6"></a>For Bx,By &lt; 20<br />
+<ol class="org-ol">
+<li><a id="org1df4a4e"></a>Bx=2<br />
+<div class="outline-text-6" id="text-1-6-3-4-1">
+<div class="org-src-container">
+<pre class="src src-lisp">(<span style="color: #7F9F7F; font-weight: bold;">defun</span> <span style="color: #8CD0D3;">ab-vs-bw</span> (bx by) 
+  (<span style="color: #7F9F7F; font-weight: bold;">loop</span> for bw from 3 to 7 by 0.5
+        collect (multilinear-params* bw bx by)))
+
+(table 5
+  (apply #'row (<span style="color: #7F9F7F; font-weight: bold;">loop</span> for bw from 3 to 7 by 0.5 collect bw))
+  (<span style="color: #7F9F7F; font-weight: bold;">loop</span> with bx = 2
+        for by from 2 to 5 do 
+          (apply #'row (mapcar #'first (ab-vs-bw bx by)))))     
+</pre>
 </div>
 
-<div id="outline-container-org63082d1" class="outline-3">
-<h3 id="org63082d1"><span class="section-number-3">6.4</span> Equation (for bw&gt;3.8)</h3>
-<div class="outline-text-3" id="text-6-4">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-right">3.00000</td>
+<td class="org-right">3.50000</td>
+<td class="org-right">4.00000</td>
+<td class="org-right">4.50000</td>
+<td class="org-right">5.00000</td>
+<td class="org-right">5.50000</td>
+<td class="org-right">6.00000</td>
+<td class="org-right">6.50000</td>
+<td class="org-right">7.00000</td>
+</tr>
+
+<tr>
+<td class="org-right">0.02443</td>
+<td class="org-right">0.02389</td>
+<td class="org-right">0.02391</td>
+<td class="org-right">0.02441</td>
+<td class="org-right">0.02491</td>
+<td class="org-right">0.02541</td>
+<td class="org-right">0.02591</td>
+<td class="org-right">0.02640</td>
+<td class="org-right">0.02689</td>
+</tr>
+
+<tr>
+<td class="org-right">0.02534</td>
+<td class="org-right">0.02482</td>
+<td class="org-right">0.02487</td>
+<td class="org-right">0.02542</td>
+<td class="org-right">0.02597</td>
+<td class="org-right">0.02652</td>
+<td class="org-right">0.02706</td>
+<td class="org-right">0.02760</td>
+<td class="org-right">0.02813</td>
+</tr>
+
+<tr>
+<td class="org-right">0.02587</td>
+<td class="org-right">0.02537</td>
+<td class="org-right">0.02544</td>
+<td class="org-right">0.02601</td>
+<td class="org-right">0.02659</td>
+<td class="org-right">0.02717</td>
+<td class="org-right">0.02773</td>
+<td class="org-right">0.02829</td>
+<td class="org-right">0.02884</td>
+</tr>
+
+<tr>
+<td class="org-right">0.02622</td>
+<td class="org-right">0.02572</td>
+<td class="org-right">0.02581</td>
+<td class="org-right">0.02640</td>
+<td class="org-right">0.02700</td>
+<td class="org-right">0.02759</td>
+<td class="org-right">0.02817</td>
+<td class="org-right">0.02875</td>
+<td class="org-right">0.02931</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+Rows are Bx=2 , By = 2 to 5 
+and columns are bw from 3 to 7
+</p>
+
+<p>
+Table shows that for same bay width, as number of bays increases in one direction then the time period increases. 
+(this property was tested for bx=5, by= 5 to 10)
+but If we take bx=5, by= 2 to 5, then the time period decreases as <code>By</code> increases. This is also consistent to above statement. 
+</p>
+
+<p>
+<b>In general for one bay count <code>Bc</code> kept constant, the timeperiod increases as <code>Bx - Bc</code> increases for  another bay count <code>Bx</code>.</b>
+</p>
+
+<p>
+This property is also evident from the 3d plot <a href="#BayWidthContour">ref:BayWidthContour</a>. Also, from the countour is can be seen that the effect of changing the samaller bay count is greater than changing the larger one. It is because the fundamental timeperiod belongs to the vibrational mode shape in the thinner direction i.e. corresponding to smaller bay count.
+</p>
+</div>
+</li>
+</ol>
+</li>
+</ol>
+</div>
+
+<div id="outline-container-org18ced79" class="outline-4">
+<h4 id="org18ced79"><span class="section-number-4">1.6.4</span> Equation (for bw&gt;3.8)</h4>
+<div class="outline-text-4" id="text-1-6-4">
 <p>
 Coefficient A: 
 </p>
 
 <div class="org-src-container">
-<pre class="src src-lisp">(linear-fit <span style="color: #DCDCCC; font-weight: bold;">:data</span> (remove-if #'(<span style="color: #F0DFAF; font-weight: bold;">lambda</span> (x) (&lt; x 3.8)) data <span style="color: #DCDCCC; font-weight: bold;">:key</span> #'first))
+<pre class="src src-lisp">(linear-fit <span style="color: #DCDCCC; font-weight: bold;">:data</span> (remove-if #'(<span style="color: #7F9F7F; font-weight: bold;">lambda</span> (x) (&lt; x 3.8)) data <span style="color: #DCDCCC; font-weight: bold;">:key</span> #'first))
 </pre>
 </div>
 
@@ -10403,8 +10530,8 @@ Coefficient A:
 Coefficient B: 
 </p>
 <div class="org-src-container">
-<pre class="src src-lisp">(polynomial2-fit <span style="color: #DCDCCC; font-weight: bold;">:data</span> (mapcar #'(<span style="color: #F0DFAF; font-weight: bold;">lambda</span> (r) (list (first r) (third r)))
-                                                               (remove-if #'(<span style="color: #F0DFAF; font-weight: bold;">lambda</span> (x) (&lt; x 3.8)) data <span style="color: #DCDCCC; font-weight: bold;">:key</span> #'first)))
+<pre class="src src-lisp">(polynomial2-fit <span style="color: #DCDCCC; font-weight: bold;">:data</span> (mapcar #'(<span style="color: #7F9F7F; font-weight: bold;">lambda</span> (r) (list (first r) (third r)))
+                                                               (remove-if #'(<span style="color: #7F9F7F; font-weight: bold;">lambda</span> (x) (&lt; x 3.8)) data <span style="color: #DCDCCC; font-weight: bold;">:key</span> #'first)))
 </pre>
 </div>
 
@@ -10463,8 +10590,8 @@ So,
 where,  
 </p>
 <ul class="org-ul">
-<li>\(a\) is given from <a href="#org1f99f7d">table</a>. For \(N_{bays_x}, N_{bays_y} > 20\), \(a = 0.0012567158 w + 0.02157912\)</li>
-<li>\(b\) is given from <a href="#org1f99f7d">table</a>. For \(N_{bays_x}, N_{bays_y} > 20\), \(b = 0.0030798 w^2 -0.052426 w + 1.106346\)</li>
+<li>\(a\) is given from <a href="#orged77cae">table</a>. For \(N_{bays_x}, N_{bays_y} > 20\), \(a = 0.0012567158 w + 0.02157912\)</li>
+<li>\(b\) is given from <a href="#orged77cae">table</a>. For \(N_{bays_x}, N_{bays_y} > 20\), \(b = 0.0030798 w^2 -0.052426 w + 1.106346\)</li>
 </ul>
 
 <p>
@@ -10472,17 +10599,17 @@ Using above equation for bays count less than 20 gives:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-lisp">(<span style="color: #F0DFAF; font-weight: bold;">defun</span> <span style="color: #93E0E3;">simple-building-fitted2</span> (<span style="color: #7CB8BB;">&amp;key</span> number-of-storey height bays-x bays-y bay-width)
-      (<span style="color: #F0DFAF; font-weight: bold;">let</span> ((a (+ (* bay-width 0.0012567158) 0.02157912))
+<pre class="src src-lisp">(<span style="color: #7F9F7F; font-weight: bold;">defun</span> <span style="color: #8CD0D3;">simple-building-fitted2</span> (<span style="color: #F0DFAF;">&amp;key</span> number-of-storey height bays-x bays-y bay-width)
+      (<span style="color: #7F9F7F; font-weight: bold;">let</span> ((a (+ (* bay-width 0.0012567158) 0.02157912))
                 (b (+ 1.106346 (* -0.052426 bay-width) (* 0.0030798 (expt bay-width 2)))))
         (* a (expt (* number-of-storey height) b))))
 
 (table nil
-      (<span style="color: #F0DFAF; font-weight: bold;">loop</span> for h from 2.5 to 4 by 0.5 do 
-        (<span style="color: #F0DFAF; font-weight: bold;">loop</span> for n from 1 to 8 by 1 do
-              (<span style="color: #F0DFAF; font-weight: bold;">loop</span> for bw from 3 to 7 by 0.5 do 
-                (<span style="color: #F0DFAF; font-weight: bold;">loop</span> for bx from 2 to 5 do
-                      (<span style="color: #F0DFAF; font-weight: bold;">loop</span> for by from bx to 5 
+      (<span style="color: #7F9F7F; font-weight: bold;">loop</span> for h from 2.5 to 4 by 0.5 do 
+        (<span style="color: #7F9F7F; font-weight: bold;">loop</span> for n from 1 to 8 by 1 do
+              (<span style="color: #7F9F7F; font-weight: bold;">loop</span> for bw from 3 to 7 by 0.5 do 
+                (<span style="color: #7F9F7F; font-weight: bold;">loop</span> for bx from 2 to 5 do
+                      (<span style="color: #7F9F7F; font-weight: bold;">loop</span> for by from bx to 5 
                                 for exact = (simple-building-ftp* <span style="color: #DCDCCC; font-weight: bold;">:number-of-storey</span> n
                                                                                                       <span style="color: #DCDCCC; font-weight: bold;">:height</span> h
                                                                                                       <span style="color: #DCDCCC; font-weight: bold;">:bays-x</span> bx
@@ -10497,17 +10624,17 @@ Using above equation for bays count less than 20 gives:
                                        (row exact fitted))))))
 
       (cl-csv:write-csv (slot-value *table* 'list)
-                                        <span style="color: #DCDCCC; font-weight: bold;">:stream</span> (merge-pathnames <span style="color: #CC9393;">"scatter2.csv"</span> *img-path*)))
+                                        <span style="color: #DCDCCC; font-weight: bold;">:stream</span> (merge-pathnames <span style="color: #93E0E3;">"scatter2.csv"</span> *img-path*)))
 </pre>
 </div>
 
 <div class="org-src-container">
-<pre class="src src-gnuplot"><span style="color: #BFEBBF;">cd</span> <span style="color: #CC9393;">"./img/"</span>
-<span style="color: #BFEBBF;">set</span> datafile separator <span style="color: #CC9393;">","</span>
-<span style="color: #BFEBBF;">set</span> terminal png font <span style="color: #CC9393;">"Times New Roman, 30pt"</span> size 1500,1100
-<span style="color: #BFEBBF;">set</span> xlabel <span style="color: #CC9393;">"Exact Timeperiod"</span>
-<span style="color: #BFEBBF;">set</span> ylabel <span style="color: #CC9393;">"Fitted Timeperiod"</span>
-<span style="color: #F0DFAF; font-weight: bold;">plot</span> <span style="color: #CC9393;">'scatter2.csv'</span> <span style="color: #7CB8BB;">with</span> point <span style="color: #7CB8BB;">title</span> <span style="color: #CC9393;">"fit"</span>, x <span style="color: #7CB8BB;">with</span> <span style="color: #93E0E3;">lines</span> <span style="color: #7CB8BB;">title</span> <span style="color: #CC9393;">"exact"</span>
+<pre class="src src-gnuplot"><span style="color: #8CD0D3; font-weight: bold;">cd</span> <span style="color: #93E0E3;">"./img/"</span>
+<span style="color: #8CD0D3; font-weight: bold;">set</span> datafile separator <span style="color: #93E0E3;">","</span>
+<span style="color: #8CD0D3; font-weight: bold;">set</span> terminal png font <span style="color: #93E0E3;">"Times New Roman, 30pt"</span> size 1500,1100
+<span style="color: #8CD0D3; font-weight: bold;">set</span> xlabel <span style="color: #93E0E3;">"Exact Timeperiod"</span>
+<span style="color: #8CD0D3; font-weight: bold;">set</span> ylabel <span style="color: #93E0E3;">"Fitted Timeperiod"</span>
+<span style="color: #7F9F7F; font-weight: bold;">plot</span> <span style="color: #93E0E3;">'scatter2.csv'</span> <span style="color: #F0DFAF;">with</span> point <span style="color: #F0DFAF;">title</span> <span style="color: #93E0E3;">"fit"</span>, x <span style="color: #F0DFAF;">with</span> <span style="color: #8CD0D3;">lines</span> <span style="color: #F0DFAF;">title</span> <span style="color: #93E0E3;">"exact"</span>
 </pre>
 </div>
 
@@ -10521,9 +10648,9 @@ Using above equation for bays count less than 20 gives:
 Statistics of difference between exact and fitted timeperiod is: 
 </p>
 <div class="org-src-container">
-<pre class="src src-lisp">(<span style="color: #F0DFAF; font-weight: bold;">let</span> ((data (<span style="color: #F0DFAF; font-weight: bold;">loop</span> for (exact fitted) in   (cl-csv:read-csv (merge-pathnames <span style="color: #CC9393;">"scatter2.csv"</span> *img-path*)
-                                                           <span style="color: #DCDCCC; font-weight: bold;">:data-map-fn</span> (<span style="color: #F0DFAF; font-weight: bold;">lambda</span> (f <span style="color: #7CB8BB;">&amp;key</span> csv-reader)
-                                                                          (<span style="color: #F0DFAF; font-weight: bold;">declare</span> (ignore csv-reader))
+<pre class="src src-lisp">(<span style="color: #7F9F7F; font-weight: bold;">let</span> ((data (<span style="color: #7F9F7F; font-weight: bold;">loop</span> for (exact fitted) in   (cl-csv:read-csv (merge-pathnames <span style="color: #93E0E3;">"scatter2.csv"</span> *img-path*)
+                                                           <span style="color: #DCDCCC; font-weight: bold;">:data-map-fn</span> (<span style="color: #7F9F7F; font-weight: bold;">lambda</span> (f <span style="color: #F0DFAF;">&amp;key</span> csv-reader)
+                                                                          (<span style="color: #7F9F7F; font-weight: bold;">declare</span> (ignore csv-reader))
                                                                           (parse-float:parse-float f)))
                   collect (- exact fitted))))
   (statistical-summary data))
@@ -10608,262 +10735,20 @@ This difference can be even more refined/decreased, when we average over differe
 </div>
 </div>
 
-<div id="outline-container-orga55d48b" class="outline-2">
-<h2 id="orga55d48b"><span class="section-number-2">7</span> Finally</h2>
-<div class="outline-text-2" id="text-7">
-<p>
-Biggest regression fitting!! 
-</p>
-
-<p>
-Generate data 
-</p>
-<div class="org-src-container">
-<pre class="src src-lisp">(<span style="color: #F0DFAF; font-weight: bold;">defparameter</span> <span style="color: #DFAF8F;">*bigdata*</span> nil)
-(<span style="color: #F0DFAF; font-weight: bold;">with-open-file</span> (stream (merge-pathnames <span style="color: #CC9393;">"bigdata.csv"</span> *img-path*) <span style="color: #DCDCCC; font-weight: bold;">:direction</span> <span style="color: #DCDCCC; font-weight: bold;">:output</span>
-                                                                      <span style="color: #DCDCCC; font-weight: bold;">:if-exists</span> <span style="color: #DCDCCC; font-weight: bold;">:supersede</span>)
-   (<span style="color: #F0DFAF; font-weight: bold;">let</span> (bigdata)
-     (<span style="color: #F0DFAF; font-weight: bold;">loop</span> for h from 2.5 to 4 by 0.5 do 
-       (<span style="color: #F0DFAF; font-weight: bold;">loop</span> for n from 1 to 8 by 1 do
-         (<span style="color: #F0DFAF; font-weight: bold;">loop</span> for bw from 3 to 7 by 0.5 do 
-           (<span style="color: #F0DFAF; font-weight: bold;">loop</span> for bx from 2 to 5 do
-             (<span style="color: #F0DFAF; font-weight: bold;">loop</span> for by from bx to 5 
-                   for exact = (simple-building-ftp* <span style="color: #DCDCCC; font-weight: bold;">:number-of-storey</span> n
-                                                     <span style="color: #DCDCCC; font-weight: bold;">:height</span> h
-                                                     <span style="color: #DCDCCC; font-weight: bold;">:bays-x</span> bx
-                                                     <span style="color: #DCDCCC; font-weight: bold;">:bays-y</span> by
-                                                     <span style="color: #DCDCCC; font-weight: bold;">:bay-width</span> bw)
-                   do 
-                      (cl-csv:write-csv-row (list n h bw bx by exact)
-                                            <span style="color: #DCDCCC; font-weight: bold;">:stream</span> stream)
-                      (push (list (list n h bw bx by) exact) bigdata))))))
-     (setf *bigdata* bigdata)))
-
-</pre>
+<div id="outline-container-org643e265" class="outline-3">
+<h3 id="org643e265"><span class="section-number-3">1.7</span> Variation in Bay width</h3>
+<div class="outline-text-3" id="text-1-7">
 </div>
-
-<p>
-Now Fit it to <a href="#org63082d1">Equation (for bw&gt;3.8)</a> form. 
-</p>
-
-<div class="org-src-container">
-<pre class="src src-lisp">(fit (<span style="color: #F0DFAF; font-weight: bold;">lambda</span> (x a1 a2 b1 b2 b3)
-       (<span style="color: #F0DFAF; font-weight: bold;">let</span> ((n (first x))
-             (h (second x))
-             (bw (third x)))
-         (* (+ (* a1 bw) a2)
-            (expt (* n h)
-                  (+ (* b1 (expt bw 2))
-                     (* b2 bw)
-                     b3)))))
-     '(0.0001256 0.002 0.003 -0.0524 1.106346)
-     <span style="color: #DCDCCC; font-weight: bold;">:data</span> *bigdata*)
-</pre>
-</div>
-
-<table id="org101b281" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-
-
-<colgroup>
-<col  class="org-right" />
-
-<col  class="org-right" />
-</colgroup>
-<tbody>
-<tr>
-<td class="org-right">Parameter</td>
-<td class="org-right">Confidence +/-</td>
-</tr>
-
-<tr>
-<td class="org-right">0.0011986135648457729</td>
-<td class="org-right">0.008633513792536482d0</td>
-</tr>
-
-<tr>
-<td class="org-right">0.020683094007570582</td>
-<td class="org-right">0.043384231994440955d0</td>
-</tr>
-
-<tr>
-<td class="org-right">0.0017003213576228672</td>
-<td class="org-right">0.0023501263889815368d0</td>
-</tr>
-
-<tr>
-<td class="org-right">-0.03881567937728688</td>
-<td class="org-right">0.128270551760842d0</td>
-</tr>
-
-<tr>
-<td class="org-right">1.07997568167311</td>
-<td class="org-right">0.6085240339645498d0</td>
-</tr>
-
-<tr>
-<td class="org-right">chisq/dof</td>
-<td class="org-right">0.5784660975872554d0</td>
-</tr>
-
-<tr>
-<td class="org-right">R<sup>2</sup></td>
-<td class="org-right">0.9957119724327504d0</td>
-</tr>
-</tbody>
-</table>
-
-
-<div class="org-src-container">
-<pre class="src src-lisp">(table nil
-  (<span style="color: #F0DFAF; font-weight: bold;">destructuring-bind</span> (a1 a2 b1 b2 b3 . _) (mapcar #'first (rest params))
-    (<span style="color: #F0DFAF; font-weight: bold;">loop</span> for h from 2.5 to 4 by 0.5 do 
-      (<span style="color: #F0DFAF; font-weight: bold;">loop</span> for n from 1 to 8 by 1 do
-        (<span style="color: #F0DFAF; font-weight: bold;">loop</span> for bw from 3 to 7 by 0.5
-              for fitted = (* (+ (* a1 bw) a2)
-                                  (expt (* n h)
-                                        (+ (* b1 (expt bw 2))
-                                           (* b2 bw)
-                                           b3)))
-              do 
-                 (<span style="color: #F0DFAF; font-weight: bold;">loop</span> for bx from 2 to 5 do
-                   (<span style="color: #F0DFAF; font-weight: bold;">loop</span> for by from bx to 5 
-                         for exact = (simple-building-ftp* <span style="color: #DCDCCC; font-weight: bold;">:number-of-storey</span> n
-                                                           <span style="color: #DCDCCC; font-weight: bold;">:height</span> h
-                                                           <span style="color: #DCDCCC; font-weight: bold;">:bays-x</span> bx
-                                                           <span style="color: #DCDCCC; font-weight: bold;">:bays-y</span> by
-                                                           <span style="color: #DCDCCC; font-weight: bold;">:bay-width</span> bw)
-                         do 
-                            (row exact fitted)))))))
-
-  (cl-csv:write-csv (slot-value *table* 'list)
-                    <span style="color: #DCDCCC; font-weight: bold;">:stream</span> (merge-pathnames <span style="color: #CC9393;">"scatter3.csv"</span> *img-path*)))
-</pre>
-</div>
-
-<div class="org-src-container">
-<pre class="src src-gnuplot"><span style="color: #BFEBBF;">cd</span> <span style="color: #CC9393;">"./img/"</span>
-<span style="color: #BFEBBF;">set</span> datafile separator <span style="color: #CC9393;">","</span>
-<span style="color: #BFEBBF;">set</span> terminal png font <span style="color: #CC9393;">"Times New Roman, 30pt"</span> size 1500,1100
-<span style="color: #BFEBBF;">set</span> xlabel <span style="color: #CC9393;">"Exact Timeperiod"</span>
-<span style="color: #BFEBBF;">set</span> ylabel <span style="color: #CC9393;">"Fitted Timeperiod"</span>
-<span style="color: #F0DFAF; font-weight: bold;">plot</span> <span style="color: #CC9393;">'scatter3.csv'</span> <span style="color: #7CB8BB;">with</span> point <span style="color: #7CB8BB;">title</span> <span style="color: #CC9393;">"fit"</span>, x <span style="color: #7CB8BB;">with</span> <span style="color: #93E0E3;">lines</span> <span style="color: #7CB8BB;">title</span> <span style="color: #CC9393;">"exact"</span>
-</pre>
-</div>
-
-
-<div class="figure">
-<p><img src="scatter3.png" alt="scatter3.png" />
-</p>
-</div>
-
-
-<p>
-Statistics of difference between exact and fitted timeperiod is: 
-</p>
-
-<div class="org-src-container">
-<pre class="src src-lisp">(<span style="color: #F0DFAF; font-weight: bold;">let</span> ((data (<span style="color: #F0DFAF; font-weight: bold;">loop</span> for (exact fitted) in   (cl-csv:read-csv (merge-pathnames <span style="color: #CC9393;">"scatter3.csv"</span> *img-path*)
-                                                           <span style="color: #DCDCCC; font-weight: bold;">:data-map-fn</span> (<span style="color: #F0DFAF; font-weight: bold;">lambda</span> (f <span style="color: #7CB8BB;">&amp;key</span> csv-reader)
-                                                                          (<span style="color: #F0DFAF; font-weight: bold;">declare</span> (ignore csv-reader))
-                                                                          (parse-float:parse-float f)))
-                  collect (- exact fitted))))
-  (statistical-summary data))
-</pre>
-</div>
-
-<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-
-
-<colgroup>
-<col  class="org-left" />
-
-<col  class="org-right" />
-</colgroup>
-<tbody>
-<tr>
-<td class="org-left">LENGTH</td>
-<td class="org-right">2880</td>
-</tr>
-
-<tr>
-<td class="org-left">MINIMUM</td>
-<td class="org-right">-0.039589196</td>
-</tr>
-
-<tr>
-<td class="org-left">RANGE</td>
-<td class="org-right">0.08662027</td>
-</tr>
-
-<tr>
-<td class="org-left">MAXIMUM</td>
-<td class="org-right">0.047031075</td>
-</tr>
-
-<tr>
-<td class="org-left">MEDIAN</td>
-<td class="org-right">0.0007523447</td>
-</tr>
-
-<tr>
-<td class="org-left">MODE</td>
-<td class="org-right">0.00028280914</td>
-</tr>
-
-<tr>
-<td class="org-left">MEAN</td>
-<td class="org-right">0.0006848179</td>
-</tr>
-
-<tr>
-<td class="org-left">VARIANCE</td>
-<td class="org-right">0.000115759765</td>
-</tr>
-
-<tr>
-<td class="org-left">SD</td>
-<td class="org-right">0.010759171</td>
-</tr>
-
-<tr>
-<td class="org-left">IQR</td>
-<td class="org-right">0.013326497</td>
-</tr>
-
-<tr>
-<td class="org-left">SKEWNESS</td>
-<td class="org-right">0.13290904</td>
-</tr>
-</tbody>
-</table>
-
-<p>
-So, 
-</p>
-
-<p>
-\(T = a (Nh)^b\) 
-where,  
-</p>
-<ul class="org-ul">
-<li>\(N\) is number of storeys</li>
-<li>\(h\) is height of each floor</li>
-<li>\(a = 0.0011986135648457729 w + 0.020683094007570582\)</li>
-<li>\(b = 0.0017003213576228672 w^2 -0.03881567937728688 w + 1.07997568167311\)</li>
-<li>\(w\) is bay width</li>
-</ul>
-</div>
-</div>
-<div id="outline-container-orgb70fbe4" class="outline-2">
-<h2 id="orgb70fbe4"><span class="section-number-2">8</span> Variation in Bay width</h2>
-<div class="outline-text-2" id="text-8">
+<div id="outline-container-org98a639a" class="outline-4">
+<h4 id="org98a639a"><span class="section-number-4">1.7.1</span> Lets consider only 2by2 bays buildings</h4>
+<div class="outline-text-4" id="text-1-7-1">
 <div class="org-src-container">
 <pre class="src src-lisp">(table 4 
-  (<span style="color: #F0DFAF; font-weight: bold;">loop</span> for bw from 3 to 10
+  (<span style="color: #7F9F7F; font-weight: bold;">loop</span> for bw from 3 to 10
         for tp = (building-ftp* <span style="color: #DCDCCC; font-weight: bold;">:number-of-storey</span> 3
                                 <span style="color: #DCDCCC; font-weight: bold;">:height</span> 3
                                 <span style="color: #DCDCCC; font-weight: bold;">:l</span> (vector 3 bw)
-                                <span style="color: #DCDCCC; font-weight: bold;">:b</span> (vector 3 3)) <span style="color: #D0BF8F; font-weight: bold;">do </span>
+                                <span style="color: #DCDCCC; font-weight: bold;">:b</span> (vector 3 3)) <span style="color: #DFAF8F; font-weight: bold;">do </span>
                                 (row bw tp)))
 
 </pre>
@@ -10926,7 +10811,7 @@ where,
      +---------------------+----------------------+
      |                     |                      |
      |                     |                      |
-3    |                     |                      |
+wc=3 |                     |                      |
      |                     |                      |
      |                     |                      |
      |                     |                      |
@@ -10934,26 +10819,1620 @@ where,
      +---------------------+----------------------+
      |                     |                      |
      |                     |                      |
-  3  |                     |                      |
+ wc=3|                     |                      |
      |                     |                      |
      |                     |                      |
      |                     |                      |
      +---------------------+----------------------+
 
 
-               3                            x
+               wc=3                         x
 </pre>
 </div>
 
 <p>
-As x increases 
+As x increases the time period increases. 
+This is independent of the constant width wc, and the number of stories.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-lisp">(table 4 
+      (<span style="color: #7F9F7F; font-weight: bold;">loop</span> for bw from 3 to 10
+            for tp = (building-ftp* <span style="color: #DCDCCC; font-weight: bold;">:number-of-storey</span> 3
+                                    <span style="color: #DCDCCC; font-weight: bold;">:height</span> 3
+                                    <span style="color: #DCDCCC; font-weight: bold;">:l</span> (vector 10  bw)
+                                    <span style="color: #DCDCCC; font-weight: bold;">:b</span> (vector 10 10)) <span style="color: #DFAF8F; font-weight: bold;">do </span>
+                                    (row bw tp)))
+</pre>
+</div>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-right" />
+
+<col  class="org-right" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-right">3.0000</td>
+<td class="org-right">0.2253</td>
+</tr>
+
+<tr>
+<td class="org-right">4.0000</td>
+<td class="org-right">0.2215</td>
+</tr>
+
+<tr>
+<td class="org-right">5.0000</td>
+<td class="org-right">0.2174</td>
+</tr>
+
+<tr>
+<td class="org-right">6.0000</td>
+<td class="org-right">0.2138</td>
+</tr>
+
+<tr>
+<td class="org-right">7.0000</td>
+<td class="org-right">0.2105</td>
+</tr>
+
+<tr>
+<td class="org-right">8.0000</td>
+<td class="org-right">0.2076</td>
+</tr>
+
+<tr>
+<td class="org-right">9.0000</td>
+<td class="org-right">0.2050</td>
+</tr>
+
+<tr>
+<td class="org-right">10.0000</td>
+<td class="org-right">0.2027</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-org710b64e" class="outline-4">
+<h4 id="org710b64e"><span class="section-number-4">1.7.2</span> Lets randomize 50%</h4>
+</div>
+
+<div id="outline-container-org1a5a433" class="outline-4">
+<h4 id="org1a5a433"><span class="section-number-4">1.7.3</span> For 2 by 2 bays</h4>
+</div>
+</div>
+</div>
+<div id="outline-container-orgcbd4f29" class="outline-2">
+<h2 id="orgcbd4f29"><span class="section-number-2">2</span> Big Data</h2>
+<div class="outline-text-2" id="text-2">
+</div>
+<div id="outline-container-org24bd489" class="outline-3">
+<h3 id="org24bd489"><span class="section-number-3">2.1</span> Generate</h3>
+<div class="outline-text-3" id="text-2-1">
+<p>
+Generate data 
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(<span style="color: #7F9F7F; font-weight: bold;">defparameter</span> <span style="color: #8CD0D3;">*bigdata*</span> nil)
+(<span style="color: #7F9F7F; font-weight: bold;">with-open-file</span> (stream (merge-pathnames <span style="color: #93E0E3;">"bigdata.csv"</span> *img-path*) <span style="color: #DCDCCC; font-weight: bold;">:direction</span> <span style="color: #DCDCCC; font-weight: bold;">:output</span>
+                                                                      <span style="color: #DCDCCC; font-weight: bold;">:if-exists</span> <span style="color: #DCDCCC; font-weight: bold;">:supersede</span>)
+     (<span style="color: #7F9F7F; font-weight: bold;">let</span> (bigdata)
+     (<span style="color: #7F9F7F; font-weight: bold;">loop</span> for h from 2.5 to 4 by 0.5 do 
+       (<span style="color: #7F9F7F; font-weight: bold;">loop</span> for n from 1 to (truncate 40 h) by 1 do
+         (<span style="color: #7F9F7F; font-weight: bold;">loop</span> for bw from 3 to 7 by 0.5 do 
+           (<span style="color: #7F9F7F; font-weight: bold;">loop</span> for bx from 2 to 5 do
+             (<span style="color: #7F9F7F; font-weight: bold;">loop</span> for by from bx to 5 
+                   for exact = (simple-building-ftp* <span style="color: #DCDCCC; font-weight: bold;">:number-of-storey</span> n
+                                                     <span style="color: #DCDCCC; font-weight: bold;">:height</span> h
+                                                     <span style="color: #DCDCCC; font-weight: bold;">:bays-x</span> bx
+                                                     <span style="color: #DCDCCC; font-weight: bold;">:bays-y</span> by
+                                                     <span style="color: #DCDCCC; font-weight: bold;">:bay-width</span> bw)
+                   do 
+                      (cl-csv:write-csv-row (list n h bw bx by exact)
+                                            <span style="color: #DCDCCC; font-weight: bold;">:stream</span> stream)
+                      (push (list (list n h bw bx by) exact) bigdata))))))
+     (setf *bigdata* bigdata)))
+
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgddab14c" class="outline-3">
+<h3 id="orgddab14c"><span class="section-number-3">2.2</span> Read</h3>
+<div class="outline-text-3" id="text-2-2">
+<div class="org-src-container">
+<pre class="src src-lisp">     (<span style="color: #7F9F7F; font-weight: bold;">let</span> (bigdata)
+       (cl-csv:read-csv (merge-pathnames <span style="color: #93E0E3;">"bigdata.csv"</span> *img-path*)
+                        <span style="color: #DCDCCC; font-weight: bold;">:data-map-fn</span> #'(<span style="color: #7F9F7F; font-weight: bold;">lambda</span> (data <span style="color: #F0DFAF;">&amp;key</span> csv-reader)
+                                         (<span style="color: #7F9F7F; font-weight: bold;">declare</span> (ignore csv-reader))
+                                         (<span style="color: #7F9F7F; font-weight: bold;">let</span> (( *read-default-float-format* 'double-float))
+                                           (read-from-string data)))
+                        <span style="color: #DCDCCC; font-weight: bold;">:row-fn</span> #'(<span style="color: #7F9F7F; font-weight: bold;">lambda</span> (row)
+                                    (push (list (butlast row) (first (last row)))
+                                          bigdata)))
+       (setf *bigdata* (reverse bigdata)))
+
+nil
+</pre>
+</div>
+
+<pre class="example">
+NIL
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orge42f72d" class="outline-2">
+<h2 id="orge42f72d"><span class="section-number-2">3</span> Fittings</h2>
+<div class="outline-text-2" id="text-3">
+</div>
+<div id="outline-container-org1cb5642" class="outline-3">
+<h3 id="org1cb5642"><span class="section-number-3">3.1</span> big  fit</h3>
+<div class="outline-text-3" id="text-3-1">
+<p>
+Biggest regression fitting!! 
+</p>
+
+<p>
+Now Fit the big data  to <a href="#org18ced79">Equation (for bw&gt;3.8)</a> form. 
+</p>
+
+<div class="org-src-container">
+<pre class="src src-lisp">(fit (<span style="color: #7F9F7F; font-weight: bold;">lambda</span> (x a1 a2 b1 b2 b3)
+       (<span style="color: #7F9F7F; font-weight: bold;">let</span> ((n (first x))
+             (h (second x))
+             (bw (third x)))
+         (* (+ (* a1 bw) a2)
+            (expt (* n h)
+                  (+ (* b1 (expt bw 2))
+                     (* b2 bw)
+                     b3)))))
+     '(0 0.002 0 0 1)
+     <span style="color: #DCDCCC; font-weight: bold;">:data</span> *bigdata*)
+</pre>
+</div>
+
+<table id="org8139c7f" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-right" />
+
+<col  class="org-right" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-right">Parameter</td>
+<td class="org-right">Confidence +/-</td>
+</tr>
+
+<tr>
+<td class="org-right">0.0032115314444553676d0</td>
+<td class="org-right">0.009794760525109367d0</td>
+</tr>
+
+<tr>
+<td class="org-right">0.026845649908530052d0</td>
+<td class="org-right">0.04698204862252483d0</td>
+</tr>
+
+<tr>
+<td class="org-right">0.002523382533266125d0</td>
+<td class="org-right">0.0014471368449649493d0</td>
+</tr>
+
+<tr>
+<td class="org-right">-0.07038321069215006d0</td>
+<td class="org-right">0.08434925939795428d0</td>
+</tr>
+
+<tr>
+<td class="org-right">1.0287369535020168d0</td>
+<td class="org-right">0.3901978773726302d0</td>
+</tr>
+
+<tr>
+<td class="org-right">chisq/dof</td>
+<td class="org-right">3.1456740271696244d0</td>
+</tr>
+
+<tr>
+<td class="org-right">R<sup>2</sup></td>
+<td class="org-right">0.9372500952712115d0</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div id="outline-container-org26a94d9" class="outline-4">
+<h4 id="org26a94d9"><span class="section-number-4">3.1.1</span> Scatter Plot</h4>
+<div class="outline-text-4" id="text-3-1-1">
+<div class="org-src-container">
+<pre class="src src-lisp">(<span style="color: #7F9F7F; font-weight: bold;">destructuring-bind</span> (a1 a2 b1 b2 b3) (fit-params params)
+  (scatter-csv (<span style="color: #7F9F7F; font-weight: bold;">lambda</span> (x)
+                 (<span style="color: #7F9F7F; font-weight: bold;">let</span> ((n (first x))
+                       (h (second x))
+                       (bw (third x)))
+                   (* (+ (* a1 bw) a2)
+                      (expt (* n h)
+                            (+ (* b1 (expt bw 2))
+                               (* b2 bw)
+                               b3)))))
+               <span style="color: #93E0E3;">"scatter3.csv"</span>))
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-gnuplot" id="orgc148597"><span style="color: #8CD0D3; font-weight: bold;">cd</span> <span style="color: #93E0E3;">"./img/"</span>
+<span style="color: #8CD0D3; font-weight: bold;">set</span> datafile separator <span style="color: #93E0E3;">","</span>
+<span style="color: #8CD0D3; font-weight: bold;">set</span> terminal png font <span style="color: #93E0E3;">"Times New Roman, 30pt"</span> size 1500,1100
+<span style="color: #8CD0D3; font-weight: bold;">set</span> xlabel <span style="color: #93E0E3;">"Exact Timeperiod"</span>
+<span style="color: #8CD0D3; font-weight: bold;">set</span> ylabel <span style="color: #93E0E3;">"Fitted Timeperiod"</span>
+<span style="color: #7F9F7F; font-weight: bold;">plot</span> file <span style="color: #F0DFAF;">with</span> point <span style="color: #F0DFAF;">title</span> <span style="color: #93E0E3;">"fit"</span>, x <span style="color: #F0DFAF;">with</span> <span style="color: #8CD0D3;">lines</span> <span style="color: #F0DFAF;">title</span> <span style="color: #93E0E3;">"exact"</span>
+</pre>
+</div>
+
+
+<div class="figure">
+<p><img src="scatter3.png" alt="scatter3.png" />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgf6c5d6a" class="outline-4">
+<h4 id="orgf6c5d6a"><span class="section-number-4">3.1.2</span> Results</h4>
+<div class="outline-text-4" id="text-3-1-2">
+<p>
+Statistics of difference between exact and fitted timeperiod is: 
+</p>
+
+<div class="org-src-container">
+<pre class="src src-lisp">(<span style="color: #7F9F7F; font-weight: bold;">destructuring-bind</span> (a1 a2 b1 b2 b3) (fit-params params)
+  (max-%diff (<span style="color: #7F9F7F; font-weight: bold;">lambda</span> (x)
+              (<span style="color: #7F9F7F; font-weight: bold;">let</span> ((n (first x))
+                    (h (second x))
+                    (bw (third x)))
+                (* (+ (* a1 bw) a2)
+                   (expt (* n h)
+                         (+ (* b1 (expt bw 2))
+                            (* b2 bw)
+                            b3)))))
+            ))
+</pre>
+</div>
+
+<pre class="example">
+30\.44925180970494d0
+</pre>
+
+
+<p>
+So, 
+</p>
+
+<p>
+\(T = a (Nh)^b\) 
+where,  
+</p>
+<ul class="org-ul">
+<li>\(N\) is number of storeys</li>
+<li>\(h\) is height of each floor</li>
+<li>\(a = 0.0011986135648457729 w + 0.020683094007570582\)</li>
+<li>\(b = 0.0017003213576228672 w^2 -0.03881567937728688 w + 1.07997568167311\)</li>
+<li>\(w\) is bay width</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgd29d2b1" class="outline-3">
+<h3 id="orgd29d2b1"><span class="section-number-3">3.2</span> Another fitting</h3>
+<div class="outline-text-3" id="text-3-2">
+<div class="org-src-container">
+<pre class="src src-lisp">(fit (<span style="color: #7F9F7F; font-weight: bold;">lambda</span> (x a1 a2 b1 b2 b3)
+       (<span style="color: #7F9F7F; font-weight: bold;">let</span> ((n (first x))
+             (h (second x))
+             (bw (third x)))
+         (* (+ (* a1 bw) a2)
+            (expt (* n h)
+                  (+ (* b1 (expt bw 2))
+                     (* b2 bw)
+                     b3)))))
+     '(0.0001256 0.002 0.003 -0.0524 1.106346)
+     <span style="color: #DCDCCC; font-weight: bold;">:data</span> (remove-if (<span style="color: #7F9F7F; font-weight: bold;">lambda</span> (d) (&lt; (second (first d)) 3.8)) *bigdata*))
+</pre>
+</div>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-right" />
+
+<col  class="org-right" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-right">Parameter</td>
+<td class="org-right">Confidence +/-</td>
+</tr>
+
+<tr>
+<td class="org-right">0.001797902299229135d0</td>
+<td class="org-right">0.015922108343922315d0</td>
+</tr>
+
+<tr>
+<td class="org-right">0.023741806475300317d0</td>
+<td class="org-right">0.07817478595663525d0</td>
+</tr>
+
+<tr>
+<td class="org-right">0.0015429780001648726d0</td>
+<td class="org-right">0.002571336253089382d0</td>
+</tr>
+
+<tr>
+<td class="org-right">-0.05062567097470611d0</td>
+<td class="org-right">0.16663547235229628d0</td>
+</tr>
+
+<tr>
+<td class="org-right">1.0685360858758828d0</td>
+<td class="org-right">0.7963105074221044d0</td>
+</tr>
+
+<tr>
+<td class="org-right">chisq/dof</td>
+<td class="org-right">0.4497307212752414d0</td>
+</tr>
+
+<tr>
+<td class="org-right">R<sup>2</sup></td>
+<td class="org-right">0.995198777604388d0</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-orgaa6120a" class="outline-3">
+<h3 id="orgaa6120a"><span class="section-number-3">3.3</span> Simple Power Formula</h3>
+<div class="outline-text-3" id="text-3-3">
+<p>
+T = a (Nh)<sup>b</sup> 
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(power-fit <span style="color: #DCDCCC; font-weight: bold;">:data</span> (mapcar (<span style="color: #7F9F7F; font-weight: bold;">lambda</span> (d)
+                           (<span style="color: #7F9F7F; font-weight: bold;">destructuring-bind</span> ((n h bw bx by) tp) d
+                             (list (* n h) tp)))
+                         *bigdata*))
+</pre>
+</div>
+
+<table id="orgb04bc39" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-right" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left">Equation =</td>
+<td class="org-right">a*x<sup>b</sup></td>
+</tr>
+
+<tr>
+<td class="org-left">Parameter</td>
+<td class="org-right">Confidence +/-</td>
+</tr>
+
+<tr>
+<td class="org-left">0.04224251681658552d0</td>
+<td class="org-right">0.011885018889346417d0</td>
+</tr>
+
+<tr>
+<td class="org-left">0.7492033142132521d0</td>
+<td class="org-right">0.08290289271961883d0</td>
+</tr>
+
+<tr>
+<td class="org-left">chisq/dof</td>
+<td class="org-right">4.288626310459733d0</td>
+</tr>
+
+<tr>
+<td class="org-left">R<sup>2</sup></td>
+<td class="org-right">0.8833668382166414d0</td>
+</tr>
+</tbody>
+</table>
+
+
+
+<div class="org-src-container">
+<pre class="src src-lisp">(<span style="color: #7F9F7F; font-weight: bold;">destructuring-bind</span> (a b) (fit-params (rest params))
+  (max-%diff (<span style="color: #7F9F7F; font-weight: bold;">lambda</span> (x) 
+              (* a (expt (* (first x) (second x)) b)))))
+</pre>
+</div>
+
+<pre class="example">
+39\.61068860627242d0
+</pre>
+</div>
+
+<div id="outline-container-orgf55c5c6" class="outline-4">
+<h4 id="orgf55c5c6"><span class="section-number-4">3.3.1</span> plot</h4>
+<div class="outline-text-4" id="text-3-3-1">
+<div class="org-src-container">
+<pre class="src src-lisp">(<span style="color: #7F9F7F; font-weight: bold;">destructuring-bind</span> (a b) (fit-params (rest params))
+  (fit-check-csv (<span style="color: #7F9F7F; font-weight: bold;">lambda</span> (x) 
+                   (* a (expt (* (first x) (second x)) b)))
+                 (<span style="color: #7F9F7F; font-weight: bold;">lambda</span> (x) (* (first x) (second x)))
+                 <span style="color: #93E0E3;">"fullPlot1.csv"</span>))
+</pre>
+</div>
+
+<pre class="example">
+NIL
+</pre>
+
+
+<div class="org-src-container">
+<pre class="src src-gnuplot" id="org4956ae2"><span style="color: #8CD0D3; font-weight: bold;">set</span> terminal png 
+<span style="color: #8CD0D3; font-weight: bold;">set</span> output <span style="color: #93E0E3;">"img/fullPlot1.png"</span>
+<span style="color: #8CD0D3; font-weight: bold;">cd</span> <span style="color: #93E0E3;">"./img/"</span>
+<span style="color: #8CD0D3; font-weight: bold;">set</span> datafile separator <span style="color: #93E0E3;">","</span>
+<span style="color: #8CD0D3; font-weight: bold;">set</span> terminal png font <span style="color: #93E0E3;">"Times New Roman, 30pt"</span> size 1500,1100
+<span style="color: #8CD0D3; font-weight: bold;">set</span> xlabel x
+<span style="color: #8CD0D3; font-weight: bold;">set</span> ylabel y
+<span style="color: #7F9F7F; font-weight: bold;">plot</span> csv <span style="color: #F0DFAF;">with</span> point <span style="color: #F0DFAF;">title</span> <span style="color: #93E0E3;">"data"</span>, csv <span style="color: #F0DFAF;">using</span> 1:3 <span style="color: #F0DFAF;">with</span> line <span style="color: #F0DFAF;">title</span> <span style="color: #93E0E3;">"fit"</span>
+</pre>
+</div>
+
+
+<div class="figure">
+<p><img src="img/fullPlot1.png" alt="fullPlot1.png" />
+</p>
+</div>
+
+
+<div class="figure">
+<p><img src="img/fullPlot1.png" alt="fullPlot1.png" />
+</p>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org4e5d1ad" class="outline-4">
+<h4 id="org4e5d1ad"><span class="section-number-4">3.3.2</span> scatter plot</h4>
+<div class="outline-text-4" id="text-3-3-2">
+<div class="org-src-container">
+<pre class="src src-lisp">(<span style="color: #7F9F7F; font-weight: bold;">destructuring-bind</span> (a b) (fit-params (rest params))
+   (scatter-csv (<span style="color: #7F9F7F; font-weight: bold;">lambda</span> (x) (* a (expt (* (first x) (second x)) b)))
+                <span style="color: #93E0E3;">"scatter-simple.csv"</span>))
+</pre>
+</div>
+
+
+<div class="figure">
+<p><img src="img/scatter-simple.png" alt="scatter-simple.png" />
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org69b8e14" class="outline-3">
+<h3 id="org69b8e14"><span class="section-number-3">3.4</span> Variations at higher Nh~40</h3>
+<div class="outline-text-3" id="text-3-4">
+</div>
+<div id="outline-container-orgecc1417" class="outline-4">
+<h4 id="orgecc1417"><span class="section-number-4">3.4.1</span> data</h4>
+<div class="outline-text-4" id="text-3-4-1">
+<p>
+There is lots of variation in timeperiod for higher Nh~40 
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(<span style="color: #7F9F7F; font-weight: bold;">defparameter</span> <span style="color: #8CD0D3;">*nh40*</span> (<span style="color: #7F9F7F; font-weight: bold;">loop</span> for d in *bigdata*
+                           for (x tp) = d
+                           for (n h ._) = x
+                           when (= (* n h) 40)
+                             collect d))
+</pre>
+</div>
+
+<pre class="example">
+*NH40*
+</pre>
+
+
+<div class="org-src-container">
+<pre class="src src-lisp">(<span style="color: #7F9F7F; font-weight: bold;">defparameter</span> <span style="color: #8CD0D3;">*n16nh40*</span> (<span style="color: #7F9F7F; font-weight: bold;">loop</span> for d in *bigdata*
+                             for (x tp) = d
+                             for (n h ._) = x
+                             when (and (= (* n h) 40) (= n 16))
+                               collect d))
+(<span style="color: #7F9F7F; font-weight: bold;">defparameter</span> <span style="color: #8CD0D3;">*n10nh40*</span> (<span style="color: #7F9F7F; font-weight: bold;">loop</span> for d in *bigdata*
+                             for (x tp) = d
+                             for (n h ._) = x
+                             when (and (= (* n h) 40) (= n 10))
+                               collect d))
+(<span style="color: #7F9F7F; font-weight: bold;">defparameter</span> <span style="color: #8CD0D3;">*n16nh40bx5by5*</span> (<span style="color: #7F9F7F; font-weight: bold;">loop</span> for d in *bigdata*
+                                    for (x tp) = d
+                                    for (n h bw bx by) = x
+                                    when (and (= (* n h) 40) (= n 10) (= bw 5 ) (= by 2))
+                                      collect d) )
+</pre>
+</div>
+
+<pre class="example">
+*N16NH40BX5BY5*
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orgc244b61" class="outline-4">
+<h4 id="orgc244b61"><span class="section-number-4">3.4.2</span> plot  (not really)</h4>
+<div class="outline-text-4" id="text-3-4-2">
+<div class="org-src-container">
+<pre class="src src-lisp">(<span style="color: #7F9F7F; font-weight: bold;">with-plot</span> <span style="color: #93E0E3;">"nh40.png"</span>
+  (setup)
+  (<span style="color: #7F9F7F; font-weight: bold;">let*</span> ((i 0)
+         (data (mapcar (<span style="color: #7F9F7F; font-weight: bold;">lambda</span> (d)
+                         (list (incf i) (second d)))
+                      *nh40*)))
+    (ezplot data 
+            <span style="color: #DCDCCC; font-weight: bold;">:title</span> <span style="color: #93E0E3;">"x=bx at nh=40, y=tp"</span>
+            <span style="color: #DCDCCC; font-weight: bold;">:with</span> '(<span style="color: #DCDCCC; font-weight: bold;">:points</span>))))
+</pre>
+</div>
+
+
+<div class="figure">
+<p><img src="./img/nh40.png" alt="nh40.png" />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org84167a5" class="outline-4">
+<h4 id="org84167a5"><span class="section-number-4">3.4.3</span> bay width</h4>
+<div class="outline-text-4" id="text-3-4-3">
+<div class="org-src-container">
+<pre class="src src-lisp">(<span style="color: #7F9F7F; font-weight: bold;">with-plot</span> <span style="color: #93E0E3;">"n16nh40.png"</span>
+  (setup)
+  (<span style="color: #7F9F7F; font-weight: bold;">let</span> ((data (mapcar (<span style="color: #7F9F7F; font-weight: bold;">lambda</span> (d)
+                        (list (third (first d)) (second d)))
+                      *n16nh40*)))
+    (ezplot data 
+            <span style="color: #DCDCCC; font-weight: bold;">:title</span> <span style="color: #93E0E3;">"x=bw at nh=40, y=tp"</span>
+            <span style="color: #DCDCCC; font-weight: bold;">:with</span> '(<span style="color: #DCDCCC; font-weight: bold;">:points</span>))))
+</pre>
+</div>
+
+
+<div class="figure">
+<p><img src="./img/n16nh40.png" alt="n16nh40.png" />
+</p>
+</div>
+
+<p>
+linear variation with tp. but tere must be a lot of unexplained variance. 
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(linear-fit <span style="color: #DCDCCC; font-weight: bold;">:data</span> (mapcar (<span style="color: #7F9F7F; font-weight: bold;">lambda</span> (d) (list (third (first d)) (second d)))
+*n16nh40*))
+</pre>
+</div>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-right" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left">Slope</td>
+<td class="org-right">-0.06377421072090968d0</td>
+</tr>
+
+<tr>
+<td class="org-left">Intercept</td>
+<td class="org-right">0.8587237171441899d0</td>
+</tr>
+
+<tr>
+<td class="org-left">R<sup>2</sup> (Coeff. of Determination)</td>
+<td class="org-right">0.9056889250720995d0</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+70% variance is explained by bay width.
+</p>
+</div>
+
+<ol class="org-ol">
+<li><a id="orgee7bffd"></a>another data<br />
+<div class="outline-text-5" id="text-3-4-3-1">
+<div class="org-src-container">
+<pre class="src src-lisp">(<span style="color: #7F9F7F; font-weight: bold;">with-plot</span> <span style="color: #93E0E3;">"n10nh40.png"</span>
+  (setup)
+  (<span style="color: #7F9F7F; font-weight: bold;">let</span> ((data (mapcar (<span style="color: #7F9F7F; font-weight: bold;">lambda</span> (d)
+                        (list (third (first d)) (second d)))
+                      *n10nh40*)))
+    (ezplot data 
+            <span style="color: #DCDCCC; font-weight: bold;">:title</span> <span style="color: #93E0E3;">"x=bw at nh=40, y=tp"</span>
+            <span style="color: #DCDCCC; font-weight: bold;">:with</span> '(<span style="color: #DCDCCC; font-weight: bold;">:points</span>))))
+</pre>
+</div>
+
+
+<div class="figure">
+<p><img src="./img/n10nh40.png" alt="n10nh40.png" />
+</p>
+</div>
+
+<p>
+There is linear variation but it is decreasing
+</p>
+</div>
+</li>
+</ol>
+</div>
+
+<div id="outline-container-org020e7e2" class="outline-4">
+<h4 id="org020e7e2"><span class="section-number-4">3.4.4</span> bay count bx</h4>
+<div class="outline-text-4" id="text-3-4-4">
+<p>
+seems like the average Tp is constant for bay count bx. hence its doesn't have much effect. 
+</p>
+</div>
+</div>
+<div id="outline-container-orga6fcf2a" class="outline-4">
+<h4 id="orga6fcf2a"><span class="section-number-4">3.4.5</span> bay count min</h4>
+<div class="outline-text-4" id="text-3-4-5">
+<div class="org-src-container">
+<pre class="src src-lisp">(<span style="color: #7F9F7F; font-weight: bold;">with-plot</span> <span style="color: #93E0E3;">"n16nh40-minbxby.png"</span>
+  (setup)
+  (<span style="color: #7F9F7F; font-weight: bold;">let</span> ((data (mapcar (<span style="color: #7F9F7F; font-weight: bold;">lambda</span> (d)
+                        (list (max (fifth (first d)) (fourth (first d))) (second d)))
+                      *n16nh40*)))
+    (ezplot data 
+            <span style="color: #DCDCCC; font-weight: bold;">:title</span> <span style="color: #93E0E3;">"x=bx at nh=40, y=tp"</span>
+            <span style="color: #DCDCCC; font-weight: bold;">:with</span> '(<span style="color: #DCDCCC; font-weight: bold;">:points</span>))))
+</pre>
+</div>
+
+
+<div class="figure">
+<p><img src="./img/n16nh40-minbxby.png" alt="n16nh40-minbxby.png" />
+</p>
+</div>
+
+<p>
+shows slightly linear variation with minimum bx 
+</p>
+
+<div class="org-src-container">
+<pre class="src src-lisp">(linear-fit <span style="color: #DCDCCC; font-weight: bold;">:data</span> (mapcar (<span style="color: #7F9F7F; font-weight: bold;">lambda</span> (d)
+                          (list (max (fifth (first d)) (fourth (first d))) (second d)))
+                        *n16nh40*))
+</pre>
+</div>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-right" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left">Slope</td>
+<td class="org-right">0.014509063674422914d0</td>
+</tr>
+
+<tr>
+<td class="org-left">Intercept</td>
+<td class="org-right">0.48181640884194976d0</td>
+</tr>
+
+<tr>
+<td class="org-left">R<sup>2</sup> (Coeff. of Determination)</td>
+<td class="org-right">0.02812670744607207d0</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+26% of the variance is explained by min(bx,by)
+</p>
+
+<p>
+in total bw and min(bx,by) explains 96% variance
+</p>
+</div>
+</div>
+<div id="outline-container-org53bea72" class="outline-4">
+<h4 id="org53bea72"><span class="section-number-4">3.4.6</span> multilinear regression</h4>
+<div class="outline-text-4" id="text-3-4-6">
+<div class="org-src-container">
+<pre class="src src-lisp">(fit (<span style="color: #7F9F7F; font-weight: bold;">lambda</span> (x a b c)
+       (+ a
+          (* b (third x))
+          (* c (min (fourth x) (fifth x)))))
+     '(1 1 1)
+     <span style="color: #DCDCCC; font-weight: bold;">:data</span> *n16nh40*)
+</pre>
+</div>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-right" />
+
+<col  class="org-right" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-right">Parameter</td>
+<td class="org-right">Confidence +/-</td>
+</tr>
+
+<tr>
+<td class="org-right">0.8215373707507904d0</td>
+<td class="org-right">0.5270462766947293d0</td>
+</tr>
+
+<tr>
+<td class="org-right">-0.06377421072090987d0</td>
+<td class="org-right">0.08164965809277264d0</td>
+</tr>
+
+<tr>
+<td class="org-right">0.012395448797801127d0</td>
+<td class="org-right">0.1054092553389459d0</td>
+</tr>
+
+<tr>
+<td class="org-right">chisq/dof</td>
+<td class="org-right">0.22293438851607592d0</td>
+</tr>
+
+<tr>
+<td class="org-right">R<sup>2</sup></td>
+<td class="org-right">0.9262177756741435d0</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+but the multilinear regression explains only 72% of the variance.
+</p>
+
+<p>
+and for n10nh40: 
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(fit (<span style="color: #7F9F7F; font-weight: bold;">lambda</span> (x a b c)
+          (+ a
+             (* b (third x))
+             (* c (min (fourth x) (fifth x)))))
+        '(1 1 1)
+        <span style="color: #DCDCCC; font-weight: bold;">:data</span> *n10nh40*)
+
+</pre>
+</div>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-right" />
+
+<col  class="org-right" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-right">Parameter</td>
+<td class="org-right">Confidence +/-</td>
+</tr>
+
+<tr>
+<td class="org-right">1.0281655240135703d0</td>
+<td class="org-right">0.5270462766947297d0</td>
+</tr>
+
+<tr>
+<td class="org-right">-0.05548371866900452d0</td>
+<td class="org-right">0.0816496580927726d0</td>
+</tr>
+
+<tr>
+<td class="org-right">0.004044756441545705d0</td>
+<td class="org-right">0.10540925533894617d0</td>
+</tr>
+
+<tr>
+<td class="org-right">chisq/dof</td>
+<td class="org-right">0.20771185618956714d0</td>
+</tr>
+
+<tr>
+<td class="org-right">R<sup>2</sup></td>
+<td class="org-right">0.9147992552079517d0</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+The parameter values are slightly different. and explained variance is 60%
+</p>
+
+<p>
+For nh40
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(multilinear-fit <span style="color: #DCDCCC; font-weight: bold;">:data</span> (mapcar (<span style="color: #7F9F7F; font-weight: bold;">lambda</span> (d)
+                                 (<span style="color: #7F9F7F; font-weight: bold;">destructuring-bind</span> ((n h bw bx by) tp) d
+                                   (list (list bw (min bx by)) tp)))
+                               *n10nh40*))
+</pre>
+</div>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-right" />
+
+<col  class="org-right" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-right">Parameter</td>
+<td class="org-right">Confidence +/-</td>
+</tr>
+
+<tr>
+<td class="org-right">1.0281655240135703d0</td>
+<td class="org-right">0.5270462766947297d0</td>
+</tr>
+
+<tr>
+<td class="org-right">-0.05548371866900452d0</td>
+<td class="org-right">0.0816496580927726d0</td>
+</tr>
+
+<tr>
+<td class="org-right">0.004044756441545705d0</td>
+<td class="org-right">0.10540925533894617d0</td>
+</tr>
+
+<tr>
+<td class="org-right">chisq/dof</td>
+<td class="org-right">0.20771185618956714d0</td>
+</tr>
+
+<tr>
+<td class="org-right">R<sup>2</sup></td>
+<td class="org-right">0.9147992552079517d0</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-org8d5fa4f" class="outline-4">
+<h4 id="org8d5fa4f"><span class="section-number-4">3.4.7</span> custom</h4>
+<div class="outline-text-4" id="text-3-4-7">
+<div class="org-src-container">
+<pre class="src src-lisp">(<span style="color: #7F9F7F; font-weight: bold;">with-plot</span> <span style="color: #93E0E3;">"n16nh40-custom.png"</span>
+  (setup)
+  (<span style="color: #7F9F7F; font-weight: bold;">let</span> ((data (mapcar (<span style="color: #7F9F7F; font-weight: bold;">lambda</span> (d)
+                        (<span style="color: #7F9F7F; font-weight: bold;">destructuring-bind</span> (n h bw bx by) (first d)
+                          (list (/ (first (cs-and-ec n h bw)) n) (second d))))
+                      (filter-data <span style="color: #DCDCCC; font-weight: bold;">:bx</span> 2 <span style="color: #DCDCCC; font-weight: bold;">:bw</span> 4 <span style="color: #DCDCCC; font-weight: bold;">:h</span> 2.5 <span style="color: #DCDCCC; font-weight: bold;">:by</span> 3))))
+    (ezplot data 
+            <span style="color: #DCDCCC; font-weight: bold;">:title</span> <span style="color: #93E0E3;">"x=bw at nh=40, y=tp"</span>
+            <span style="color: #DCDCCC; font-weight: bold;">:with</span> '(<span style="color: #DCDCCC; font-weight: bold;">:points</span>))))
+</pre>
+</div>
+
+
+<div class="figure">
+<p><img src="./img/n16nh40-custom.png" alt="n16nh40-custom.png" />
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgd3fb544" class="outline-3">
+<h3 id="orgd3fb544"><span class="section-number-3">3.5</span> aN<sup>b</sup> h<sup>c</sup></h3>
+<div class="outline-text-3" id="text-3-5">
+<div class="org-src-container">
+<pre class="src src-lisp">(fit (<span style="color: #7F9F7F; font-weight: bold;">lambda</span> (x a b c)
+       (* a
+          (expt (first x) b)
+          (expt (second x) c)))
+     '(1 1 1)
+     <span style="color: #DCDCCC; font-weight: bold;">:data</span> *bigdata*)
+</pre>
+</div>
+
+<table id="org000c17f" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-right" />
+
+<col  class="org-right" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-right">Parameter</td>
+<td class="org-right">Confidence +/-</td>
+</tr>
+
+<tr>
+<td class="org-right">0.02378410977389151d0</td>
+<td class="org-right">0.008493588744986257d0</td>
+</tr>
+
+<tr>
+<td class="org-right">0.7549464995916887d0</td>
+<td class="org-right">0.08395133798569832d0</td>
+</tr>
+
+<tr>
+<td class="org-right">1.2415939484642118d0</td>
+<td class="org-right">0.20502893292549662d0</td>
+</tr>
+
+<tr>
+<td class="org-right">chisq/dof</td>
+<td class="org-right">3.4211642510898868d0</td>
+</tr>
+
+<tr>
+<td class="org-right">R<sup>2</sup></td>
+<td class="org-right">0.9257778572020815d0</td>
+</tr>
+</tbody>
+</table>
+
+<div class="org-src-container">
+<pre class="src src-lisp">(<span style="color: #7F9F7F; font-weight: bold;">destructuring-bind</span> (a b c) (fit-params params)
+  (max-%diff  (<span style="color: #7F9F7F; font-weight: bold;">lambda</span> (x) (* a (expt (first x) b) (expt (second x) c)))))
+</pre>
+</div>
+
+<pre class="example">
+32\.76962326241413d0
+</pre>
+</div>
+
+<div id="outline-container-orgad5bf98" class="outline-4">
+<h4 id="orgad5bf98"><span class="section-number-4">3.5.1</span> scatter plot</h4>
+<div class="outline-text-4" id="text-3-5-1">
+<div class="org-src-container">
+<pre class="src src-lisp">(<span style="color: #7F9F7F; font-weight: bold;">destructuring-bind</span> (a b c) (fit-params params)
+   (scatter-csv (<span style="color: #7F9F7F; font-weight: bold;">lambda</span> (x) (* a (expt (first x) b) (expt (second x) c)))
+                <span style="color: #93E0E3;">"scatter123.csv"</span>))
+</pre>
+</div>
+
+
+<div class="figure">
+<p><img src="scatter123.png" alt="scatter123.png" />
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org638f9c8" class="outline-3">
+<h3 id="org638f9c8"><span class="section-number-3">3.6</span> aN<sup>bh</sup><sup>c</sup> + d bw + e min(bx,by)</h3>
+<div class="outline-text-3" id="text-3-6">
+<div class="org-src-container">
+<pre class="src src-lisp">(fit (<span style="color: #7F9F7F; font-weight: bold;">lambda</span> (x a b c d e)
+       (<span style="color: #7F9F7F; font-weight: bold;">destructuring-bind</span> (n h bw bx by) x 
+         (+ (* a
+               (expt n b)
+               (expt h c))
+            (* d bw)
+            (* e (min bx by)))))
+       '(1 1 1 1 1)
+       <span style="color: #DCDCCC; font-weight: bold;">:data</span> *bigdata*)
+</pre>
+</div>
+
+<table id="orga823841" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-right" />
+
+<col  class="org-right" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-right">Parameter</td>
+<td class="org-right">Confidence +/-</td>
+</tr>
+
+<tr>
+<td class="org-right">0.05982615664899463d0</td>
+<td class="org-right">0.031100505683041638d0</td>
+</tr>
+
+<tr>
+<td class="org-right">0.5740070036405676d0</td>
+<td class="org-right">0.10350629039326772d0</td>
+</tr>
+
+<tr>
+<td class="org-right">0.9572693354900365d0</td>
+<td class="org-right">0.20847758199697541d0</td>
+</tr>
+
+<tr>
+<td class="org-right">-0.025280962508710123d0</td>
+<td class="org-right">0.0110175384414195d0</td>
+</tr>
+
+<tr>
+<td class="org-right">0.00549389013980429d0</td>
+<td class="org-right">0.01450086349832471d0</td>
+</tr>
+
+<tr>
+<td class="org-right">chisq/dof</td>
+<td class="org-right">2.5136843544807763d0</td>
+</tr>
+
+<tr>
+<td class="org-right">R<sup>2</sup></td>
+<td class="org-right">0.9599311275155047d0</td>
+</tr>
+</tbody>
+</table>
+
+<div class="org-src-container">
+<pre class="src src-lisp">(<span style="color: #7F9F7F; font-weight: bold;">destructuring-bind</span> (a b c d e) (fit-params params)
+  (max-%diff  (<span style="color: #7F9F7F; font-weight: bold;">lambda</span> (x)
+      (<span style="color: #7F9F7F; font-weight: bold;">destructuring-bind</span> (n h bw bx by) x 
+        (+ (* a
+              (expt n b)
+              (expt h c))
+           (* d bw)
+           (* e (min bx by)))))))
+</pre>
+</div>
+
+<pre class="example">
+4810\.613422202646d0
+</pre>
+</div>
+
+<div id="outline-container-org89a59ad" class="outline-4">
+<h4 id="org89a59ad"><span class="section-number-4">3.6.1</span> scatter plot</h4>
+<div class="outline-text-4" id="text-3-6-1">
+<div class="org-src-container">
+<pre class="src src-lisp">(<span style="color: #7F9F7F; font-weight: bold;">destructuring-bind</span> (a b c d e) (fit-params params)
+   (scatter-csv (<span style="color: #7F9F7F; font-weight: bold;">lambda</span> (x)
+        (<span style="color: #7F9F7F; font-weight: bold;">destructuring-bind</span> (n h bw bx by) x 
+          (+ (* a
+                (expt n b)
+                (expt h c))
+             (* d bw)
+             (* e (min bx by)))))
+                <span style="color: #93E0E3;">"scatter124.csv"</span>))
+</pre>
+</div>
+
+
+<div class="figure">
+<p><img src="img/scatter124.png" alt="scatter124.png" />
+</p>
+</div>
+
+<p>
+Not much better
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgc831575" class="outline-3">
+<h3 id="orgc831575"><span class="section-number-3">3.7</span> a(Nh)<sup>b</sup>/sqrt(d)</h3>
+<div class="outline-text-3" id="text-3-7">
+<p>
+d=sqrt(bw * min(bx,by))
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(max-fit-%diff (<span style="color: #7F9F7F; font-weight: bold;">lambda</span> (x a b)
+       (<span style="color: #7F9F7F; font-weight: bold;">destructuring-bind</span> (n h bw bx by) x 
+         (/ (* a
+               (expt (* n h) b))
+            (sqrt (* bw (min bx by))))))
+       '(1 1))    
+
+</pre>
+</div>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-right">max %diff</td>
+<td class="org-right">R<sup>2</sup></td>
+<td class="org-left">Params</td>
+</tr>
+
+<tr>
+<td class="org-right">73.769348</td>
+<td class="org-right">0.770385</td>
+<td class="org-left">(0.144932 0.755884)</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-org11c23a3" class="outline-3">
+<h3 id="org11c23a3"><span class="section-number-3">3.8</span> a(Nh)<sup>b</sup> + c* d'<sup>d</sup></h3>
+<div class="outline-text-3" id="text-3-8">
+<p>
+d'=sqrt(bw * min(bx,by))
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(max-fit-%diff (<span style="color: #7F9F7F; font-weight: bold;">lambda</span> (x a b c d)
+       (<span style="color: #7F9F7F; font-weight: bold;">destructuring-bind</span> (n h bw bx by) x 
+         (+ (* a
+               (expt (* n h) b))
+               (* c (expt (* bw (min bx by)) d)))))
+       '(1 1 1 1))        
+</pre>
+</div>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-right">max %diff</td>
+<td class="org-right">R<sup>2</sup></td>
+<td class="org-left">Params</td>
+</tr>
+
+<tr>
+<td class="org-right">2178.746701</td>
+<td class="org-right">0.895706</td>
+<td class="org-left">(0.091186 0.576190 -0.036043 0.403652)</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-orgcd80428" class="outline-3">
+<h3 id="orgcd80428"><span class="section-number-3">3.9</span> a(Nh)<sup>b</sup> + c* bw<sup>d</sup></h3>
+<div class="outline-text-3" id="text-3-9">
+<p>
+d'=sqrt(bw * min(bx,by))
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(max-fit-%diff (<span style="color: #7F9F7F; font-weight: bold;">lambda</span> (x a b c d)
+       (<span style="color: #7F9F7F; font-weight: bold;">destructuring-bind</span> (n h bw bx by) x 
+         (+ (* a
+               (expt (* n h) b))
+               (* c (expt bw d)))))
+       '(1 1 1 1))        
+</pre>
+</div>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-right">max %diff</td>
+<td class="org-right">R<sup>2</sup></td>
+<td class="org-left">Params</td>
+</tr>
+
+<tr>
+<td class="org-right">63.679830</td>
+<td class="org-right">0.910987</td>
+<td class="org-left">(0.028349 0.842303 1.842629 -2.574389)</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+Previous Results (for incorrect beam thickness)
+</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-right">max %diff</td>
+<td class="org-right">R<sup>2</sup></td>
+<td class="org-left">Params</td>
+</tr>
+
+<tr>
+<td class="org-right">11.926379</td>
+<td class="org-right">0.992066</td>
+<td class="org-left">(0.022204 1.014272 0.010395 0.170944)</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+Seems like changing the beam thickness affected only the parameters `c' and `d'
+</p>
+
+<p>
+T =a Nh + c * bw<sup>d</sup> 
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(max-fit-%diff (<span style="color: #7F9F7F; font-weight: bold;">lambda</span> (x a c d)
+        (<span style="color: #7F9F7F; font-weight: bold;">destructuring-bind</span> (n h bw bx by) x 
+          (+ (* a
+          (* n h))
+                (* c (expt bw d)))))
+                '(1 1 1))         
+</pre>
+</div>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-right">max %diff</td>
+<td class="org-right">R<sup>2</sup></td>
+<td class="org-left">Params</td>
+</tr>
+
+<tr>
+<td class="org-right">66.427348</td>
+<td class="org-right">0.905572</td>
+<td class="org-left">(0.015324 0.764077 -1.507190)</td>
+</tr>
+</tbody>
+</table>
+
+<div class="org-src-container">
+<pre class="src src-lisp">
+</pre>
+</div>
+
+<pre class="example">
+NIL
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org5fccbe5" class="outline-3">
+<h3 id="org5fccbe5"><span class="section-number-3">3.10</span> a N<sup>b</sup> h<sup>c</sup> cw<sup>d</sup></h3>
+<div class="outline-text-3" id="text-3-10">
+<div class="org-src-container">
+<pre class="src src-lisp">(<span style="color: #7F9F7F; font-weight: bold;">defun</span> <span style="color: #8CD0D3;">cw</span> (x)
+  (first (cs-and-ec (first x) (second x) (third x))))
+
+(fit (<span style="color: #7F9F7F; font-weight: bold;">lambda</span> (x a b c d)
+          (* a
+             (expt (first x) b)
+             (expt (second x) c)
+             (expt (cw x) d)))
+        '(1 1 1 1)
+     <span style="color: #DCDCCC; font-weight: bold;">:data</span> *bigdata*)
+</pre>
+</div>
+
+<table id="org0e55220" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-right" />
+
+<col  class="org-right" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-right">Parameter</td>
+<td class="org-right">Confidence +/-</td>
+</tr>
+
+<tr>
+<td class="org-right">0.011016882464776922d0</td>
+<td class="org-right">0.004793061767459705d0</td>
+</tr>
+
+<tr>
+<td class="org-right">0.9329981620818296d0</td>
+<td class="org-right">0.10107023095800388d0</td>
+</tr>
+
+<tr>
+<td class="org-right">1.186328434734454d0</td>
+<td class="org-right">0.2043264252508564d0</td>
+</tr>
+
+<tr>
+<td class="org-right">-0.549207167854127d0</td>
+<td class="org-right">0.1761555354930787d0</td>
+</tr>
+
+<tr>
+<td class="org-right">chisq/dof</td>
+<td class="org-right">1.3835373553057353d0</td>
+</tr>
+
+<tr>
+<td class="org-right">R<sup>2</sup></td>
+<td class="org-right">0.9878614330845481d0</td>
+</tr>
+</tbody>
+</table>
+
+<div class="org-src-container">
+<pre class="src src-lisp">(<span style="color: #7F9F7F; font-weight: bold;">destructuring-bind</span> (a b c d) (fit-params  params)
+  (max-%diff (<span style="color: #7F9F7F; font-weight: bold;">lambda</span> (x)
+           (* a
+              (expt (first x) b)
+              (expt (second x) c)
+              (expt (cw x) d)))))
+</pre>
+</div>
+
+<pre class="example">
+20\.425618076488785d0
+</pre>
+</div>
+
+<div id="outline-container-org368d3c6" class="outline-4">
+<h4 id="org368d3c6"><span class="section-number-4">3.10.1</span> scatter plot</h4>
+<div class="outline-text-4" id="text-3-10-1">
+<div class="org-src-container">
+<pre class="src src-lisp">(<span style="color: #7F9F7F; font-weight: bold;">destructuring-bind</span> (a b c d) (fit-params params)
+   (scatter-csv (<span style="color: #7F9F7F; font-weight: bold;">lambda</span> (x)
+             (* a
+                (expt (first x) b)
+                (expt (second x) c)
+                (expt (cw x) d)))
+                <span style="color: #93E0E3;">"scattercw.csv"</span>))
+</pre>
+</div>
+
+
+<div class="figure">
+<p><img src="scattercw.png" alt="scattercw.png" />
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgae1d64e" class="outline-3">
+<h3 id="orgae1d64e"><span class="section-number-3">3.11</span> a N<sup>b</sup> h<sup>c</sup> cw<sup>d</sup> (Removing bay width variation (bw=5))</h3>
+<div class="outline-text-3" id="text-3-11">
+<div class="org-src-container">
+<pre class="src src-lisp">(<span style="color: #7F9F7F; font-weight: bold;">defparameter</span> <span style="color: #8CD0D3;">*bw5*</span> (filter-data <span style="color: #DCDCCC; font-weight: bold;">:bw</span> 5))
+(table 4 (<span style="color: #7F9F7F; font-weight: bold;">loop</span> for bw from 3 to 7 by 0.5 do
+  (<span style="color: #7F9F7F; font-weight: bold;">multiple-value-bind</span> (params r^2)
+      (fit::fit  (<span style="color: #7F9F7F; font-weight: bold;">lambda</span> (x a b c d)
+                       (* a
+                          (expt (first x) b)
+                          (expt (second x) c)
+                          (expt (cw x) d)))
+                     (filter-data <span style="color: #DCDCCC; font-weight: bold;">:bw</span> bw)
+                     '(1 1 1 1)
+                     t
+                     nil
+                     )
+    (row bw params r^2))))
+</pre>
+</div>
+
+<table id="org49bb736" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-right" />
+
+<col  class="org-left" />
+
+<col  class="org-right" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-right">3.0000</td>
+<td class="org-left">(0.0092 0.9703 1.1069 -0.7144)</td>
+<td class="org-right">0.9943</td>
+</tr>
+
+<tr>
+<td class="org-right">3.5000</td>
+<td class="org-left">(0.0079 0.9989 1.1682 -0.7577)</td>
+<td class="org-right">0.9943</td>
+</tr>
+
+<tr>
+<td class="org-right">4.0000</td>
+<td class="org-left">(0.0069 1.0287 1.2025 -0.8062)</td>
+<td class="org-right">0.9932</td>
+</tr>
+
+<tr>
+<td class="org-right">4.5000</td>
+<td class="org-left">(0.0069 1.0386 1.1813 -0.8256)</td>
+<td class="org-right">0.9911</td>
+</tr>
+
+<tr>
+<td class="org-right">5.0000</td>
+<td class="org-left">(0.0081 1.0109 1.1686 -0.7366)</td>
+<td class="org-right">0.9869</td>
+</tr>
+
+<tr>
+<td class="org-right">5.5000</td>
+<td class="org-left">(0.0078 1.0167 1.1775 -0.7838)</td>
+<td class="org-right">0.9857</td>
+</tr>
+
+<tr>
+<td class="org-right">6.0000</td>
+<td class="org-left">(0.0095 0.9721 1.1780 -0.6564)</td>
+<td class="org-right">0.9813</td>
+</tr>
+
+<tr>
+<td class="org-right">6.5000</td>
+<td class="org-left">(0.0070 1.0521 1.1693 -0.9277)</td>
+<td class="org-right">0.9810</td>
+</tr>
+
+<tr>
+<td class="org-right">7.0000</td>
+<td class="org-left">(0.0081 1.0190 1.1679 -0.8227)</td>
+<td class="org-right">0.9778</td>
+</tr>
+</tbody>
+</table>
+
+<div class="org-src-container">
+<pre class="src src-lisp">(<span style="color: #7F9F7F; font-weight: bold;">with-plot</span> <span style="color: #93E0E3;">"custom.png"</span>
+  (setup)
+  (<span style="color: #7F9F7F; font-weight: bold;">let*</span> ((count 0)
+         (data (mapcar (<span style="color: #7F9F7F; font-weight: bold;">lambda</span> (d)
+                    (<span style="color: #7F9F7F; font-weight: bold;">destructuring-bind</span> (n h bw bx by) (first d)
+                      (list h (second d))))
+                       (filter-data <span style="color: #DCDCCC; font-weight: bold;">:bw</span> 4 <span style="color: #DCDCCC; font-weight: bold;">:n</span> 4))))
+    (ezplot data 
+            <span style="color: #DCDCCC; font-weight: bold;">:title</span> <span style="color: #93E0E3;">"x=bw at nh=40, y=tp"</span>
+            <span style="color: #DCDCCC; font-weight: bold;">:with</span> '(<span style="color: #DCDCCC; font-weight: bold;">:points</span>))))
+</pre>
+</div>
+
+
+<div class="figure">
+<p><img src="./img/custom.png" alt="custom.png" />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgfea7c6a" class="outline-3">
+<h3 id="orgfea7c6a"><span class="section-number-3">3.12</span> NBC 105</h3>
+<div class="outline-text-3" id="text-3-12">
+<div class="org-src-container">
+<pre class="src src-lisp">(max-%diff (<span style="color: #7F9F7F; font-weight: bold;">lambda</span> (x)
+             (<span style="color: #7F9F7F; font-weight: bold;">destructuring-bind</span> (n h bw bx by) x
+               (* 0.075 (expt (* n h) 3/4)))))
+
+</pre>
+</div>
+
+<pre class="example">
+66\.08652880460245d0
+</pre>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org07f1069" class="outline-2">
+<h2 id="org07f1069"><span class="section-number-2">4</span> Notes</h2>
+<div class="outline-text-2" id="text-4">
+<ul class="org-ul">
+<li>For lower bay width (~3) T vs H is not exactly linear. but for higher bay widths it is exactly linear.  In all cases linear fit works reasonably well.<a href="#org4e7c947">(.)</a></li>
+<li>T vs N is linear in both case. <a href="#org4e7c947">(.)</a></li>
+<li>Timeperiod is power function in N and H (for our range of values) <a href="realthing.html#MissingReference">Conclusion</a></li>
+<li>When both bx and by increases the Timeperiod becomes independent of bx by <a href="realthing.html#MissingReference">Conclusion</a></li>
+<li>When slightly changing bx and by the curve changed only slightly. Hence we may find a single equation</li>
+<li>As x increases the time period increases. This is independent of the constant width wc, and the number of stories. <a href="realthing.html#MissingReference">(.)</a></li>
+<li>which incorporates bay width too when bx,by&gt;20.<a href="realthing.html#MissingReference">Bay Width for Hight Bx By</a></li>
+<li>at high Nh, timeperiod varies linearly with bay width and min(bx,by) <a href="#org53bea72">(.)</a></li>
+</ul>
+
+
+<p>
+Local Variables:
+org-export-use-babel: nil
+End:
 </p>
 </div>
 </div>
 </div>
 <div id="postamble" class="status">
-<p class="date">Created: 2020-07-01 Wed 13:38</p>
-<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+<p class="date">Created: 2020-07-11 Sat 10:45</p>
+<p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>
 </html>

@@ -1,0 +1,174 @@
+* Data 
+** Generate 
+   Generate data 
+  #+begin_src lisp  :results silent  :exports code  
+    (defparameter *bigdata* nil)
+
+    (with-open-file (stream (merge-pathnames "bigdata-bareframe.csv" *img-path*) :direction :output
+								       :if-exists :supersede)
+      (let (bigdata)
+	(loop for h from 3 to 4 by 0.5 do 
+	  (loop for n from 1 to (truncate 40 h) by 1 do
+	    (loop for bw from 3 to 6 by 0.5 do 
+	      (loop for bx from 2 to 5 do
+		(loop for by from bx to 5 
+		      for exact = (simple-building-ftp* :number-of-storey n
+							:height h
+							:bays-x bx
+							:bays-y by
+							:bay-width bw
+							:bare t)
+		      do 
+			 (cl-csv:write-csv-row (list n h bw bx by exact)
+					       :stream stream)
+			 (push (list (list n h bw bx by) exact) bigdata))))))
+	(setf *bigdata* bigdata)))
+
+    #+end_src
+
+** Read
+   #+begin_src lisp :exports both
+     (let (bigdata)
+       (cl-csv:read-csv (merge-pathnames "bigdata-bareframe.csv" *img-path*)
+			:data-map-fn #'(lambda (data &key csv-reader)
+					 (declare (ignore csv-reader))
+					 (let (( *read-default-float-format* 'double-float))
+					   (read-from-string data)))
+			:row-fn #'(lambda (row)
+				    (push (list (butlast row) (first (last row)))
+					  bigdata)))
+       (setf *bigdata* (reverse bigdata)))
+
+nil
+   #+end_src  
+
+   #+RESULTS:
+   : NIL
+
+* Simple Fit
+  [[*Simpler: T = a(Nh)^b][Simpler: T = a(Nh)^b]] is the best fit among the following 3. 
+** T = a*N^b*h^c 
+  #+Name: simpleFit 
+  #+begin_src lisp  :exports both
+	(max-fit-%diff (lambda (x a b c)
+			 (destructuring-bind (n h bw bx by) x
+			   (* a
+			      (expt n b)
+			      (expt h c))))
+		       '(1 1 1)
+		       :save '/simple-fit)
+  #+end_src
+
+  #+RESULTS: simpleFit
+  | max %diff |      R^2 |     rmse | Params                       | Covariance                   |
+  | 62.875779 | 0.803489 | 0.116500 | (0.039960 0.444932 1.708499) | (0.000185 0.002842 0.056292) |
+  #+begin_src lisp :results file  :exports both
+    (scatter-plot /simple-fit "dbsimple-fit.png")
+  #+end_src
+
+  #+RESULTS:
+  [[file:./img/dbsimple-fit.png]]
+
+** Simpler: T = a(Nh)^b
+  #+begin_src lisp  :exports both
+    (max-fit-%diff (lambda (x a b)
+		     (destructuring-bind (n h bw bx by) x
+		       (* a
+			  (expt (* n h) b)
+			  )))
+		   '(1 1)
+		   :save '/simpler-fit)
+  #+end_src
+
+  #+RESULTS:
+  | max %diff |      R^2 |     rmse | Params              | Covariance          |
+  | 84.965419 | 0.622890 | 0.161352 | (0.190189 0.448564) | (0.001106 0.002836) |
+
+
+  #+begin_src lisp :results file  :exports both
+(scatter-plot /simpler-fit "dbsimpler-fit.png")
+  #+end_src
+
+  #+RESULTS:
+  [[file:./img/dbsimpler-fit.png]]
+
+** Simplest: T = a(N)^b
+  #+begin_src lisp  :exports both
+    (max-fit-%diff (lambda (x a b)
+		     (destructuring-bind (n h bw bx by) x
+		       (* a
+			  (expt (* n) b)
+			  )))
+		   '(1 1)
+		   :save '/simplest-fit)
+  #+end_src
+
+  #+RESULTS:
+  | max %diff |      R^2 |     rmse | Params              | Covariance          |
+  | 87.787155 | 0.487989 | 0.188010 | (0.379125 0.372880) | (0.001475 0.002513) |
+
+
+* Sensitivity Analysis
+  with Nh only, the variation at higher T is very substantial. Hence other parameters must also be playing a great role in T.
+  
+  Is it bw or bx,by that play greater role.
+
+  Sensitivity of bw is max for h=4,bx=2,by=2.
+  and descreases with decreasing n. 
+  #+begin_src lisp :exports both
+    (sensitivity :bw (filter-data :n 10 :h 4 :bx 2 :by 2))
+  #+end_src
+
+  #+RESULTS:
+  : 0\.1049257842319129d0
+
+  Sensitivity with bx doesn't change much with bw.
+  
+  #+begin_src lisp  :exports both
+    (sensitivity :bx (filter-data :bw 6 :n 10 :h 4))
+  #+end_src
+
+  #+RESULTS:
+  : 0\.04411470185148875d0
+  
+
+  Hence timeperiod is more sensitive to bay width than with bay counts
+
+* Bay width
+  To incorporate bay width in the relation for fundamental time period. Lets see the variation of T with bw.
+  #+begin_src lisp :results file :exports both
+    (with-plot "dbbw.png"
+      (setup :xlabel "bw" :ylabel "tp")
+      (loop for n from 2 to 12 by 2 do
+	(ezplot (mapcar (lambda (d)
+			  (destructuring-bind (x tp) d
+			    (list (third x) tp)))
+			(filter-data :n n :bx 2 :by 2 :h 4))
+		:title (format nil "n=~d" n))))
+  #+end_src
+
+  #+RESULTS:
+  [[file:./img/dbbw.png]]
+
+  This shows that the time period changes almost linearly with bay width. and the slope decreases for higher N. 
+
+* Bx,By
+  #+begin_src lisp :results file :exports both
+    (with-plot "dbbx.png"
+      (setup :xlabel "bx" :ylabel "tp")
+      (loop for n from 2 to 12 by 2 do
+	(ezplot (mapcar (lambda (d)
+			  (destructuring-bind (x tp) d
+			    (list (fourth x) tp)))
+			(filter-data :n n :bw 6 :by 5 :h 4))
+		:title (format nil "n=~d" n))))
+  #+end_src
+
+  #+RESULTS:
+  [[file:./img/dbbx.png]]
+
+  This shows that T varies log linear with bx.
+
+Local Variables:
+org-export-babel-evaluate: nil
+End:

@@ -1,0 +1,292 @@
+#+begin_src lisp :results nil :noweb yes
+  (ql:quickload '(:eazy-gnuplot))
+  (push (truename (make-pathname :name  "../moi/" :type nil :defaults *load-pathname*)) asdf:*central-registry*)
+  (ql:quickload :moi)
+#+end_src
+
+#+RESULTS:
+| :MOI |
+
+#+Name: everything
+#+begin_src lisp :noweb yes :results silent
+  <<library>>
+  <<table>>
+  <<plotting>>
+  (load "table.lisp")
+#+end_src
+
+#+Name: library
+#+begin_src lisp :noweb yes :results silent
+  <<dimensions.org:readDimensions>>
+  <<simpleBuildings>>
+#+end_src
+
+* Table
+  #+Name:table 
+  #+begin_src lisp
+    (in-package :moi)
+    (defparameter *table* nil)
+    (defparameter *table-float-digits* 3)
+    (defclass table ()
+      ((list :initform nil :type list)
+       (posi :initform 0 :type integer)
+       (posj :initform 0 :type integer)))
+
+    (defun table-handle-floats (list)
+      (cond ((listp list)
+	     (mapcar #'table-handle-floats list))
+	    ((typep list 'integer)
+	     list)
+	    ((typep list 'float)
+	     (if *table-float-digits*
+		 (format nil "~,vf" *table-float-digits* list)
+		 list))
+	    ((typep list 'number)
+	     (if *table-float-digits*
+		 (format nil "~,vf" *table-float-digits* (coerce list 'float))
+		 list))
+	    (t list)))
+
+    (defmacro table (&body body)
+      "first paramter can be t, nil, number or anything else"
+      `(let ((*table* (make-instance 'table))
+	     (*table-float-digits* ,(if (numberp (first body)) (first body) nil)))
+	 ,@(append body
+		   (unless (eql (first body) nil)
+		     (list `(table-handle-floats (slot-value *table* 'list)))))))
+
+    (defun table-data ()
+      (slot-value *table* 'list))
+
+    (defun row (&rest values)
+      (with-slots (list posi posj) *table*
+	(setf list (append list (list values))
+	      posi (1+ posi)
+	      posj 0)))
+
+  #+end_src
+
+  #+RESULTS: table
+  : ROW
+
+* Plotting
+  #+Name: plotting
+  #+begin_src lisp 
+    (in-package :moi)
+    (defun plot-printer (data &optional (type :xy) (format-string "~&~,10f ~,10f"))
+      (if (typep type 'list)
+	  (lambda ()
+	    (loop for d in data
+		  with xcol = (first type)
+		  with ycol = (second type) do
+		    (format t format-string (nth xcol d) (nth ycol d))))
+	  (ecase type
+	    (:xy (lambda ()
+		   (loop for (x y) in data do
+		     (format t format-string x y))))
+	    (:xxyy (lambda ()
+		     (loop for x in (first data)
+			   for y in (second data) do
+			     (format t format-string x y))))
+	    (:y (lambda ()
+		  (loop for y in data
+			for i from 0 do
+			  (format t format-string i y)))))))
+
+    (ql:quickload :eazy-gnuplot)
+    (defparameter *ezy-file* nil)
+    (defmacro with-plot (filename &body body)
+      `(let ((*ezy-file* (merge-pathnames ,filename *img-path*)))
+	 (eazy-gnuplot:with-plots (*standard-output* :debug t)
+	   ,@body)
+	 (format nil "./img/~a" ,filename)))
+
+    (defun setup (&rest args &key (xlabel "x") (ylabel "y")
+			       (terminal "png")
+			       (key '(:bottom :right :font "Times New Roman,20"))
+		  &allow-other-keys)
+  
+      (apply #'eazy-gnuplot:gp-setup :output *ezy-file*
+				     :xlabel xlabel :ylabel ylabel
+				     :terminal terminal
+				     :key key 
+				     (uiop:remove-plist-keys '(:xlabel :ylabel :terminal :key) args)))
+
+    (defun ezplot (data &rest args &key (title "Plot") (using '(1 2)) (with '(:lines))
+		   &allow-other-keys)
+      (apply #'eazy-gnuplot:plot (plot-printer data (mapcar #'1- using))
+	     :using using
+	     :with with
+	     :title title
+	     (uiop:remove-plist-keys '(:using :with :title) args)))
+
+    (defun plot-example () 
+      (eazy-gnuplot:with-plots (*standard-output* :debug nil)
+	(eazy-gnuplot:gp-setup :xlabel "x-label"      
+			       :ylabel "y-label"
+			       :output file 
+			       :terminal "png"
+			       :key '(:bottom :right :font "Times New Roman, 20")
+			       :pointsize "0.4px")
+	(eazy-gnuplot:plot (plot-printer data :xy)
+			   :using '(1 2)
+			   :title "title"
+			   :with '(:lines))))
+
+    (defun plot (data file &key (type :xy) (gui nil) (multiple nil) title)
+      (let ((terminal (if gui :qt :png)))
+	(eazy-gnuplot:with-plots (*standard-output* :debug t)
+	  (eazy-gnuplot:gp-setup :xlabel "x-label"      ; strings : "\"x-label\""
+				 :ylabel "y-label"
+				 :output file ; pathnames : "\"sample.png\""
+				 :terminal terminal         ; keyword/symbols: "terminal png"
+			     
+				 ;; list contents are recursively quoted, then joined by a space
+				 :key '(:bottom :right :font "Times New Roman, 20")
+			     
+				 :pointsize "0.4px"
+			     
+				 ;;:yrange :|[0:1]|
+				 ;; currently, specifying these kinds of options requires to abuse
+				 ;; keywords and symbols. Another example: comma separated list, e.g.,
+				 ;; :terminal '(:png :size |10cm,6cm|)
+				 ;;
+				 ;; 2/4/2016 Major options are now covered. 
+				 )
+
+	  ;; any unsupported commands are available by printing it to the stream
+	  ;;(format t "~%unset key")
+      
+	  ;; We are extending its expressivity. For example, as of 39d60d, there is gp-unset and gp-set.
+	  ;; An equivalent of above is (gp-unset :keys) .
+	  ;; The list is growing!
+
+	  ;; Functions can be protted with func-plot
+	  ;;(plot "sin(x)" :title "super sin curve!")
+	  ;; Plot a lisp data directly
+	  (eazy-gnuplot:plot (plot-printer data type)
+			     :using '(1 2)
+			     :title (if multiple (first title) title)
+			     :with '(:lines))
+	  (when multiple
+	    (loop for i from 3 to (length (first data)) do 
+	      (eazy-gnuplot:plot (plot-printer data (list 0 (1- i)))
+				 :using '(1 2)
+				 :title (nth (- i 2) title)
+				 :with '(:lines))))
+	  (if gui
+	      (format t "~&pause mouse button2;~%")))))
+
+    (defparameter *img-path* (asdf:system-relative-pathname :moi "../workbook/img/"))
+    (defun plot-table (&key file (type :xy) (gui nil) (title "line"))
+      (plot (slot-value *table* 'list) (merge-pathnames file *img-path*) :type type :gui gui :multiple (listp title) :title title)
+      (format nil "img/~a" file))
+
+    (defun plot2 (data filename &optional (titles "line"))
+      (plot data (merge-pathnames filename *img-path*) :type :xy :gui nil :multiple (listp titles) :title titles)
+      (format nil "img/~a" filename))
+
+  #+end_src
+  
+* Simple Building Functions
+  #+Name: simpleBuildings
+  #+begin_src lisp
+    (in-package :moi)
+    (defun simple-building (&key number-of-storey height bays-x bays-y bay-width (bare nil) (strut t) (designed t))
+      (let* ((geometry (make-building-geometry :number-of-storey number-of-storey
+					       :l (make-array bays-x :initial-element bay-width)
+					       :b (make-array bays-y :initial-element bay-width)
+					       :h height
+					       :bareframe bare))
+	     (structure (make-structural-geometry2 number-of-storey height bay-width :designed designed)))
+	(multiple-value-bind (M xc yc) (mass-matrix geometry structure)
+	  (let* ((K (stiffness-matrix geometry structure :xc xc :yc yc :strut strut))
+		 (mm (df-matrix m))
+		 (kk (df-matrix k))
+		 (eigenvalues (magicl:eig (magicl:@ (magicl:inv mm) kk)))
+		 (tp (timeperiods eigenvalues)))
+	    (values mm kk (first tp) tp)))))
+
+
+    (defun simple-building-k (&key number-of-storey height bays-x bays-y bay-width (bare nil) (strut t) (designed t))
+      (let* ((geometry (make-building-geometry :number-of-storey number-of-storey
+					       :l (make-array bays-x :initial-element bay-width)
+					       :b (make-array bays-y :initial-element bay-width)
+					       :h height
+					       :bareframe bare))
+	     (structure (make-structural-geometry2 number-of-storey height bay-width :designed designed)))
+	(multiple-value-bind (M xc yc) (mass-matrix geometry structure)
+	  (declare (ignore M))
+	  (with-reporting :verbose 
+	    (stiffness-matrix geometry structure :xc xc :yc yc :strut strut)))))
+
+
+    (defun simple-building-shapes (&key number-of-storey height bays-x bays-y bay-width (bare nil) (strut t) (designed t))
+      (let* ((geometry (make-building-geometry :number-of-storey number-of-storey
+					       :l (make-array bays-x :initial-element bay-width)
+					       :b (make-array bays-y :initial-element bay-width)
+					       :h height
+					       :bareframe bare))
+	     (structure (make-structural-geometry2 number-of-storey height bay-width :designed designed)))
+	(multiple-value-bind (M xc yc) (mass-matrix geometry structure)
+	  (let* ((K (stiffness-matrix geometry structure :xc xc :yc yc :strut strut))
+		 (mm (df-matrix m))
+		 (kk (df-matrix k)))
+	    (magicl:eig (magicl:@ (magicl:inv mm) kk))))))
+
+
+
+    (defun test2 () 
+      (simple-building :number-of-storey 2
+		       :height 3
+		       :bays-x 2 :bays-y 2
+		       :bay-width 3))
+
+
+    (let ((hashtable (make-hash-table :test #'equal)))
+      (defun simple-building-ftp* (&rest params &key number-of-storey height bays-x bays-y bay-width (bare nil) (strut t) (designed t))
+	(let ((ftp? (gethash params hashtable)))
+	  (if ftp?
+	      ftp?
+	      (setf (gethash params hashtable)
+		    (nth-value 2
+			       (simple-building :number-of-storey number-of-storey
+						:height height
+						:bays-x bays-x
+						:bays-y bays-y
+						:bay-width bay-width
+						:strut strut
+						:bare bare
+						:designed designed))))))
+      (defun simple-building-ftp*-clear ()
+	(setf hashtable (make-hash-table :test #'equal))))
+
+
+    (let ((hashtable (make-hash-table :test #'equal)))
+      (defun building (bg sg &key (strut t))
+	(multiple-value-bind (M xc yc) (mass-matrix bg sg)
+	  (timeperiod M (stiffness-matrix bg sg :xc xc :yc yc :strut strut))))
+
+      (defun building-ftp* (&rest params &key number-of-storey height l b (bare nil) (strut t) (designed t))
+	(let ((ftp? (gethash params hashtable)))
+	  (if ftp?
+	      ftp?
+	      (setf (gethash params hashtable)
+		    (nth-value 2 (building
+				  (make-building-geometry :number-of-storey number-of-storey
+							  :l l
+							  :b b
+							  :h height
+							  :bareframe bare)
+				  (make-structural-geometry2 number-of-storey height
+							     (max (reduce #'max l)
+								  (reduce #'max b))
+							     :designed designed)
+				  :strut strut))))))
+      (defun building-ftp*-clear ()
+	(setf hashtable (make-hash-table :test #'equal))))
+
+  #+end_src
+
+  #+RESULTS: simpleBuildings
+  : BUILDING-FTP*-CLEAR

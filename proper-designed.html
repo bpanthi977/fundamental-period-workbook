@@ -1,0 +1,775 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2020-07-14 Tue 17:58 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>&lrm;</title>
+<meta name="generator" content="Org mode" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+  /*]]>*/-->
+</style>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="content">
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org571e0c7">1. Data</a>
+<ul>
+<li><a href="#orgd11d6a5">1.1. Generate</a></li>
+<li><a href="#org452b7f0">1.2. Read</a></li>
+</ul>
+</li>
+<li><a href="#org7adcc53">2. Simple Fit</a>
+<ul>
+<li><a href="#org687f4f7">2.1. T = a*N<sup>b</sup>*h<sup>c</sup></a></li>
+<li><a href="#org3acd988">2.2. Simpler: T = a(Nh)<sup>b</sup></a></li>
+<li><a href="#org153681d">2.3. Simplest: T = a(N)<sup>b</sup></a></li>
+</ul>
+</li>
+<li><a href="#org68bd085">3. Plot</a></li>
+<li><a href="#org75b4e99">4. Sensitivity Analysis</a></li>
+<li><a href="#org5651012">5. Bay width</a>
+<ul>
+<li><a href="#org46a2727">5.1. Simple Bw a(Nh)<sup>b</sup> - c(N*bw)</a></li>
+<li><a href="#org7168014">5.2. A more detailed analysis on variation wrt <code>bw</code></a></li>
+</ul>
+</li>
+<li><a href="#orgb609629">6. Bx,By</a></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org571e0c7" class="outline-2">
+<h2 id="org571e0c7"><span class="section-number-2">1</span> Data</h2>
+<div class="outline-text-2" id="text-1">
+</div>
+<div id="outline-container-orgd11d6a5" class="outline-3">
+<h3 id="orgd11d6a5"><span class="section-number-3">1.1</span> Generate</h3>
+<div class="outline-text-3" id="text-1-1">
+<p>
+Generate data 
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(<span style="color: #99cc99;">defparameter</span> <span style="color: #ffcc66;">*bigdata*</span> nil)
+
+(<span style="color: #99cc99;">with-open-file</span> (stream (merge-pathnames <span style="color: #66cccc;">"bigdata.csv"</span> *img-path*) <span style="color: #cc99cc;">:direction</span> <span style="color: #cc99cc;">:output</span>
+                                                                   <span style="color: #cc99cc;">:if-exists</span> <span style="color: #cc99cc;">:supersede</span>)
+  (<span style="color: #99cc99;">let</span> (bigdata)
+    (<span style="color: #99cc99;">loop</span> for h from 3 to 4 by 0.5 do 
+      (<span style="color: #99cc99;">loop</span> for n from 1 to (truncate 40 h) by 1 do
+        (<span style="color: #99cc99;">loop</span> for bw from 3 to 6 by 0.5 do 
+          (<span style="color: #99cc99;">loop</span> for bx from 2 to 5 do
+            (<span style="color: #99cc99;">loop</span> for by from bx to 5 
+                  for exact = (simple-building-ftp* <span style="color: #cc99cc;">:number-of-storey</span> n
+                                                    <span style="color: #cc99cc;">:height</span> h
+                                                    <span style="color: #cc99cc;">:bays-x</span> bx
+                                                    <span style="color: #cc99cc;">:bays-y</span> by
+                                                    <span style="color: #cc99cc;">:bay-width</span> bw)
+                  do 
+                     (cl-csv:write-csv-row (list n h bw bx by exact)
+                                           <span style="color: #cc99cc;">:stream</span> stream)
+                     (push (list (list n h bw bx by) exact) bigdata))))))
+    (setf *bigdata* bigdata)))
+
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org452b7f0" class="outline-3">
+<h3 id="org452b7f0"><span class="section-number-3">1.2</span> Read</h3>
+<div class="outline-text-3" id="text-1-2">
+<div class="org-src-container">
+<pre class="src src-lisp">     (<span style="color: #99cc99;">let</span> (bigdata)
+       (cl-csv:read-csv (merge-pathnames <span style="color: #66cccc;">"bigdata.csv"</span> *img-path*)
+                        <span style="color: #cc99cc;">:data-map-fn</span> #'(<span style="color: #99cc99;">lambda</span> (data <span style="color: #6699cc;">&amp;key</span> csv-reader)
+                                         (<span style="color: #99cc99;">declare</span> (ignore csv-reader))
+                                         (<span style="color: #99cc99;">let</span> (( *read-default-float-format* 'double-float))
+                                           (read-from-string data)))
+                        <span style="color: #cc99cc;">:row-fn</span> #'(<span style="color: #99cc99;">lambda</span> (row)
+                                    (push (list (butlast row) (first (last row)))
+                                          bigdata)))
+       (setf *bigdata* (reverse bigdata)))
+
+nil
+</pre>
+</div>
+
+<pre class="example">
+NIL
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org7adcc53" class="outline-2">
+<h2 id="org7adcc53"><span class="section-number-2">2</span> Simple Fit</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+<a href="#org3acd988">Simpler: T = a(Nh)<sup>b</sup></a> is the best fit among the following 3. 
+</p>
+</div>
+<div id="outline-container-org687f4f7" class="outline-3">
+<h3 id="org687f4f7"><span class="section-number-3">2.1</span> T = a*N<sup>b</sup>*h<sup>c</sup></h3>
+<div class="outline-text-3" id="text-2-1">
+<div class="org-src-container">
+<pre class="src src-lisp" id="org3e9ab6c">(max-fit-%diff (<span style="color: #99cc99;">lambda</span> (x a b c)
+                 (<span style="color: #99cc99;">destructuring-bind</span> (n h bw bx by) x
+                   (* a
+                      (expt n b)
+                      (expt h c))))
+               '(1 1 1)
+               <span style="color: #cc99cc;">:save</span> '/simple-fit)
+</pre>
+</div>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-right">max %diff</td>
+<td class="org-right">R<sup>2</sup></td>
+<td class="org-right">rmse</td>
+<td class="org-left">Params</td>
+<td class="org-left">Covariance</td>
+</tr>
+
+<tr>
+<td class="org-right">24.345027</td>
+<td class="org-right">0.962490</td>
+<td class="org-right">0.039452</td>
+<td class="org-left">(0.023665 0.819698 1.159684)</td>
+<td class="org-left">(0.000188 0.012736 0.138739)</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-org3acd988" class="outline-3">
+<h3 id="org3acd988"><span class="section-number-3">2.2</span> Simpler: T = a(Nh)<sup>b</sup></h3>
+<div class="outline-text-3" id="text-2-2">
+<div class="org-src-container">
+<pre class="src src-lisp">(max-fit-%diff (<span style="color: #99cc99;">lambda</span> (x a b)
+                 (<span style="color: #99cc99;">destructuring-bind</span> (n h bw bx by) x
+                   (* a
+                      (expt (* n h) b)
+                      )))
+               '(1 1)
+               <span style="color: #cc99cc;">:save</span> '/simpler-fit)
+</pre>
+</div>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-right">max %diff</td>
+<td class="org-right">R<sup>2</sup></td>
+<td class="org-right">rmse</td>
+<td class="org-left">Params</td>
+<td class="org-left">Covariance</td>
+</tr>
+
+<tr>
+<td class="org-right">26.401998</td>
+<td class="org-right">0.953560</td>
+<td class="org-right">0.043888</td>
+<td class="org-left">(0.035808 0.821783)</td>
+<td class="org-left">(0.000186 0.012461)</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+The difference in R<sup>2</sup> of simple vs simpler formula is not much. And they explain almost 95% of the variation.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org153681d" class="outline-3">
+<h3 id="org153681d"><span class="section-number-3">2.3</span> Simplest: T = a(N)<sup>b</sup></h3>
+<div class="outline-text-3" id="text-2-3">
+<div class="org-src-container">
+<pre class="src src-lisp">(max-fit-%diff (<span style="color: #99cc99;">lambda</span> (x a b)
+                 (<span style="color: #99cc99;">destructuring-bind</span> (n h bw bx by) x
+                   (* a
+                      (expt (* n) b)
+                      )))
+               '(1 1)
+               <span style="color: #cc99cc;">:save</span> '/simplest-fit)
+</pre>
+</div>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-right">max %diff</td>
+<td class="org-right">R<sup>2</sup></td>
+<td class="org-right">rmse</td>
+<td class="org-left">Params</td>
+</tr>
+
+<tr>
+<td class="org-right">41.710725</td>
+<td class="org-right">0.867706</td>
+<td class="org-right">0.074075</td>
+<td class="org-left">(0.117749 0.730460)</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org68bd085" class="outline-2">
+<h2 id="org68bd085"><span class="section-number-2">3</span> Plot</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+Scatter Plot of <a href="#org3acd988">Simpler: T = a(Nh)<sup>b</sup></a> 
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(scatter-plot /simpler-fit <span style="color: #66cccc;">"dsimpler-fit.png"</span>)
+</pre>
+</div>
+
+
+<div class="figure">
+<p><img src="./img/dsimpler-fit.png" alt="dsimpler-fit.png" />
+</p>
+</div>
+
+<p>
+However with Nh only, the variation at higher T is very substantial. Hence other parameters must also be playing a great role in T.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org75b4e99" class="outline-2">
+<h2 id="org75b4e99"><span class="section-number-2">4</span> Sensitivity Analysis</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+Is it bw or bx,by that play greater role.
+</p>
+
+<p>
+Sensitivity of bw is max for h=4,bx=2,by=2.
+and descreases with decreasing n. 
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(sensitivity <span style="color: #cc99cc;">:bw</span> (filter-data <span style="color: #cc99cc;">:n</span> 10 <span style="color: #cc99cc;">:h</span> 4 <span style="color: #cc99cc;">:bx</span> 2 <span style="color: #cc99cc;">:by</span> 2))
+</pre>
+</div>
+
+<pre class="example">
+0\.057735705682670196d0
+</pre>
+
+
+<p>
+Sensitivity with bx doesn't change much with bw.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-lisp">(sensitivity <span style="color: #cc99cc;">:bx</span> (filter-data <span style="color: #cc99cc;">:bw</span> 6 <span style="color: #cc99cc;">:n</span> 10 <span style="color: #cc99cc;">:h</span> 4))
+</pre>
+</div>
+
+<pre class="example">
+0\.014193363042365683d0
+</pre>
+
+
+
+<p>
+Hence timeperiod is more sensitive to bay width than with bay counts
+</p>
+</div>
+</div>
+
+<div id="outline-container-org5651012" class="outline-2">
+<h2 id="org5651012"><span class="section-number-2">5</span> Bay width</h2>
+<div class="outline-text-2" id="text-5">
+<p>
+To incorporate bay width in the relation for fundamental time period. Lets see the variation of T with bw.
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(<span style="color: #99cc99;">with-plot</span> <span style="color: #66cccc;">"dbw.png"</span>
+  (setup <span style="color: #cc99cc;">:xlabel</span> <span style="color: #66cccc;">"bw"</span> <span style="color: #cc99cc;">:ylabel</span> <span style="color: #66cccc;">"tp"</span>)
+  (<span style="color: #99cc99;">loop</span> for n from 2 to 12 by 2 do
+    (ezplot (mapcar (<span style="color: #99cc99;">lambda</span> (d)
+                      (<span style="color: #99cc99;">destructuring-bind</span> (x tp) d
+                        (list (third x) tp)))
+                    (filter-data <span style="color: #cc99cc;">:n</span> n <span style="color: #cc99cc;">:bx</span> 2 <span style="color: #cc99cc;">:by</span> 2 <span style="color: #cc99cc;">:h</span> 4))
+            <span style="color: #cc99cc;">:title</span> (format nil <span style="color: #66cccc;">"n=~d"</span> n))))
+</pre>
+</div>
+
+
+<div class="figure">
+<p><img src="./img/dbw.png" alt="dbw.png" />
+</p>
+</div>
+
+<p>
+This shows that the time period decreases with bay width. and the rate of decrease/slope increases for higher N. 
+</p>
+</div>
+
+<div id="outline-container-org46a2727" class="outline-3">
+<h3 id="org46a2727"><span class="section-number-3">5.1</span> Simple Bw a(Nh)<sup>b</sup> - c(N*bw)</h3>
+<div class="outline-text-3" id="text-5-1">
+<div class="org-src-container">
+<pre class="src src-lisp">(max-fit-%diff (<span style="color: #99cc99;">lambda</span> (x a b c)
+                 (<span style="color: #99cc99;">destructuring-bind</span> (n h bw bx by) x
+                   (- (* a
+                         (expt (* n h) b))
+                      (* c n bw)
+                         )))
+               '(1 1 1)
+               <span style="color: #cc99cc;">:save</span> '/simpler-bw-fit)             
+</pre>
+</div>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-right">max %diff</td>
+<td class="org-right">R<sup>2</sup></td>
+<td class="org-right">rmse</td>
+<td class="org-left">Params</td>
+<td class="org-left">Covariance</td>
+</tr>
+
+<tr>
+<td class="org-right">21.060792</td>
+<td class="org-right">0.989629</td>
+<td class="org-right">0.020744</td>
+<td class="org-left">(0.041723 0.859469 0.004816)</td>
+<td class="org-left">(0.000164 0.007763 0.000007)</td>
+</tr>
+</tbody>
+</table>
+
+<div class="org-src-container">
+<pre class="src src-lisp">(scatter-plot /simpler-bw-fit <span style="color: #66cccc;">"dsimpler-bw-fit.png"</span>
+              (filter-data ))
+</pre>
+</div>
+
+
+<div id="orgfdc4af7" class="figure">
+<p><img src="./img/dsimpler-bw-fit.png" alt="dsimpler-bw-fit.png" />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org7168014" class="outline-3">
+<h3 id="org7168014"><span class="section-number-3">5.2</span> A more detailed analysis on variation wrt <code>bw</code></h3>
+<div class="outline-text-3" id="text-5-2">
+<div class="org-src-container">
+<pre class="src src-lisp">(table 4
+  (row <span style="color: #66cccc;">"N"</span> <span style="color: #66cccc;">"Slope"</span> <span style="color: #66cccc;">"C"</span> <span style="color: #66cccc;">"R^2"</span>)
+  (<span style="color: #99cc99;">loop</span> for n from 2 to 10 by 1 
+        for data = (mapcar (<span style="color: #99cc99;">lambda</span> (d)
+                             (<span style="color: #99cc99;">destructuring-bind</span> (x tp) d
+                               (list (third x) tp)))
+                           (filter-data <span style="color: #cc99cc;">:n</span> n <span style="color: #cc99cc;">:bx</span> 2 <span style="color: #cc99cc;">:by</span> 2 <span style="color: #cc99cc;">:h</span> 4))
+        do 
+           (<span style="color: #99cc99;">multiple-value-bind</span> (_ slope c r) (linear-fit <span style="color: #cc99cc;">:data</span> data)
+             (row n slope c r)))
+  (plot-table <span style="color: #cc99cc;">:file</span> <span style="color: #66cccc;">"ddSlope-vs-N.png"</span> <span style="color: #cc99cc;">:title</span> <span style="color: #66cccc;">"Slope vs N"</span>))
+</pre>
+</div>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-right">N</td>
+<td class="org-right">Slope</td>
+<td class="org-right">C</td>
+<td class="org-right">R<sup>2</sup></td>
+</tr>
+
+<tr>
+<td class="org-right">2</td>
+<td class="org-right">-0.0022</td>
+<td class="org-right">0.1882</td>
+<td class="org-right">0.6370</td>
+</tr>
+
+<tr>
+<td class="org-right">3</td>
+<td class="org-right">-0.0038</td>
+<td class="org-right">0.2799</td>
+<td class="org-right">0.6970</td>
+</tr>
+
+<tr>
+<td class="org-right">4</td>
+<td class="org-right">-0.0100</td>
+<td class="org-right">0.3893</td>
+<td class="org-right">0.7627</td>
+</tr>
+
+<tr>
+<td class="org-right">5</td>
+<td class="org-right">-0.0198</td>
+<td class="org-right">0.5084</td>
+<td class="org-right">0.8403</td>
+</tr>
+
+<tr>
+<td class="org-right">6</td>
+<td class="org-right">-0.0312</td>
+<td class="org-right">0.6301</td>
+<td class="org-right">0.9400</td>
+</tr>
+
+<tr>
+<td class="org-right">7</td>
+<td class="org-right">-0.0391</td>
+<td class="org-right">0.7297</td>
+<td class="org-right">0.9397</td>
+</tr>
+
+<tr>
+<td class="org-right">8</td>
+<td class="org-right">-0.0426</td>
+<td class="org-right">0.8206</td>
+<td class="org-right">0.9353</td>
+</tr>
+
+<tr>
+<td class="org-right">9</td>
+<td class="org-right">-0.0528</td>
+<td class="org-right">0.9279</td>
+<td class="org-right">0.9678</td>
+</tr>
+
+<tr>
+<td class="org-right">10</td>
+<td class="org-right">-0.0556</td>
+<td class="org-right">0.9964</td>
+<td class="org-right">0.9271</td>
+</tr>
+</tbody>
+</table>
+
+
+<div class="figure">
+<p><img src="./img/ddSlope-vs-N.png" alt="ddSlope-vs-N.png" />
+</p>
+</div>
+
+<p>
+Hence the slope shows almost linear variation with Number of Storeys. Hence, Slope = c * N is appropriate
+which implies correction = - c * N * bw 
+and finally T = a(Nh)<sup>b</sup> - c * N * bw (as in <a href="#org46a2727">Simple Bw a(Nh)<sup>b</sup> - c(N*bw)</a> )
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgb609629" class="outline-2">
+<h2 id="orgb609629"><span class="section-number-2">6</span> Bx,By</h2>
+<div class="outline-text-2" id="text-6">
+<div class="org-src-container">
+<pre class="src src-lisp">(<span style="color: #99cc99;">with-plot</span> <span style="color: #66cccc;">"dbx.png"</span>
+  (setup <span style="color: #cc99cc;">:xlabel</span> <span style="color: #66cccc;">"bx"</span> <span style="color: #cc99cc;">:ylabel</span> <span style="color: #66cccc;">"tp"</span>)
+  (<span style="color: #99cc99;">loop</span> for n from 2 to 12 by 2 do
+    (ezplot (mapcar (<span style="color: #99cc99;">lambda</span> (d)
+                      (<span style="color: #99cc99;">destructuring-bind</span> (x tp) d
+                        (list (fourth x) tp)))
+                    (filter-data <span style="color: #cc99cc;">:n</span> n <span style="color: #cc99cc;">:bw</span> 6 <span style="color: #cc99cc;">:by</span> 5 <span style="color: #cc99cc;">:h</span> 4))
+            <span style="color: #cc99cc;">:title</span> (format nil <span style="color: #66cccc;">"n=~d"</span> n))))
+</pre>
+</div>
+
+
+<div class="figure">
+<p><img src="./img/dbx.png" alt="dbx.png" />
+</p>
+</div>
+
+<p>
+This shows that T is almost constant with bx. Which was also indicated by smaller sensitivity of tp with bx.
+</p>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="date">Created: 2020-07-14 Tue 17:58</p>
+<p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>

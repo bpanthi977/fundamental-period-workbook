@@ -1263,7 +1263,7 @@
   | 20.0000000000 | 19.0000000000 | 0.2849855878 |
   | 20.0000000000 | 20.0000000000 | 0.2849074474 |
 
-	 #+begin_src gnuplot :var data=bxby1 :results file :file contour2.png
+	 #+begin_src gnuplot :var data=bxby1 :results file :file ./img/contour2.png
  # set terminal pngcairo  transparent enhanced font "arial,10" fontscale 1.0 size 600, 400 
  # set output 'contours.1.png'
  set pm3d map 
@@ -1293,7 +1293,7 @@
 	
 	 #+Name: BayWidthContour
 	 #+RESULTS:
-	 [[file:contour2.png]]
+	 [[file:./img/contour2.png]]
 
 *** Combined 
 **** Ratio? No
@@ -1852,14 +1852,16 @@
 ** Bay Width for Hight Bx By 
    #+begin_src lisp :results file 
      (table nil 
-       (loop for bw from 10 to 40 
+       (loop for bw from 3 to 40
+	for designed = (<= bw 6)
 	     for tp =  (nth-value 2 
 				  (simple-building :number-of-storey 5
 						   :height 3
 						   :bays-x 20
 						   :bays-y 20
 						   :bay-width bw
-						   :strut t))
+						   :strut t
+						   :designed designed))
 	     collect (row bw tp))
        (plot-table :file "bw1.png"))
    #+end_src
@@ -2478,24 +2480,25 @@
  Generate data 
   #+begin_src lisp  :results silent  :exports code  
     (defparameter *bigdata* nil)
+
     (with-open-file (stream (merge-pathnames "bigdata.csv" *img-path*) :direction :output
-									  :if-exists :supersede)
-         (let (bigdata)
-	 (loop for h from 2.5 to 4 by 0.5 do 
-	   (loop for n from 1 to (truncate 40 h) by 1 do
-	     (loop for bw from 3 to 7 by 0.5 do 
-	       (loop for bx from 2 to 5 do
-		 (loop for by from bx to 5 
-		       for exact = (simple-building-ftp* :number-of-storey n
-							 :height h
-							 :bays-x bx
-							 :bays-y by
-							 :bay-width bw)
-		       do 
-			  (cl-csv:write-csv-row (list n h bw bx by exact)
-						:stream stream)
-			  (push (list (list n h bw bx by) exact) bigdata))))))
-	 (setf *bigdata* bigdata)))
+								       :if-exists :supersede)
+      (let (bigdata)
+	(loop for h from 3 to 4 by 0.5 do 
+	  (loop for n from 1 to (truncate 40 h) by 1 do
+	    (loop for bw from 3 to 6 by 0.5 do 
+	      (loop for bx from 2 to 5 do
+		(loop for by from bx to 5 
+		      for exact = (simple-building-ftp* :number-of-storey n
+							:height h
+							:bays-x bx
+							:bays-y by
+							:bay-width bw)
+		      do 
+			 (cl-csv:write-csv-row (list n h bw bx by exact)
+					       :stream stream)
+			 (push (list (list n h bw bx by) exact) bigdata))))))
+	(setf *bigdata* bigdata)))
 
     #+end_src
 
@@ -2518,7 +2521,8 @@ nil
    #+RESULTS:
    : NIL
 
-* Fittings 
+* Fittings
+  
 ** big  fit 
  Biggest regression fitting!! 
 
@@ -2540,14 +2544,15 @@ nil
 
  #+Name:bigfitparams
  #+RESULTS:
- |               Parameter |         Confidence +/- |
- |  -1.2828158315110436d-4 | 0.004697467217150748d0 |
- |  0.025765777808905314d0 | 0.025336618476049542d0 |
- |  0.001581608568009055d0 |   7.425643320662065d-4 |
- | -0.013425780639467524d0 | 0.054568266872417816d0 |
- |    1.0095695872246242d0 |   0.2913118044360126d0 |
- |               chisq/dof |   1.5995076426057973d0 |
- |                     R^2 |   0.9920604312231578d0 |
+ |               Parameter |          Confidence +/- |
+ | 0.0030081315858453226d0 |  0.014641189282819171d0 |
+ |  0.022518441800524716d0 |   0.06421965418382923d0 |
+ |  0.001089776716595172d0 | 0.0042825309547698705d0 |
+ |  -0.05570050079467751d0 |   0.16181668618151993d0 |
+ |     1.047368107733279d0 |    0.6504715663521525d0 |
+ |               chisq/dof |    1.3664097581172654d0 |
+ |                     R^2 |    0.9810702472252831d0 |
+ |                    rmse |   0.02803813663812447d0 |
 
 *** Scatter Plot
 
@@ -2596,7 +2601,7 @@ nil
     #+end_src 
 
  #+RESULTS:
- : 24\.389604211517113d0
+ : 30\.44925180970494d0
 
  So, 
 
@@ -2607,10 +2612,6 @@ nil
  + $a = 0.0011986135648457729 w + 0.020683094007570582$
  + $b = 0.0017003213576228672 w^2 -0.03881567937728688 w + 1.07997568167311$
  + $w$ is bay width 
-
- # Local Variables:
- # org-export-use-babel: nil
- # End:
 
 ** Another fitting 
 
@@ -2629,14 +2630,15 @@ nil
  #+end_src
 
  #+RESULTS:
- |               Parameter |         Confidence +/- |
- |   -8.530047018275187d-4 | 0.013080038250312039d0 |
- |   0.02940597800417694d0 |  0.07162296969507422d0 |
- | 0.0014097311410013946d0 | 0.002551693404344435d0 |
- | -0.009908458981380455d0 |  0.15127390650671432d0 |
- |    0.9852551371024932d0 |   0.8172888739290516d0 |
- |               chisq/dof |  0.30433806037043326d0 |
- |                     R^2 |   0.9970028221774895d0 |
+ |                Parameter |         Confidence +/- |
+ |   0.002365501280584152d0 |  0.02328570539619514d0 |
+ |    0.02134153658656188d0 |  0.10306717716132482d0 |
+ | -0.0017113022901375403d0 | 0.007041190246281368d0 |
+ |   -0.02498146188472069d0 |   0.2781954356352371d0 |
+ |     1.0174633900168026d0 |     1.13632780382947d0 |
+ |                chisq/dof |   0.3780205895388676d0 |
+ |                      R^2 |     0.99580488772504d0 |
+ |                     rmse |  0.01433913827595135d0 |
 
 ** Simple Power Formula 
 T = a (Nh)^b 
@@ -2651,10 +2653,11 @@ T = a (Nh)^b
  #+RESULTS:
  | Equation =            |                  a*x^b |
  | Parameter             |         Confidence +/- |
- | 0.03415927637784191d0 | 0.010126006602171589d0 |
- | 0.8131438130928438d0  |  0.08690063277352969d0 |
- | chisq/dof             |   3.2783309445378155d0 |
- | R^2                   |   0.9336717886816157d0 |
+ | 0.03580825339252097d0 | 0.013631560797204557d0 |
+ | 0.821782877345787d0   |  0.11162838255075962d0 |
+ | chisq/dof             |   2.1401964965518347d0 |
+ | R^2                   |   0.9535602011499708d0 |
+ | rmse                  |  0.04388819538097299d0 |
 
 
  
@@ -2665,8 +2668,8 @@ T = a (Nh)^b
     #+end_src
 
     #+RESULTS:
-    : 33\.88282667480804d0
-   
+    : 39\.61068860627242d0
+    
 *** plot 
 
   #+begin_src lisp  :results value   :exports code  :var params=simplefitparams
@@ -2695,8 +2698,7 @@ T = a (Nh)^b
    #+RESULTS: checkFitw
    [[file:img/fullPlot1.png]]
 
-   #+RESULTS: checkFit
-   [[file:img/fullPlot1.png]]
+ 
 
   
 *** scatter plot 
@@ -2706,12 +2708,13 @@ T = a (Nh)^b
 		  "scatter-simple.csv"))
    #+end_src
   
- #+Call: scatterPlot(file="scatter-simple.csv") :results file :file scatter-simple.png
+ #+Call: scatterPlot(file="scatter-simple.csv") :results file :file img/scatter-simple.png
 
  #+RESULTS:
- [[file:scatter-simple.png]]
+ [[file:img/scatter-simple.png]]
 
 ** Variations at higher Nh~40
+   
 *** data 
 There is lots of variation in timeperiod for higher Nh~40 
 #+begin_src lisp 
@@ -2726,10 +2729,10 @@ There is lots of variation in timeperiod for higher Nh~40
 : *NH40*
 
    #+begin_src lisp 
-     (defparameter *n16nh40* (loop for d in *bigdata*
+     (defparameter *n13nh40* (loop for d in *bigdata*
 				  for (x tp) = d
 				  for (n h ._) = x
-				  when (and (= (* n h) 40) (= n 16))
+				  when (and (= (* n h) 39) (= n 13))
 				    collect d))
      (defparameter *n10nh40* (loop for d in *bigdata*
 				  for (x tp) = d
@@ -2768,7 +2771,7 @@ There is lots of variation in timeperiod for higher Nh~40
     (setup)
     (let ((data (mapcar (lambda (d)
 			  (list (third (first d)) (second d)))
-			*n16nh40*)))
+			(filter-data :n 13 :h 3 :bx 4 :by 4))))
       (ezplot data 
 	      :title "x=bw at nh=40, y=tp"
 	      :with '(:points))))
@@ -2784,9 +2787,9 @@ linear variation with tp. but tere must be a lot of unexplained variance.
 #+end_src
 
 #+RESULTS:
-| Slope                         | -0.041315306726689247d0 |
-| Intercept                     |    0.8594413721337439d0 |
-| R^2 (Coeff. of Determination) |    0.3717438520002681d0 |
+| Slope                         | -0.06377421072090968d0 |
+| Intercept                     |   0.8587237171441899d0 |
+| R^2 (Coeff. of Determination) |   0.9056889250720995d0 |
 
 70% variance is explained by bay width.
 
@@ -2834,9 +2837,9 @@ shows slightly linear variation with minimum bx
 #+end_src
 
 #+RESULTS:
-| Slope                         | 0.02002696311651236d0 |
-| Intercept                     |  0.8986320475193129d0 |
-| R^2 (Coeff. of Determination) | 0.26029315205914677d0 |
+| Slope                         | 0.014509063674422914d0 |
+| Intercept                     |  0.48181640884194976d0 |
+| R^2 (Coeff. of Determination) |  0.02812670744607207d0 |
 
 26% of the variance is explained by min(bx,by)
 
@@ -2852,12 +2855,12 @@ in total bw and min(bx,by) explains 96% variance
     #+end_src
 
     #+RESULTS:
-    |               Parameter |        Confidence +/- |
-    |    0.8342579636053256d0 |  0.5270462766947304d0 |
-    |  0.025393453519831688d0 |  0.0816496580927727d0 |
-    | 0.0058382229269585695d0 | 0.10540925533894595d0 |
-    |               chisq/dof | 0.19719788461973298d0 |
-    |                     R^2 |  0.7195893262363278d0 |
+    |              Parameter |        Confidence +/- |
+    |   0.8215373707507904d0 |  0.5270462766947293d0 |
+    | -0.06377421072090987d0 | 0.08164965809277264d0 |
+    | 0.012395448797801127d0 |  0.1054092553389459d0 |
+    |              chisq/dof | 0.22293438851607592d0 |
+    |                    R^2 |  0.9262177756741435d0 |
 
 but the multilinear regression explains only 72% of the variance.
 
@@ -2873,12 +2876,12 @@ and for n10nh40:
 #+end_src
 
 #+RESULTS:
-|               Parameter |        Confidence +/- |
-|    1.0160990235355851d0 |  0.5270462766947308d0 |
-| -0.019637616581576787d0 | 0.08164965809277289d0 |
-|    -5.79143189838055d-4 | 0.10540925533894606d0 |
-|               chisq/dof | 0.19494817085898813d0 |
-|                     R^2 |  0.6036228493926368d0 |
+|              Parameter |        Confidence +/- |
+|   1.0281655240135703d0 |  0.5270462766947297d0 |
+| -0.05548371866900452d0 |  0.0816496580927726d0 |
+| 0.004044756441545705d0 | 0.10540925533894617d0 |
+|              chisq/dof | 0.20771185618956714d0 |
+|                    R^2 |  0.9147992552079517d0 |
 
 The parameter values are slightly different. and explained variance is 60%
 
@@ -2891,37 +2894,21 @@ For nh40
 #+end_src
 
 #+RESULTS:
-|               Parameter |        Confidence +/- |
-|    1.0160990235355851d0 |  0.5270462766947308d0 |
-| -0.019637616581576787d0 | 0.08164965809277289d0 |
-|    -5.79143189838055d-4 | 0.10540925533894606d0 |
-|               chisq/dof | 0.19494817085898813d0 |
-|                     R^2 |  0.6036228493926368d0 |
+|              Parameter |        Confidence +/- |
+|   1.0281655240135703d0 |  0.5270462766947297d0 |
+| -0.05548371866900452d0 |  0.0816496580927726d0 |
+| 0.004044756441545705d0 | 0.10540925533894617d0 |
+|              chisq/dof | 0.20771185618956714d0 |
+|                    R^2 |  0.9147992552079517d0 |
 
 *** custom
-    #+begin_src lisp 
-      (defun data(&key n h bw bx by)
-	(loop for d in *bigdata*
-	      for (x tp) = d
-	      for (nn hh bwbw bxbx byby) = x
-	      when (and (or (not n) (= n nn))
-			(or (not h) (= h hh))
-			(or (not bw) (= bw bwbw))
-			(or (not bx) (= bx bxbx))
-			(or (not by) (= by byby)))
-		collect d))
-    #+end_src
-
-    #+RESULTS:
-    : DATA
-
     #+begin_src lisp :results file 
       (with-plot "n16nh40-custom.png"
 	(setup)
 	(let ((data (mapcar (lambda (d)
 			      (destructuring-bind (n h bw bx by) (first d)
 				(list (/ (first (cs-and-ec n h bw)) n) (second d))))
-			    (data :bx 2 :bw 4 :h 2.5 :by 3))))
+			    (filter-data :bx 2 :bw 4 :h 2.5 :by 3))))
 	  (ezplot data 
 		  :title "x=bw at nh=40, y=tp"
 		  :with '(:points))))
@@ -2931,32 +2918,19 @@ For nh40
 [[file:./img/n16nh40-custom.png]]
 
 ** aN^b h^c
- #+begin_src lisp  :exports code
-   (fit (lambda (x a b c)
-	  (* a
-	     (expt (first x) b)
-	     (expt (second x) c)))
-	'(1 1 1)
-	:data *bigdata*)
-  #+end_src 
+    #+begin_src lisp 
+      (max-fit-%diff (lambda (x a b c)
+		       (destructuring-bind (n h bw bx by) x 
+			 (* a (expt n b) (expt h c))))
+		     '(1 1 1))	  
 
-  #+Name:fitparams123
+  #+end_src
+
   #+RESULTS:
-  |             Parameter |         Confidence +/- |
-  | 0.02756792258506322d0 | 0.010111856410228395d0 |
-  |   0.812898902606503d0 |  0.08784735948740999d0 |
-  |  1.0022181515827586d0 |   0.2064944327324176d0 |
-  |             chisq/dof |   3.1219943582387777d0 |
-  |                   R^2 |   0.9398470504536163d0 |
-
-  #+begin_src lisp :var params=fitparams123
-    (destructuring-bind (a b c) (fit-params params)
-      (max-%diff  (lambda (x) (* a (expt (first x) b) (expt (second x) c)))))
- #+end_src 
-
- #+RESULTS:
- : 34\.85976912117027d0
-
+  | max %diff |      R^2 |     rmse | Params                       |
+  | 24.345027 | 0.962490 | 0.039452 | (0.023665 0.819698 1.159684) |
+  
+ 
 *** scatter plot 
  #+begin_src lisp  :results silent  :exports code  :var params=fitparams123
   (destructuring-bind (a b c) (fit-params params)
@@ -2984,14 +2958,14 @@ For nh40
 
   #+Name:fitparams124
   #+RESULTS:
-  |              Parameter |         Confidence +/- |
-  |  0.05321579033363873d0 | 0.030282906291672802d0 |
-  |   0.6669160279735613d0 |  0.12432296114848311d0 |
-  |   0.8295520304254036d0 |  0.21516252498794852d0 |
-  | -0.01873860956807513d0 | 0.010785779180488668d0 |
-  | 0.006540414097982228d0 | 0.014325568799149015d0 |
-  |              chisq/dof |    2.577579669964622d0 |
-  |                    R^2 |   0.9589968808690665d0 |
+  |               Parameter |         Confidence +/- |
+  |   0.05982615664899463d0 | 0.031100505683041638d0 |
+  |    0.5740070036405676d0 |  0.10350629039326772d0 |
+  |    0.9572693354900365d0 |  0.20847758199697541d0 |
+  | -0.025280962508710123d0 |   0.0110175384414195d0 |
+  |   0.00549389013980429d0 |  0.01450086349832471d0 |
+  |               chisq/dof |   2.5136843544807763d0 |
+  |                     R^2 |   0.9599311275155047d0 |
 
   #+begin_src lisp :var params=fitparams124
     (destructuring-bind (a b c d e) (fit-params params)
@@ -3005,7 +2979,7 @@ For nh40
  #+end_src 
 
  #+RESULTS:
- : 2986\.7427312049003d0
+ : 4810\.613422202646d0
 
 *** scatter plot 
  #+begin_src lisp  :results silent  :exports code  :var params=fitparams124
@@ -3031,17 +3005,17 @@ Not much better
 d=sqrt(bw * min(bx,by))
  #+begin_src lisp 
    (max-fit-%diff (lambda (x a b)
-	  (destructuring-bind (n h bw bx by) x 
-	    (/ (* a
-		  (expt (* n h) b))
-	       (sqrt (* bw (min bx by))))))
-	  '(1 1))	  
+		    (destructuring-bind (n h bw bx by) x 
+		      (/ (* a
+			    (expt (* n h) b))
+			 (sqrt (* bw (min bx by))))))
+		  '(1 1))	  
 
   #+end_src 
 
   #+RESULTS:
-  | max %diff |      R^2 | Params              |
-  | 79.848281 | 0.796836 | (0.117704 0.817729) |
+  | max %diff |      R^2 |     rmse | Params              |
+  | 63.668983 | 0.824017 | 0.085435 | (0.118464 0.826076) |
 
 ** a(Nh)^b + c* d'^d
 d'=sqrt(bw * min(bx,by))
@@ -3055,8 +3029,8 @@ d'=sqrt(bw * min(bx,by))
   #+end_src 
 
   #+RESULTS:
-  |  max %diff |      R^2 | Params                                 |
-  | 225.616221 | 0.938397 | (0.050271 0.722514 -0.007463 0.653467) |
+  |  max %diff |      R^2 |     rmse | Params                                 |
+  | 139.762541 | 0.958627 | 0.041442 | (0.058787 0.706103 -0.016855 0.504371) |
 
 ** a(Nh)^b + c* bw^d
 d'=sqrt(bw * min(bx,by))
@@ -3070,8 +3044,8 @@ d'=sqrt(bw * min(bx,by))
   #+end_src 
 
   #+RESULTS:
-  | max %diff |      R^2 | Params                                  |
-  | 60.749567 | 0.958553 | (0.027307 0.866459 24.332878 -5.027566) |
+  | max %diff |      R^2 | Params                                 |
+  | 63.679830 | 0.910987 | (0.028349 0.842303 1.842629 -2.574389) |
 
   Previous Results (for incorrect beam thickness)
   | max %diff |      R^2 | Params                                |
@@ -3091,11 +3065,15 @@ T =a Nh + c * bw^d
 
   #+RESULTS:
   | max %diff |      R^2 | Params                        |
-  | 61.589900 | 0.954648 | (0.016211 1.064157 -1.982970) |
+  | 66.427348 | 0.905572 | (0.015324 0.764077 -1.507190) |
 
   #+begin_src lisp 
   
   #+end_src
+
+  #+RESULTS:
+  : NIL
+
 ** a N^b h^c cw^d
    #+begin_src lisp
      (defun cw (x)
@@ -3113,12 +3091,12 @@ T =a Nh + c * bw^d
    #+Name: fitparamscw
    #+RESULTS:
    |              Parameter |         Confidence +/- |
-   | 0.013223141937445157d0 | 0.005907176485873817d0 |
-   |    0.919735151201254d0 |  0.09366610584901972d0 |
-   |   1.1353848767340402d0 |  0.21184625702367824d0 |
-   |  -0.4658869811903956d0 |   0.1615704937010952d0 |
-   |              chisq/dof |   1.4039966051222985d0 |
-   |                    R^2 |   0.9878346442086318d0 |
+   | 0.011016882464776922d0 | 0.004793061767459705d0 |
+   |   0.9329981620818296d0 |  0.10107023095800388d0 |
+   |    1.186328434734454d0 |   0.2043264252508564d0 |
+   |   -0.549207167854127d0 |   0.1761555354930787d0 |
+   |              chisq/dof |   1.3835373553057353d0 |
+   |                    R^2 |   0.9878614330845481d0 |
 
     #+begin_src lisp  :results value   :exports code  :var params=fitparamscw
     (destructuring-bind (a b c d) (fit-params  params)
@@ -3130,39 +3108,7 @@ T =a Nh + c * bw^d
     #+end_src
 
     #+RESULTS:
-    : 20\.631860299405698d0
-
-     #+begin_src lisp  :results value   :exports code  :var params=fitparamscw
-       (destructuring-bind (a b c d) (fit-params params)
-	 (fit-check-csv (lambda (x)
-		  (* a
-		     (expt (first x) b)
-		     (expt (second x) c)
-		     (expt (cw x) d)))
-			(lambda (x)
-		  (* a
-		     (expt (first x) b)
-		     (expt (second x) c)
-		     (expt (cw x) d)))
-			"fullPlot2.csv"))
-    #+end_src
-
-   #+RESULTS:
-   : NIL
-
-#+begin_src gnuplot :var x="Nh" y="Fundamental Timeperiod" csv="fullPlot2.csv" :results file :file "img/fullPlot2.png"
-     set terminal png 
-     set output "img/fullPlot2.png"
-     cd "./img/"
-     set datafile separator ","
-     set terminal png font "Times New Roman, 30pt" size 1500,1100
-     set xlabel x
-     set ylabel y
-     plot csv with point title "data", csv using 1:3 with line title "fit"
-   #+end_src
-
-   #+RESULTS:
-   [[file:img/fullPlot2.png]]
+    : 20\.425618076488785d0
 
 *** scatter plot 
  #+begin_src lisp  :results silent  :exports code  :var params=fitparamscw
@@ -3179,7 +3125,53 @@ T =a Nh + c * bw^d
 
  #+RESULTS:
  [[file:scattercw.png]]
-  
+
+** a N^b h^c cw^d (Removing bay width variation (bw=5))
+   #+begin_src lisp
+     (defparameter *bw5* (filter-data :bw 5))
+     (table 4 (loop for bw from 3 to 7 by 0.5 do
+       (multiple-value-bind (params r^2)
+	   (fit::fit  (lambda (x a b c d)
+			    (* a
+			       (expt (first x) b)
+			       (expt (second x) c)
+			       (expt (cw x) d)))
+			  (filter-data :bw bw)
+			  '(1 1 1 1)
+			  t
+			  nil
+			  )
+	 (row bw params r^2))))
+   #+end_src
+
+   #+Name: fitparamscw
+   #+RESULTS:
+   | 3.0000 | (0.0092 0.9703 1.1069 -0.7144) | 0.9943 |
+   | 3.5000 | (0.0079 0.9989 1.1682 -0.7577) | 0.9943 |
+   | 4.0000 | (0.0069 1.0287 1.2025 -0.8062) | 0.9932 |
+   | 4.5000 | (0.0069 1.0386 1.1813 -0.8256) | 0.9911 |
+   | 5.0000 | (0.0081 1.0109 1.1686 -0.7366) | 0.9869 |
+   | 5.5000 | (0.0078 1.0167 1.1775 -0.7838) | 0.9857 |
+   | 6.0000 | (0.0095 0.9721 1.1780 -0.6564) | 0.9813 |
+   | 6.5000 | (0.0070 1.0521 1.1693 -0.9277) | 0.9810 |
+   | 7.0000 | (0.0081 1.0190 1.1679 -0.8227) | 0.9778 |
+
+   #+begin_src lisp :results file 
+     (with-plot "custom.png"
+       (setup)
+       (let* ((count 0)
+	      (data (mapcar (lambda (d)
+			 (destructuring-bind (n h bw bx by) (first d)
+			   (list h (second d))))
+			    (filter-data :bw 4 :n 4))))
+	 (ezplot data 
+		 :title "x=bw at nh=40, y=tp"
+		 :with '(:points))))
+#+end_src
+
+#+RESULTS:
+[[file:./img/custom.png]]
+
 ** NBC 105 
 #+begin_src lisp 
   (max-%diff (lambda (x)
@@ -3189,7 +3181,7 @@ T =a Nh + c * bw^d
   #+end_src 
 
   #+RESULTS:
-  : 59\.15579464174792d0
+  : 57\.68047955682242d0
 
 * Notes 
 + For lower bay width (~3) T vs H is not exactly linear. but for higher bay widths it is exactly linear.  In all cases linear fit works reasonably well.[[*Conclusion][(.)]]
@@ -3202,6 +3194,6 @@ T =a Nh + c * bw^d
 + at high Nh, timeperiod varies linearly with bay width and min(bx,by) [[*multilinear regression][(.)]]
 
 
-
-
-
+Local Variables:
+org-export-use-babel: nil
+End:
