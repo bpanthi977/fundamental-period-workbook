@@ -24,12 +24,12 @@ formula from  [[/mnt/Data/Documents/Civil Engineering/Books and Standards/Indian
     (defparameter *%steel* 0.015)
 
     (defun P (N h bw cw)
-      (with-slots (beam-height slab-thickness wall-thickness floor-loads) *sg*
+      (with-slots (beam-thickness slab-thickness wall-thickness floor-loads) *sg*
 	(let*
 	    ((beam-width 0.3) ;; or beam-width = cw
 	     (wall-length (/ (- bw cw) 2))
-	     (wall   (* 4 wall-length wall-thickness  (- h beam-height) 20))
-	     (beam   (* 4 wall-length beam-width      (- beam-height slab-thickness)          25))
+	     (wall   (* 4 wall-length wall-thickness  (- h beam-thickness) 20))
+	     (beam   (* 4 wall-length beam-width      (- beam-thickness slab-thickness)          25))
 	     (slab   (*   bw          bw              slab-thickness       25))
 	     (column (*   cw          cw              (- h slab-thickness) 25))
 	     (loads  (* floor-loads (- (* bw bw) (* cw cw) (* 4 wall-length wall-thickness)))))

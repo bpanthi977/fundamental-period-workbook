@@ -64,20 +64,41 @@ nil
 
 ** Simpler: T = a(Nh)^b
   #+begin_src lisp  :exports both
-    (max-fit-%diff (lambda (x a b)
+  (max-fit-%diff (lambda (x a b)
 		     (destructuring-bind (n h bw bx by) x
 		       (* a
 			  (expt (* n h) b)
 			  )))
-		   '(1 1)
+		   '(0.04 0.78)
 		   :save '/simpler-fit)
   #+end_src
 
   #+RESULTS:
   | max %diff |      R^2 |     rmse | Params              | Covariance          |
-  | 31.978769 | 0.938886 | 0.066247 | (0.039984 0.784127) | (0.000104 0.004558) |
+  | 31.978735 | 0.938886 | 0.066247 | (0.039984 0.784127) | (0.000104 0.004558) |
 
   The difference in R^2 of simple vs simpler formula is not much. And they explain almost 95% of the variation.
+  
+  Tweaked coefficients 
+  #+begin_src lisp 
+  (max-fit-%diff (lambda (x a)
+		     (destructuring-bind (n h bw bx by) x
+		       (* 0.04 
+			  (expt (* n h) 0.78)
+			  )))
+		   '(1)
+		   :save '/simpler-fit-tweaked)
+  #+end_src
+
+  #+RESULTS:
+  | max %diff |      R^2 |     rmse | Params     | Covariance |
+  | 30.909973 | 0.937747 | 0.066852 | (1.000000) | (0.000000) |
+  #+begin_src lisp :results file 
+  (scatter-plot /simpler-fit-tweaked "dsimpler-fit-tweaked.png")
+  #+end_src
+
+  #+RESULTS:
+  [[file:./img/dsimpler-fit-tweaked.png]]
 
 ** Simplest: T = a(N)^b
   #+begin_src lisp  :exports both
@@ -161,7 +182,7 @@ Scatter Plot of [[*Simpler: T = a(Nh)^b][Simpler: T = a(Nh)^b]]
   To incorporate bay width in the relation for fundamental time period. Lets see the variation of T with bw.
   #+begin_src lisp :results file :exports both
     (with-plot "dbw.png"
-      (setup :xlabel "bw" :ylabel "tp")
+      (setup :xlabel "B_s" :ylabel "T")
       (loop for n from 2 to 16 by 2 do
 	(ezplot (mapcar (lambda (d)
 			  (destructuring-bind (x tp) d
@@ -200,6 +221,27 @@ Scatter Plot of [[*Simpler: T = a(Nh)^b][Simpler: T = a(Nh)^b]]
   #+RESULTS: 
   [[file:./img/dsimpler-bw-fit.png]]
 
+  #+begin_src lisp 
+  (max-fit-%diff (lambda (x a )
+		     (destructuring-bind (n h bw bx by) x
+		       (- (* 0.05
+			     (expt (* n h) 0.82))
+			  (* 0.006 n bw)
+			     )))
+		   '(1)
+		   :save '/simpler-bw-fit-tweaked)
+  #+end_src
+
+  #+RESULTS:
+  | max %diff |      R^2 |     rmse | Params     | Covariance |
+  | 29.612379 | 0.987892 | 0.029483 | (1.000000) | (0.000000) |
+ 
+#+begin_src lisp :results file  :exports both
+    (scatter-plot /simpler-bw-fit "dsimpler-bw-fit-tweaked.png")
+  #+end_src
+
+  #+RESULTS:
+  [[file:./img/dsimpler-bw-fit-tweaked.png]]
 
 ** A more detailed analysis on variation wrt ~bw~
    #+begin_src lisp  :exports both
@@ -213,7 +255,7 @@ Scatter Plot of [[*Simpler: T = a(Nh)^b][Simpler: T = a(Nh)^b]]
 	     do 
 		(multiple-value-bind (_ slope c r) (linear-fit :data data)
 		  (row n slope c r)))
-       (plot-table :file "ddSlope-vs-N.png" :title "Slope vs N"))
+       (plot-q :file "ddSlope-vs-N.png" :title "Slope vs N"))
    #+end_src
 
    #+RESULTS:
