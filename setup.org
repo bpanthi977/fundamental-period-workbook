@@ -12,7 +12,7 @@
   <<library>>
   (ql:quickload :org-helpers)
   (use-package :org-helpers)
-  (o:setup-img-path :moi)
+  (o::setup-img-path :moi)
   <<helpers>>
 #+end_src
 
@@ -94,13 +94,13 @@
   #+Name: simpleBuildings
   #+begin_src lisp
     (in-package :moi)
-    (defun simple-building (&key number-of-storey height bays-x bays-y bay-width (bare nil) (strut t) (designed t))
+    (defun simple-building (&key number-of-storey height bays-x bays-y bay-width (bare nil) (strut t) (designed t) (typical nil))
       (reporting-let* ((geometry (make-building-geometry :number-of-storey number-of-storey
 					       :l (make-array bays-x :initial-element bay-width)
 					       :b (make-array bays-y :initial-element bay-width)
 					       :h height
 					       :bareframe bare) "Geometry" :default)
-		       (structure (make-structural-geometry2 number-of-storey height bay-width :designed designed)
+		       (structure (make-structural-geometry2 number-of-storey height bay-width :designed designed :typical typical)
 				  "Structure" :default))
 
 	(multiple-value-bind (M xc yc) (mass-matrix geometry structure)
@@ -118,13 +118,13 @@
 	    (values mm kk (first tp) tp)))))
 
 
-    (defun simple-building-k (&key number-of-storey height bays-x bays-y bay-width (bare nil) (strut t) (designed t))
+    (defun simple-building-k (&key number-of-storey height bays-x bays-y bay-width (bare nil) (strut t) (designed t) (typical nil))
       (let* ((geometry (make-building-geometry :number-of-storey number-of-storey
 					       :l (make-array bays-x :initial-element bay-width)
 					       :b (make-array bays-y :initial-element bay-width)
 					       :h height
 					       :bareframe bare))
-	     (structure (make-structural-geometry2 number-of-storey height bay-width :designed designed)))
+	     (structure (make-structural-geometry2 number-of-storey height bay-width :designed designed :typical typical)))
 	(multiple-value-bind (M xc yc) (mass-matrix geometry structure)
 	  (declare (ignore M))
 	  (with-reporting :verbose 
@@ -154,7 +154,7 @@
 
 
     (let ((hashtable (make-hash-table :test #'equal)))
-      (defun simple-building-ftp* (&rest params &key number-of-storey height bays-x bays-y bay-width (bare nil) (strut t) (designed t))
+      (defun simple-building-ftp* (&rest params &key number-of-storey height bays-x bays-y bay-width (bare nil) (strut t) (designed t) (typical nil))
 	(let ((ftp? (gethash params hashtable)))
 	  (if ftp?
 	      ftp?
@@ -167,7 +167,8 @@
 						:bay-width bay-width
 						:strut strut
 						:bare bare
-						:designed designed))))))
+						:designed designed
+						:typical typical))))))
       (defun simple-building-ftp*-clear ()
 	(setf hashtable (make-hash-table :test #'equal))))
 
@@ -177,7 +178,7 @@
 	(multiple-value-bind (M xc yc) (mass-matrix bg sg)
 	  (timeperiod M (stiffness-matrix bg sg :xc xc :yc yc :strut strut))))
 
-      (defun building-ftp* (&rest params &key number-of-storey height l b (bare nil) (strut t) (designed t))
+      (defun building-ftp* (&rest params &key number-of-storey height l b (bare nil) (strut t) (designed t) (typical nil))
 	(let ((ftp? (gethash params hashtable)))
 	  (if ftp?
 	      ftp?
@@ -191,7 +192,8 @@
 				  (make-structural-geometry2 number-of-storey height
 							     (max (reduce #'max l)
 								  (reduce #'max b))
-							     :designed designed)
+							     :designed designed
+							     :typical typical)
 				  :strut strut))))))
       (defun building-ftp*-clear ()
 	(setf hashtable (make-hash-table :test #'equal))))

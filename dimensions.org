@@ -2,56 +2,58 @@
   #+Name:readDimensions
   #+begin_src lisp :var beam=beamSize slab=slabThickness columns=columnSizes :colnames true
     (in-package :moi)
-	(defun supremum (n list)
-	  (loop for x in list do
-	    (when (<= n x)
-	      (return x))))
+    (defun supremum (n list)
+      (loop for x in list do
+	(when (<= n x)
+	  (return x))))
 
-	(defparameter *beam-sizes* (make-hash-table))
-	(defparameter *slab-thicknesses* (make-hash-table))
-	(defparameter *column-sizes-and-Ecs* (make-hash-table :test 'equal))
+    (defparameter *beam-sizes* (make-hash-table))
+    (defparameter *slab-thicknesses* (make-hash-table))
+    (defparameter *column-sizes-and-Ecs* (make-hash-table :test 'equal))
 
-	(defun beam-size (bw)
-	  (let ((bw (supremum bw '(3.0d0 3.5d0 3.0d0 4.5d0 5.0d0 5.5d0 6.0d0))))
-	    (gethash bw *beam-sizes*)))
+    (defun beam-size (bw)
+      (let ((bw (supremum bw '(3.0d0 3.5d0 3.0d0 4.5d0 5.0d0 5.5d0 6.0d0))))
+	(gethash bw *beam-sizes*)))
 
-	(defun slab-thickness (bw)
-	  (let ((bw (supremum bw '(3.0d0 3.5d0 3.0d0 4.5d0 5.0d0 5.5d0 6.0d0))))
-	    (gethash bw *slab-thicknesses*)))
+    (defun slab-thickness (bw)
+      (let ((bw (supremum bw '(3.0d0 3.5d0 3.0d0 4.5d0 5.0d0 5.5d0 6.0d0))))
+	(gethash bw *slab-thicknesses*)))
 
-	(defun cs-and-Ec (n h bw)
-	  (let ((h (supremum h '(4)))
-		(bw (supremum bw '(3.0 3.5 4.0 4.5 5.0 5.5 6.0))))
-	    (gethash (list n h bw) *column-sizes-and-ecs*)))
+    (defun cs-and-Ec (n h bw)
+      (let ((h (supremum h '(4)))
+	    (bw (supremum bw '(3.0 3.5 4.0 4.5 5.0 5.5 6.0))))
+	(gethash (list n h bw) *column-sizes-and-ecs*)))
 
-	(loop for (bw beamW beamT) in beam do
-	  (setf (gethash (coerce bw 'double-float) *beam-sizes*)
-		(list (coerce beamW 'double-float)
-		      (coerce beamT 'double-float))))
+    (loop for (bw beamW beamT) in beam do
+      (setf (gethash (coerce bw 'double-float) *beam-sizes*)
+	    (list (coerce beamW 'double-float)
+		  (coerce beamT 'double-float))))
 
-	(loop for (bw slabT) in slab do
-	  (setf (gethash (coerce bw 'double-float) *slab-thicknesses*)
-		(coerce slabT 'double-float)))
+    (loop for (bw slabT) in slab do
+      (setf (gethash (coerce bw 'double-float) *slab-thicknesses*)
+	    (coerce slabT 'double-float)))
 
-	(loop for (n bw cs fck ec) in columns do
-	  (setf (gethash (list n 4 bw) *column-sizes-and-ecs*) (list cs ec)))
+    (loop for (n bw cs fck ec) in columns do
+      (setf (gethash (list n 4 bw) *column-sizes-and-ecs*) (list cs ec)))
 
-	(defun cs-and-Ecs (n h bw)
-	  "Uniform Column Widths"
-	  (destructuring-bind (cs ec) (cs-and-Ec n h bw) ;; (list 0.300d0 25d9))
-	    (values (make-array n :element-type 'double-float :initial-element (coerce cs 'double-float))
-		    (make-array n :element-type 'double-float :initial-element (coerce ec 'double-float)))))
+    (defun cs-and-Ecs (n h bw)
+      "Uniform Column Widths"
+      (destructuring-bind (cs ec) (cs-and-Ec n h bw) ;; (list 0.300d0 25d9))
+	(values (make-array n :element-type 'double-float :initial-element (coerce cs 'double-float))
+		(make-array n :element-type 'double-float :initial-element (coerce ec 'double-float)))))
 
     (defun make-structural-geometry2-nondesigned (n h bw)
       (declare (ignore  h bw))
       (make-structural-geometry :column-sizes (make-array n :element-type 'double-float :initial-element 0.300d0)
-					:column-elasticity (make-array n :element-type 'double-float :initial-element (ec% 25))
-					:beam-width 0.230d0
-					:beam-thickness 0.500d0
-					:slab-thickness 0.150d0
-					))
+				:column-elasticity (make-array n :element-type 'double-float :initial-element (ec% 25))
+				:beam-width 0.230d0
+				:beam-thickness 0.500d0
+				:slab-thickness 0.150d0
+				:wall-thickness 0.230d0
+				:exterior-wall-thickness 0.230d0
+				))
 
-    (defun make-structural-geometry2 (n h bw &key (designed t))
+    (defun make-structural-geometry2 (n h bw &key (designed t) (typical nil))
       (unless designed
 	(return-from make-structural-geometry2 (make-structural-geometry2-nondesigned n h bw)))
       (multiple-value-bind (cs ce) (cs-and-Ecs n h bw)
@@ -61,7 +63,10 @@
 				    :beam-width beamW
 				    :beam-thickness beamT
 				    :slab-thickness (slab-thickness bw)
+				    :wall-thickness (if typical 0.125d0 0.230d0)
+				    :exterior-wall-thickness 0.230d0
 				    ))))
+
 
   #+end_src
 

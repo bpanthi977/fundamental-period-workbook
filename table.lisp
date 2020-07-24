@@ -236,7 +236,7 @@
 	  for (min max) = (gethash o table)
 	  with maxdiff = 0
 	  with maxo = nil do
-	    (when (< maxdiff (- max min))
+	    (when (<= maxdiff (- max min))
 	      (setf maxdiff (- max min)
 		    maxo o))
 	  finally (return (values maxdiff maxo)))))
