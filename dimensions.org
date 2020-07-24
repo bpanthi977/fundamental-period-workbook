@@ -63,7 +63,7 @@
 				    :beam-width beamW
 				    :beam-thickness beamT
 				    :slab-thickness (slab-thickness bw)
-				    :wall-thickness (if typical 0.125d0 0.230d0)
+				    :wall-thickness (if typical 0.115d0 0.230d0)
 				    :exterior-wall-thickness 0.230d0
 				    ))))
 

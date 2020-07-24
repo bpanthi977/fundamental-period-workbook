@@ -60,7 +60,7 @@ nil
 
   #+RESULTS: simpleFit
   | max %diff |      R^2 |     rmse | Params                       | Covariance                   |
-  | 26.680580 | 0.959406 | 0.050609 | (0.025198 0.758744 1.147389) | (0.000093 0.005533 0.068585) |
+  | 26.502044 | 0.960266 | 0.049727 | (0.025120 0.759599 1.142994) | (0.000094 0.005615 0.069474) |
 
 ** Simpler: T = a(Nh)^b
   #+begin_src lisp  :exports both
@@ -75,7 +75,7 @@ nil
 
   #+RESULTS:
   | max %diff |      R^2 |     rmse | Params              | Covariance          |
-  | 29.445177 | 0.949794 | 0.056274 | (0.037115 0.787587) | (0.000102 0.005182) |
+  | 29.159699 | 0.950908 | 0.055265 | (0.036801 0.788085) | (0.000101 0.005255) |
 
   The difference in R^2 of simple vs simpler formula is not much. And they explain almost 95% of the variation.
   
@@ -92,7 +92,7 @@ nil
 
   #+RESULTS:
   | max %diff |      R^2 |     rmse | Params     | Covariance |
-  | 32.582658 | 0.937645 | 0.062705 | (1.000000) | (0.000000) |
+  | 32.752535 | 0.934965 | 0.063600 | (1.000000) | (0.000000) |
   #+begin_src lisp :results file 
   (scatter-plot /simpler-fit-tweaked "tdsimpler-fit-tweaked.png")
   #+end_src
@@ -113,7 +113,7 @@ nil
 
   #+RESULTS:
   | max %diff |      R^2 |     rmse | Params              | Covariance          |
-  | 36.603633 | 0.867211 | 0.091519 | (0.107232 0.754724) | (0.000392 0.005598) |
+  | 36.321352 | 0.868721 | 0.090374 | (0.106304 0.755588) | (0.000391 0.005680) |
 
 * Plot
 Scatter Plot of [[*Simpler: T = a(Nh)^b][Simpler: T = a(Nh)^b]] 
@@ -136,7 +136,7 @@ Scatter Plot of [[*Simpler: T = a(Nh)^b][Simpler: T = a(Nh)^b]]
   #+end_src
 
   #+RESULTS:
-  : 0\.49595825816829864d0
+  : 0\.493205189469148d0
 
   Sensitivity with bx doesn't change much with bw.
   
@@ -145,7 +145,7 @@ Scatter Plot of [[*Simpler: T = a(Nh)^b][Simpler: T = a(Nh)^b]]
   #+end_src
 
   #+RESULTS:
-  : 0\.04699703795892249d0
+  : 0\.04465106780108326d0
   
 
   Hence timeperiod is more sensitive to bay width than with bay counts
@@ -155,14 +155,14 @@ Scatter Plot of [[*Simpler: T = a(Nh)^b][Simpler: T = a(Nh)^b]]
    #+end_src
 
    #+RESULTS:
-   : 0\.9147199313505187d0
+   : 0\.9152304123955828d0
 
    #+begin_src lisp :exports both 
    (sensitivity :h (filter-data :n 16 :bw 3 :bx 2 :by 2))
    #+end_src
 
    #+RESULTS:
-   : 1\.1698789355553498d0
+   : 1\.1670910918086783d0
 ** Max Variations 
    #+begin_src lisp 
      (table 4 
@@ -174,9 +174,9 @@ Scatter Plot of [[*Simpler: T = a(Nh)^b][Simpler: T = a(Nh)^b]]
    #+end_src
 
    #+RESULTS:
-   | N              | H               | Bs              | Bx              | By                   | N and H | Bx and By          |
-   | 1.0860         | 0.3534          | 0.3175          | 0.0396          | 0.0442               | 1.1066  | 0.0487             |
-   | (4.0000 3 2 5) | (16 4.0000 2 5) | (16 4.0000 2 2) | (12 4.0000 3 5) | (15 4.0000 5.5000 2) | (3 2 5) | (16 3.5000 6.0000) |
+   | N              | H               | Bs              | Bx              | By                   | N and H | Bx and By     |
+   | 1.0774         | 0.3501          | 0.3144          | 0.0410          | 0.0421               | 1.0977  | 0.0471        |
+   | (4.0000 3 2 5) | (16 4.0000 2 5) | (16 4.0000 2 2) | (16 4.0000 3 5) | (15 4.0000 5.5000 2) | (3 2 5) | (16 3 6.0000) |
 
 * Bay width
   To incorporate bay width in the relation for fundamental time period. Lets see the variation of T with bw.
@@ -210,7 +210,7 @@ Scatter Plot of [[*Simpler: T = a(Nh)^b][Simpler: T = a(Nh)^b]]
 
   #+RESULTS:
   | max %diff |      R^2 |     rmse | Params                       | Covariance                   |
-  | 27.584005 | 0.990034 | 0.025076 | (0.044987 0.817046 0.004669) | (0.000093 0.003010 0.000003) |
+  | 27.669310 | 0.990159 | 0.024748 | (0.044526 0.817145 0.004580) | (0.000093 0.003071 0.000003) |
 
   #+begin_src lisp :results file  :exports both
     (scatter-plot /simpler-bw-fit "tdsimpler-bw-fit.png"
@@ -234,7 +234,7 @@ Scatter Plot of [[*Simpler: T = a(Nh)^b][Simpler: T = a(Nh)^b]]
 
   #+RESULTS:
   | max %diff |      R^2 |     rmse | Params     | Covariance |
-  | 27.364661 | 0.989340 | 0.025927 | (1.000000) | (0.000000) |
+  | 28.110315 | 0.989779 | 0.025213 | (1.000000) | (0.000000) |
  
 #+begin_src lisp :results file  :exports both
     (scatter-plot /simpler-bw-fit "tdsimpler-bw-fit-tweaked.png")

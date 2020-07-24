@@ -203,7 +203,7 @@ nil
 
   #+Name: simpler-bw
   #+RESULTS: 
-  [[file:./img/nssimpler-bw-fit.png]]
+  [[file:./img/nppppppssimpler-bw-fit.png]]
 
 ** A more detailed analysis on variation wrt ~bw~
    #+begin_src lisp  :exports both
