@@ -107,7 +107,6 @@ nil
   | max %diff |      R^2 |     rmse | Params              | Covariance          |
   | 87.787155 | 0.487989 | 0.188010 | (0.379125 0.372880) | (0.001475 0.002513) |
 
-
 * Sensitivity Analysis
   with Nh only, the variation at higher T is very substantial. Hence other parameters must also be playing a great role in T.
   
