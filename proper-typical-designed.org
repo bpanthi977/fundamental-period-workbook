@@ -83,8 +83,8 @@ nil
   #+begin_src lisp 
   (max-fit-%diff (lambda (x a)
 		     (destructuring-bind (n h bw bx by) x
-		       (* 0.04 
-			  (expt (* n h) 0.78)
+		       (* 0.035
+			  (expt (* n h) 0.8)
 			  )))
 		   '(1)
 		   :save '/simpler-fit-tweaked)
@@ -92,7 +92,7 @@ nil
 
   #+RESULTS:
   | max %diff |      R^2 |     rmse | Params     | Covariance |
-  | 32.752535 | 0.934965 | 0.063600 | (1.000000) | (0.000000) |
+  | 28.871608 | 0.950582 | 0.055440 | (1.000000) | (0.000000) |
   #+begin_src lisp :results file 
   (scatter-plot /simpler-fit-tweaked "tdsimpler-fit-tweaked.png")
   #+end_src
@@ -182,13 +182,20 @@ Scatter Plot of [[*Simpler: T = a(Nh)^b][Simpler: T = a(Nh)^b]]
   To incorporate bay width in the relation for fundamental time period. Lets see the variation of T with bw.
   #+begin_src lisp :results file :exports both
     (with-plot "dbw.png"
-      (setup :xlabel "B_s" :ylabel "T")
+      (setup :xlabel "B_s" :ylabel "T"  :key :off)
+      (loop for n from 2 to 16 by 2 do 
+	(eazy-gnuplot:gp :set :label (format nil "n=~d" n)
+			      :at (list 3.05 (+ 0.02 (coerce (second (first (filter-data :n n :bx 2 :by 2 :h 4 :bw 3)))
+						     'single-float)))))
       (loop for n from 2 to 16 by 2 do
+
 	(ezplot (mapcar (lambda (d)
 			  (destructuring-bind (x tp) d
 			    (list (third x) tp)))
 			(filter-data :n n :bx 2 :by 2 :h 4))
-		:title (format nil "n=~d" n))))
+		:title (format nil "n=~d" n))
+
+	    ))
   #+end_src
 
   #+RESULTS:

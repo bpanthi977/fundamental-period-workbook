@@ -4,7 +4,7 @@
   #+begin_src lisp  :results silent :exports both
     (defparameter *bigdata* nil)
 
-    (with-open-file (stream (merge-pathnames "bigdata-check.csv" *img-path*) :direction :output
+    (with-open-file (stream (merge-pathnames "bigdata.csv" *img-path*) :direction :output
 								       :if-exists :supersede)
       (let (bigdata)
 	(loop for h from 3 to 4 by 0.5 do 
@@ -49,7 +49,7 @@ nil
 ** T = a*N^b*h^c 
   #+Name: simpleFit 
   #+begin_src lisp  :exports both
-	(max-fit-%diff (lambda (x a b c)
+  (max-fit-%diff (lambda (x a b c)
 			 (destructuring-bind (n h bw bx by) x
 			   (* a
 			      (expt n b)

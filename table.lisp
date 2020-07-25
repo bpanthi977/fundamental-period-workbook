@@ -258,3 +258,15 @@
     (loop for v across hist
 	  for x from min by steps
 	  collect (list x v))))
+
+(defun read-csv (filename)
+  (let (bigdata)
+    (cl-csv:read-csv (merge-pathnames filename *img-path*)
+		     :data-map-fn #'(lambda (data &key csv-reader)
+				      (declare (ignore csv-reader))
+				      (let (( *read-default-float-format* 'double-float))
+					(read-from-string data)))
+		     :row-fn #'(lambda (row)
+				 (push (list (butlast row) (first (last row)))
+				       bigdata)))
+    bigdata))

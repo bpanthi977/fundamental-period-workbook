@@ -18,7 +18,8 @@
 							:bays-y by
 							:bay-width bw
 							:bare nil
-							:strut nil)
+							:strut nil
+							:typical t)
 		      do 
 			 (cl-csv:write-csv-row (list n h bw bx by exact)
 					       :stream stream)
@@ -29,18 +30,8 @@
 
 ** Read
    #+begin_src lisp :exports both
-     (let (bigdata)
-       (cl-csv:read-csv (merge-pathnames "bigdata-nostrut.csv" *img-path*)
-			:data-map-fn #'(lambda (data &key csv-reader)
-					 (declare (ignore csv-reader))
-					 (let (( *read-default-float-format* 'double-float))
-					   (read-from-string data)))
-			:row-fn #'(lambda (row)
-				    (push (list (butlast row) (first (last row)))
-					  bigdata)))
-       (setf *bigdata* (reverse bigdata)))
-
-nil
+     (setf *bigdata* (read-csv "bigdata-nostrut.csv"))
+     nil
    #+end_src  
 
    #+RESULTS:
@@ -203,7 +194,7 @@ nil
 
   #+Name: simpler-bw
   #+RESULTS: 
-  [[file:./img/nppppppssimpler-bw-fit.png]]
+  [[file:./img/nssimpler-bw-fit.png]]
 
 ** A more detailed analysis on variation wrt ~bw~
    #+begin_src lisp  :exports both
@@ -266,3 +257,38 @@ nil
 # Local Variables:
 # org-export-babel-evaluate: nil
 # End:
+
+* Comparision with strutted design 
+  #+begin_src lisp 
+    (defparameter *bdstrut* (read-csv "bigdata-typical.csv"))
+    (defparameter *bdnstrut* (read-csv "bigdata-nostrut.csv"))
+  #+end_src
+
+  #+RESULTS:
+  : *BDNSTRUT*
+Statistics of difference between timperiod without considering stiffness of strut and timperiod by considering effect of strut.
+  #+begin_src lisp 
+    (let ((data (loop for (i1 tp1) in *bdstrut*
+		      for (i2 tp2) in *bdnstrut*
+		      for n = (first i1)
+		      collect (/ tp1 tp2))))
+      (plot2 (histogram-list data :steps 0.03) "nostrut-strut-hist.png")
+      (statistical-summary data))
+
+  #+end_src
+
+  #+RESULTS:
+  | LENGTH                |                   3360 |
+  | ORG-HELPERS::MINIMUM  |  0.19834728864916165d0 |
+  | ORG-HELPERS::RANGE    |   0.6398135850260335d0 |
+  | ORG-HELPERS::MAXIMUM  |   0.8381608736751951d0 |
+  | ORG-HELPERS::MEDIAN   |   0.5119861522616187d0 |
+  | ORG-HELPERS::MODE     |   0.6109141462223976d0 |
+  | ORG-HELPERS::MEAN     |   0.5085475309497776d0 |
+  | ORG-HELPERS::VARIANCE |  0.02353258511563092d0 |
+  | ORG-HELPERS::SD       |  0.15340334127922678d0 |
+  | ORG-HELPERS::IQR      |   0.2560433254663388d0 |
+  | ORG-HELPERS::SKEWNESS | -0.03476605569352584d0 |
+
+
+[[./img/nostrut-strut-hist.png]]
