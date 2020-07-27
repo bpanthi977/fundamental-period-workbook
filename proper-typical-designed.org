@@ -122,7 +122,8 @@ Scatter Plot of [[*Simpler: T = a(Nh)^b][Simpler: T = a(Nh)^b]]
   #+end_src
 
   #+RESULTS:
-  [[file:./img/tdsimpler-fit.png]]
+  
+[[file:./img/tdsimpler-fit.png]]
 
   However with Nh only, the variation at higher T is very substantial. Hence other parameters must also be playing a great role in T.
 
@@ -181,7 +182,7 @@ Scatter Plot of [[*Simpler: T = a(Nh)^b][Simpler: T = a(Nh)^b]]
 * Bay width
   To incorporate bay width in the relation for fundamental time period. Lets see the variation of T with bw.
   #+begin_src lisp :results file :exports both
-    (with-plot "dbw.png"
+    (with-plot "tdbw.png"
       (setup :xlabel "B_s" :ylabel "T"  :key :off)
       (loop for n from 2 to 16 by 2 do 
 	(eazy-gnuplot:gp :set :label (format nil "n=~d" n)
@@ -241,10 +242,10 @@ Scatter Plot of [[*Simpler: T = a(Nh)^b][Simpler: T = a(Nh)^b]]
 
   #+RESULTS:
   | max %diff |      R^2 |     rmse | Params     | Covariance |
-  | 28.110315 | 0.989779 | 0.025213 | (1.000000) | (0.000000) |
+  | 28.110318 | 0.989779 | 0.025213 | (1.000000) | (0.000000) |
  
 #+begin_src lisp :results file  :exports both
-    (scatter-plot /simpler-bw-fit "tdsimpler-bw-fit-tweaked.png")
+  (scatter-plot /simpler-bw-fit-tweaked "tdsimpler-bw-fit-tweaked.png" *bigdata* "T=0.045H^{0.82} - 0.005NB_s (sec)" "Proposed Equation")
   #+end_src
 
   #+RESULTS:
@@ -272,3 +273,14 @@ Scatter Plot of [[*Simpler: T = a(Nh)^b][Simpler: T = a(Nh)^b]]
 # Local Variables:
 # org-export-babel-evaluate: nil
 # End:
+* Comparision with NBC 
+  #+begin_src lisp :results file 
+    (defun NBC (x)
+      (destructuring-bind (n h . _) x
+	(* 0.06 (expt (* n h) 3/4))))
+
+    (o:scatter-plot #'NBC "typical-design-NCB.png" *bigdata* "T=0.06H^{0.75} (sec)" "NBC")
+  #+end_src
+
+  #+RESULTS:
+  [[file:./img/typical-design-NCB.png]]

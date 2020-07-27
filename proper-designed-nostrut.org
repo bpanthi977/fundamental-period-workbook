@@ -292,3 +292,14 @@ Statistics of difference between timperiod without considering stiffness of stru
 
 
 [[./img/nostrut-strut-hist.png]]
+* Comparision of NBC 
+  #+begin_src lisp :results file 
+    (defun NBC (x)
+      (destructuring-bind (n h . _) x
+	(* 0.06 (expt (* n h) 3/4))))
+
+    (o:scatter-plot #'NBC "nostrut-designed-NCB.png" *bigdata* "T=0.06H^{0.75} (s)" "NBC")
+  #+end_src
+
+  #+RESULTS:
+  [[file:./img/nostrut-designed-NCB.png]]

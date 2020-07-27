@@ -124,13 +124,13 @@
   (loop for (x tp) in data do
     (funcall func x tp)))
 
-(defun filter-data(&key n h bw bx by)
-  (loop for d in *bigdata*
+(defun filter-data(&key n h bw bx by (data *bigdata*))
+  (loop for d in data
 	for (x tp) = d
 	for (nn hh bwbw bxbx byby) = x
 	when (and (or (not n) (= n nn))
 		  (or (not h) (= h hh))
-		  (or (not bw) (= bw bwbw))
+		  (or (not bw) (if (listp bw) (equal bw bwbw) (= bw bwbw)))
 		  (or (not bx) (= bx bxbx))
 		  (or (not by) (= by byby)))
 	  collect d))

@@ -1,0 +1,376 @@
+* Data 
+** Generate 
+   Generate data 
+  #+begin_src lisp  :results silent :exports both
+    (defparameter *bigdata* nil)
+
+    (with-open-file (stream (merge-pathnames "bigdata-asym-nd-t.csv" *img-path*) :direction :output
+								       :if-exists :supersede)
+      (let (bigdata)
+	(loop for h from 3 to 4 by 0.5 do 
+	  (loop for n from 1 to 16 do
+	    (loop for bwx from 3 to 6 by 0.5 do 
+	      (loop for bwy from 3 to 6 by 0.5 do 
+		(loop for bx from 2 to 5 do
+		  (loop for by from bx to  5 
+			for exact = (asym-building-ftp* :number-of-storey n
+							:height h
+							:bays-x bx
+							:bays-y by
+							:bay-width (list bwx bwy)
+							:designed nil
+							:typical t)
+			do 
+			   (cl-csv:write-csv-row (list n h (list bwx bwy) bx by exact)
+						 :stream stream)
+			   (push (list (list n h (list bwx bwy) bx by) exact) bigdata)))))))
+	(setf *bigdata* bigdata)))
+
+    #+end_src
+
+** Read
+   #+begin_src lisp :exports both
+ (setf *bigdata* (read-csv "bigdata-asymn.csv"))
+nil
+   #+end_src  
+
+   #+RESULTS:
+   : NIL
+
+* Simple Fit
+  [[*Simpler: T = a(Nh)^b][Simpler: T = a(Nh)^b]] is the best fit among the following 3. 
+** T = a*N^b*h^c 
+  #+Name: simpleFit 
+  #+begin_src lisp  :exports both
+  (max-fit-%diff (lambda (x a b c)
+			 (destructuring-bind (n h bw bx by) x
+			   (* a
+			      (expt n b)
+			      (expt h c))))
+		       '(1 1 1)
+		       :save '/simple-fit)
+  #+end_src
+
+  #+RESULTS: simpleFit
+  | max %diff |      R^2 |     rmse | Params                       | Covariance                   |
+  | 41.217493 | 0.952720 | 0.054020 | (0.026885 0.667480 1.301645) | (0.000014 0.000628 0.009140) |
+
+** Simpler: T = a(Nh)^b
+  #+begin_src lisp  :exports both
+  (max-fit-%diff (lambda (x a b)
+		     (destructuring-bind (n h bw bx by) x
+		       (* a
+			  (expt (* n h) b)
+			  )))
+		   '(0.04 0.78)
+		   :save '/simpler-fit)
+  #+end_src
+
+  #+RESULTS:
+  | max %diff |      R^2 |     rmse | Params              | Covariance          |
+  | 35.830193 | 0.923993 | 0.068491 | (0.051778 0.708354) | (0.000023 0.000608) |
+
+  The difference in R^2 of simple vs simpler formula is not much. And they explain almost 95% of the variation.
+  
+  Tweaked coefficients 
+  #+begin_src lisp 
+  (max-fit-%diff (lambda (x a)
+		     (destructuring-bind (n h bw bx by) x
+		       (* 0.04 
+			  (expt (* n h) 0.78)
+			  )))
+		   '(1)
+		   :save '/simpler-fit-tweaked)
+  #+end_src
+
+  #+RESULTS:
+  | max %diff |      R^2 |     rmse | Params     | Covariance |
+  | 37.695755 | 0.918565 | 0.070893 | (1.000000) | (0.000000) |
+  #+begin_src lisp :results file 
+  (scatter-plot /simpler-fit-tweaked "dsimpler-fit-tweaked.png")
+  #+end_src
+
+  #+RESULTS:
+  [[file:./img/dsimpler-fit-tweaked.png]]
+
+** Simplest: T = a(N)^b
+  #+begin_src lisp  :exports both
+    (max-fit-%diff (lambda (x a b)
+		     (destructuring-bind (n h bw bx by) x
+		       (* a
+			  (expt (* n) b)
+			  )))
+		   '(1 1)
+		   :save '/simplest-fit)
+  #+end_src
+
+  #+RESULTS:
+  | max %diff |      R^2 |     rmse | Params              | Covariance          |
+  | 48.049732 | 0.821435 | 0.104979 | (0.139269 0.662614) | (0.000074 0.000637) |
+
+* Plot
+Scatter Plot of [[*Simpler: T = a(Nh)^b][Simpler: T = a(Nh)^b]] 
+  #+begin_src lisp :results file  :exports both
+    (scatter-plot /simpler-fit "adsimpler-fit.png")
+  #+end_src
+
+  #+RESULTS:
+  [[file:./img/adsimpler-fit.png]]
+
+  However with Nh only, the variation at higher T is very substantial. Hence other parameters must also be playing a great role in T.
+
+* Sensitivity Analysis
+** Max Variations 
+   #+begin_src lisp 
+     (table 4 
+       (row "N" "H" "Bs" "Bx" "By" "N and H" "Bx and By")
+       (let ((results (loop for p in '(:n :h :bw :bx :by :nh :bxby)
+			    collect (multiple-value-list (max-effect p)))))
+	 (apply #'row (mapcar #'first results))
+	 (apply #'row (mapcar #'second results))))
+   #+end_src
+
+   #+RESULTS:
+   | N                  | H                   | Bs              | Bx                       | By                  | N and H     | Bx and By                   |
+   | 1.1687             | 0.3958              | 0.4145          | 0.0716                   | 0.0752              | 1.1925      | 0.0825                      |
+   | (4.0000 (3 3) 2 5) | (16 (3 4.0000) 2 5) | (16 4.0000 2 5) | (16 4.0000 (4.0000 3) 5) | (16 4.0000 (3 3) 2) | ((3 3) 2 5) | (16 4.0000 (5.5000 4.0000)) |
+
+* Bay width
+ 
+** Simple Bw a(Nh)^b - c(N*bw)
+  #+begin_src lisp  :exports both
+    (max-fit-%diff (lambda (x a b c)
+		     (destructuring-bind (n h bw bx by) x
+		       (- (* a
+			     (expt (* n h) b))
+			  (* c n (apply #'min bw))
+			     )))
+		   '(1 1 1)
+		   :save '/simpler-bw-fit)		   
+  #+end_src
+
+  #+RESULTS:
+  | max %diff |      R^2 |     rmse | Params                       | Covariance                   |
+  | 37.416190 | 0.953910 | 0.053336 | (0.057483 0.751710 0.004794) | (0.000019 0.000408 0.000001) |
+
+  #+begin_src lisp :results file  :exports both
+    (scatter-plot /simpler-bw-fit "adsimpler-bw-fit.png"
+		  (filter-data ))
+  #+end_src
+
+  #+Name: simpler-bw
+  #+RESULTS: 
+  [[file:./img/adsimpler-bw-fit.png]]
+
+  #+begin_src lisp 
+  (max-fit-%diff (lambda (x a )
+		     (destructuring-bind (n h bw bx by) x
+		       (- (* 0.05
+			     (expt (* n h) 0.82))
+			  (* 0.006 n (apply #'min bw))
+			     )))
+		   '(1)
+		   :save '/simpler-bw-fit-tweaked)
+  #+end_src
+
+  #+RESULTS:
+  | max %diff |      R^2 |     rmse | Params     | Covariance |
+  | 43.104589 | 0.909306 | 0.074814 | (1.000000) | (0.000000) |
+ 
+#+begin_src lisp :results file  :exports both
+    (scatter-plot /simpler-bw-fit-tweaked "dasimpler-bw-fit-tweaked.png")
+  #+end_src
+
+  #+RESULTS:
+  [[file:./img/dasimpler-bw-fit-tweaked.png]]
+
+** A more detailed analysis on variation wrt ~bw~
+   #+begin_src lisp  :exports both
+     (table 4
+       (row "N" "Slope" "C" "R^2")
+       (loop for n from 2 to 16 by 1 
+	     for data = (mapcar (lambda (d)
+				  (destructuring-bind (x tp) d
+				    (list (third x) tp)))
+				(filter-data :n n :bx 2 :by 2 :h 4))
+	     do 
+		(multiple-value-bind (_ slope c r) (linear-fit :data data)
+		  (row n slope c r)))
+       (plot-q :file "ddSlope-vs-N.png" :title "Slope vs N"))
+   #+end_src
+
+   #+RESULTS:
+   |  N |   Slope |      C |    R^2 |
+   |  2 | -0.0022 | 0.1882 | 0.6370 |
+   |  3 | -0.0038 | 0.2799 | 0.6970 |
+   |  4 | -0.0100 | 0.3893 | 0.7627 |
+   |  5 | -0.0198 | 0.5084 | 0.8403 |
+   |  6 | -0.0312 | 0.6301 | 0.9400 |
+   |  7 | -0.0391 | 0.7297 | 0.9397 |
+   |  8 | -0.0426 | 0.8206 | 0.9353 |
+   |  9 | -0.0528 | 0.9279 | 0.9678 |
+   | 10 | -0.0556 | 0.9964 | 0.9271 |
+   | 11 | -0.0627 | 1.0799 | 0.9154 |
+   | 12 | -0.0744 | 1.1805 | 0.9592 |
+   | 13 | -0.0764 | 1.2316 | 0.9060 |
+   | 14 | -0.0771 | 1.2708 | 0.9707 |
+   | 15 | -0.0876 | 1.3633 | 0.9369 |
+   | 16 | -0.1173 | 1.5422 | 0.9955 |
+
+   [[./img/ddSlope-vs-N.png]]
+
+   Hence the slope shows almost linear variation with Number of Storeys. Hence, Slope = c * N is appropriate
+   which implies correction = - c * N * bw 
+   and finally T = a(Nh)^b - c * N * bw (as in [[*Simple Bw a(Nh)^b - c(N*bw)][Simple Bw a(Nh)^b - c(N*bw)]] )
+ 
+** COMMENT Simple Bw with Simple a N^b_1 h^b_2  - c (N*bw) 
+   #+begin_src lisp :exports both
+     (max-fit-%diff (lambda (x a b1 b2 c)
+			  (destructuring-bind (n h bw bx by) x
+			    (- (* a
+				  (expt n b1)
+				  (expt h b2))
+			       (* c n bw)
+				  )))
+			'(1 1 1 1)
+			:save '/simpler-bw2-fit)
+   #+end_src
+
+   #+RESULTS:
+   | max %diff |      R^2 |     rmse | Params                                | Covariance                            |
+   | 29.678970 | 0.988533 | 0.028705 | (0.046733 0.812254 0.860142 0.005341) | (0.000200 0.003044 0.037330 0.000003) |
+
+   #+begin_src lisp :results file :exports both 
+   (scatter-plot /simpler-bw2-fit "dsimpler-bw2-fit.png")
+   #+end_src
+
+   #+RESULTS:
+   [[file:./img/dsimpler-bw2-fit.png]]
+
+* Bx,By
+  #+begin_src lisp :results file :exports both
+    (with-plot "dbx.png"
+      (setup :xlabel "bx" :ylabel "tp")
+      (loop for n from 2 to 12 by 2 do
+	(ezplot (mapcar (lambda (d)
+			  (destructuring-bind (x tp) d
+			    (list (fourth x) tp)))
+			(filter-data :n n :bw 6 :by 5 :h 4))
+		:title (format nil "n=~d" n))))
+  #+end_src
+
+  #+RESULTS:
+  [[file:./img/dbx.png]]
+
+  This shows that T is almost constant with bx. Which was also indicated by smaller sensitivity of tp with bx.
+
+* Comparision with symmetrical design 
+  #+begin_src lisp 
+    (defun bigdata-table (data)
+      (loop with table = (make-hash-table :test #'equal)
+	    for (k v) in data do
+	      (setf (gethash k table) v)
+	    finally (return table)))
+
+    (defun avg-bw (a b)
+      (supremum (/ (+ a b) 2)
+		'(3 3.5 4.0 4.5 5.0 5.5 6.0)))
+
+    (defparameter *bsym* (bigdata-table (read-csv "bigdata-typical.csv")))
+    (defparameter *basym* (read-csv "bigdata-asym.csv"))
+  #+end_src
+
+  #+RESULTS:
+  : *BASYM*
+Statistics of difference between timperiod without considering stiffness of strut and timperiod by considering effect of strut.
+  #+begin_src lisp 
+    (let ((data (loop for (i1 tp1) in *basym*
+		      for (n h bw bx by) = i1
+		      for (bwx bwy) = bw
+		      for tp2 = (gethash (list n h (max bwx bwy) bx by) *bsym*)
+		      collect (/ tp1 tp2))))
+      (plot2 (histogram-list data :steps 0.03) "nonsym-hist.png")
+      (statistical-summary data))
+
+  #+end_src
+
+  #+RESULTS:
+  | LENGTH   |                  23520 |
+  | MINIMUM  |   0.9164023224522024d0 |
+  | RANGE    |   0.5672926493649011d0 |
+  | MAXIMUM  |   1.4836949718171035d0 |
+  | MEDIAN   |   1.1021439479119763d0 |
+  | MODE     |   1.0735048594447736d0 |
+  | MEAN     |    1.123897937965572d0 |
+  | VARIANCE | 0.006862829510854386d0 |
+  | SD       |  0.08284219643909972d0 |
+  | IQR      |    0.093519296571966d0 |
+  | SKEWNESS |    1.271413222889681d0 |
+
+
+[[./img/nonsym-hist.png]]
+
+percent of safe cases when taking min timeperiod
+#+begin_src lisp 
+    (defun ratio-alkje (data)
+      (let ((d nil))
+	(loop for (i1 tp1) in data
+	      for (n h bw bx by) = i1
+	      for (bwx bwy) = bw
+	      for beq = (max bwx bwy)
+	      for tp2 = (gethash (list n h beq bx by) *bsym*) do
+		(when (< tp1 tp2)
+		  (push (/ tp1 tp2) d)))
+	(values (* 100 (coerce (/ (length d) (length data)) 'single-float))
+		d)))
+
+  (ratio-alkje *basym*)
+#+end_src
+
+#+RESULTS:
+: 1.1564626
+#+begin_src lisp 
+  (statistical-summary (nth-value 1 
+					       (ratio-alkje *basym*)))
+#+end_src
+
+#+RESULTS:
+| LENGTH   |                    272 |
+| MINIMUM  |   0.9164023224522024d0 |
+| RANGE    |  0.08349335608800446d0 |
+| MAXIMUM  |   0.9998956785402069d0 |
+| MEDIAN   |    0.986295575628978d0 |
+| MODE     |   0.9952609876688605d0 |
+| MEAN     |   0.9811196349942096d0 |
+| VARIANCE |  2.7475675494138796d-4 |
+| SD       | 0.016575788214784476d0 |
+| IQR      | 0.020877353285040035d0 |
+| SKEWNESS |   -1.259975796457426d0 |
+
+#+begin_src lisp
+  (table 2
+    (loop for n from 1 to 16 do
+      (row n (ratio-alkje (filter-data :n n :data *basym*)))))
+#+end_src
+
+#+RESULTS:
+|  1 | 0.00 |
+|  2 | 0.00 |
+|  3 | 0.00 |
+|  4 | 0.00 |
+|  5 | 0.00 |
+|  6 | 0.00 |
+|  7 | 0.00 |
+|  8 | 0.00 |
+|  9 | 0.00 |
+| 10 | 0.14 |
+| 11 | 0.20 |
+| 12 | 1.09 |
+| 13 | 1.77 |
+| 14 | 3.54 |
+| 15 | 3.95 |
+| 16 | 7.82 |
+
+# Local Variables:
+# org-export-babel-evaluate: nil
+# End:

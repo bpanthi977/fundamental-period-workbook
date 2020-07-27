@@ -20,6 +20,7 @@
 #+begin_src lisp :noweb yes :results silent
   <<dimensions.org:readDimensions>>
   <<simpleBuildings>>
+  <<asymBuildings>>
 #+end_src
 * Helpers 
   #+Name: helpers
@@ -202,6 +203,51 @@
 
   #+RESULTS: simpleBuildings
   : BUILDING-FTP*-CLEAR
+* Asym Building Functions 
+  #+Name: asymBuildings
+  #+begin_src lisp
+(let ((hashtable (make-hash-table :test #'equal)))
+  (defun asym-building-ftp* (&rest params &key number-of-storey height bays-x bays-y bay-width (bare nil) (strut t) (designed t) (typical nil))
+    (let ((ftp? (gethash params hashtable)))
+      (if ftp?
+	  ftp?
+	  (setf (gethash params hashtable)
+		(nth-value 2
+			   (asym-simple-building :number-of-storey number-of-storey
+					    :height height
+					    :bays-x bays-x
+					    :bays-y bays-y
+					    :bay-width bay-width
+					    :strut strut
+					    :bare bare
+					    :designed designed
+					    :typical typical))))))
+  (defun asym-building-ftp*-clear ()
+    (setf hashtable (make-hash-table :test #'equal))))
+
+(defun asym-simple-building (&key number-of-storey height bays-x bays-y bay-width (bare nil) (strut t) (designed t) (typical nil))
+  (reporting-let* ((geometry (make-building-geometry :number-of-storey number-of-storey
+						     :l (make-array bays-x :initial-element (first bay-width))
+						     :b (make-array bays-y :initial-element (second bay-width))
+						     :h height
+						     :bareframe bare) "Geometry" :default)
+		   (structure (make-structural-geometry2 number-of-storey height (apply #'max bay-width) :designed designed :typical typical)
+			      "Structure" :default))
+
+    (multiple-value-bind (M xc yc) (mass-matrix geometry structure)
+      (let* ((K (stiffness-matrix geometry structure :xc xc :yc yc :strut strut))
+	     (mm (df-matrix m))
+	     (kk (df-matrix k))
+	     (eigenvalues (magicl:eig (magicl:@ (magicl:inv mm) kk)))
+	     (tp (timeperiods eigenvalues)))
+	(report-section "Eigenvalues and timeperiod")
+	(reporting
+	 (print "Eignevalues")
+	 (print eigenvalues)
+	 (print "Timperiods")
+	 (print tp))
+	(values mm kk (first tp) tp)))))
+  #+end_src
 * Archive 
 ** Table
    #+Name:table 
