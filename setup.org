@@ -1,7 +1,7 @@
 #+begin_src lisp :results nil :noweb yes
   (ql:quickload '(:eazy-gnuplot))
-  (push (truename (make-pathname :name  "../moi/" :type nil :defaults *load-pathname*)) asdf:*central-registry*)
-  (ql:quickload :moi)
+  (push (truename (make-pathname :name  "../fundamental-period/" :type nil :defaults *load-pathname*)) asdf:*central-registry*)
+  (ql:quickload :fundamental-period)
 #+end_src
 
 #+RESULTS:
@@ -18,7 +18,7 @@
   <<library>>
   (ql:quickload :org-helpers)
   (use-package :org-helpers)
-  (o::setup-img-path :moi)
+  (o::setup-img-path :fundamental-period)
   <<helpers>>
 #+end_src
 
@@ -100,7 +100,7 @@
 * Simple Building Functions
   #+Name: simpleBuildings
   #+begin_src lisp
-    (in-package :moi)
+    (in-package :fundamental-period)
     (defun simple-building (&key number-of-storey height bays-x bays-y bay-width (bare nil) (strut t) (designed t) (typical nil))
       (reporting-let* ((geometry (make-building-geometry :number-of-storey number-of-storey
 					       :l (make-array bays-x :initial-element bay-width)
@@ -258,7 +258,7 @@
 ** Table
    #+Name:table 
    #+begin_src lisp
-     (in-package :moi)
+     (in-package :fundamental-period)
      (defparameter *table* nil)
      (defparameter *table-float-digits* 3)
      (defclass table ()
@@ -306,7 +306,7 @@
 ** Plotting
    #+Name: plotting
    #+begin_src lisp 
-     (in-package :moi)
+     (in-package :fundamental-period)
      (defun plot-printer (data &optional (type :xy) (format-string "~&~,10f ~,10f"))
        (if (typep type 'list)
 	   (lambda ()

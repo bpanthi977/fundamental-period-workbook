@@ -1,7 +1,7 @@
 * Read
   #+Name:readDimensions
   #+begin_src lisp :var beam=beamSize slab=slabThickness columns=columnSizes :colnames true
-    (in-package :moi)
+    (in-package :fundamental-period)
     (defun supremum (n list)
       (loop for x in list do
 	(when (<= n x)

@@ -1,6 +1,6 @@
 (defpackage :doing
   (:use :cl)
-  (:local-nicknames (:m :moi)
+  (:local-nicknames (:m :fundamental-period)
 		    (:gui :sdl-gui-utils)))
 
 (in-package :doing)
