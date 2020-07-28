@@ -194,13 +194,14 @@ Scatter Plot of [[*Simpler: T = a(Nh)^b][Simpler: T = a(Nh)^b]]
 			  (destructuring-bind (x tp) d
 			    (list (third x) tp)))
 			(filter-data :n n :bx 2 :by 2 :h 4))
-		:title (format nil "n=~d" n))
+		:title (format nil "n=~d" n)
+		:with :linespoint)
 
 	    ))
   #+end_src
 
   #+RESULTS:
-  [[file:./img/dbw.png]]
+  [[file:./img/tdbw.png]]
 
   This shows that the time period decreases with bay width. and the rate of decrease/slope increases for higher N. 
 
@@ -284,3 +285,48 @@ Scatter Plot of [[*Simpler: T = a(Nh)^b][Simpler: T = a(Nh)^b]]
 
   #+RESULTS:
   [[file:./img/typical-design-NCB.png]]
+
+  #+begin_src lisp :results file 
+    (let ((heights (loop for h from 0 to 100 by 4 collect h)))
+      (o:with-plot "formula-comparisions.svg"
+	(o:setup :xlabel "H (m)" :ylabel "T (s)" :key '(:top :left) :terminal "svg")
+	(o:ezplot (loop for h in heights
+			collect (list h (* 0.0466 (expt h 0.9))))
+		  :title "Goel and Chopra (1997)"
+		  :dashtype 0)
+	(o:ezplot (loop for h in heights
+			collect (list h (* 0.06 (expt h 3/4))))
+		  :title "NBC"
+		  :dashtype 1)
+	(o:ezplot (loop for h in heights
+			collect (list h (* 0.035 (expt h 0.8))))
+		  :title "Equation 1"
+		  :dashtype 2)
+	(o:ezplot (loop for h in heights
+			collect (list h (- (* 0.045 (expt h 0.8))
+					   (* 0.005 (/ h 4) 4.5))))
+		  :title "Equation 3 (B_s=4.5)"
+		  :dashtype 3)
+	(o:ezplot (loop for h in heights
+			collect (list h (- (* 0.045 (expt h 0.8))
+					   (* 0.005 (/ h 4) 6))))
+		  :title "Equation 3 (B_s=6)"
+		  :dashtype 4)
+	;; (o:ezplot (loop for h in heights
+	;; 		    collect (list h (- (* 0.045 (expt h 0.8))
+	;; 				       (* 0.005 (/ h 4) 3))))
+	;; 	      :title "Equation 3, B_s=3"
+	;; (o:ezplot (loop for h in heights
+	;; 		    collect (list h (* 0.1 (/ h 4))))
+      ;; 	      :title "NBC Canada"
+	(o:ezplot (loop for h in heights
+			collect (list h (* 0.0249 (expt h 0.804))))
+		  :title "Hong and Hwang (2000)"
+		  :dashtype 5)
+
+
+	))
+  #+end_src
+
+  #+RESULTS:
+  [[file:./img/formula-comparisions.svg]]

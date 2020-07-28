@@ -5,7 +5,13 @@
 #+end_src
 
 #+RESULTS:
-| :MOI |
+: (#P"/mnt/Data/Documents/synced/BE/Corona Time/SD/code/moi/"
+:  #P"/home/bpanthi/.emacs.d/elpa/sly-20200618.851/contrib/"
+:  #P"/home/bpanthi/.emacs.d/elpa/sly-quicklisp-20191012.2124/"
+:  #P"/home/bpanthi/.emacs.d/elpa/sly-macrostep-20191211.1630/"
+:  #P"/home/bpanthi/.emacs.d/elpa/sly-20200618.851/slynk/"
+:  #P"/home/bpanthi/.emacs.d/elpa/sly-20200618.851/slynk/"
+:  #P"/mnt/Data/Dev/lisp/quicklisp/quicklisp/")
 
 #+Name: everything
 #+begin_src lisp :noweb yes :results silent
