@@ -1,17 +1,8 @@
-#+begin_src lisp :results nil :noweb yes
+#+begin_src lisp :results silent :noweb yes
   (ql:quickload '(:eazy-gnuplot))
   (push (truename (make-pathname :name  "../fundamental-period/" :type nil :defaults *load-pathname*)) asdf:*central-registry*)
   (ql:quickload :fundamental-period)
 #+end_src
-
-#+RESULTS:
-: (#P"/mnt/Data/Documents/synced/BE/Corona Time/SD/code/moi/"
-:  #P"/home/bpanthi/.emacs.d/elpa/sly-20200618.851/contrib/"
-:  #P"/home/bpanthi/.emacs.d/elpa/sly-quicklisp-20191012.2124/"
-:  #P"/home/bpanthi/.emacs.d/elpa/sly-macrostep-20191211.1630/"
-:  #P"/home/bpanthi/.emacs.d/elpa/sly-20200618.851/slynk/"
-:  #P"/home/bpanthi/.emacs.d/elpa/sly-20200618.851/slynk/"
-:  #P"/mnt/Data/Dev/lisp/quicklisp/quicklisp/")
 
 #+Name: everything
 #+begin_src lisp :noweb yes :results silent
@@ -82,16 +73,28 @@
 			maxo o))
 	      finally (return (values maxdiff maxo)))))
 
-    (defun filter-data(&key n h bw bx by)
-      (loop for d in *bigdata*
+    (defun filter-data(&key n h bw bx by (data *bigdata*))
+      (loop for d in data
 	    for (x tp) = d
 	    for (nn hh bwbw bxbx byby) = x
 	    when (and (or (not n) (= n nn))
 		      (or (not h) (= h hh))
-		      (or (not bw) (= bw bwbw))
+		      (or (not bw) (if (listp bw) (equal bw bwbw) (= bw bwbw)))
 		      (or (not bx) (= bx bxbx))
 		      (or (not by) (= by byby)))
 	      collect d))
+
+    (defun read-csv (filename)
+      (let (bigdata)
+	(cl-csv:read-csv (merge-pathnames filename *img-path*)
+			 :data-map-fn #'(lambda (data &key csv-reader)
+					  (declare (ignore csv-reader))
+					  (let (( *read-default-float-format* 'double-float))
+					    (read-from-string data)))
+			 :row-fn #'(lambda (row)
+				     (push (list (butlast row) (first (last row)))
+					   bigdata)))
+	bigdata))
   #+end_src
 
   #+RESULTS: helpers
@@ -209,6 +212,7 @@
 
   #+RESULTS: simpleBuildings
   : BUILDING-FTP*-CLEAR
+
 * Asym Building Functions 
   #+Name: asymBuildings
   #+begin_src lisp
@@ -254,6 +258,7 @@
 	 (print tp))
 	(values mm kk (first tp) tp)))))
   #+end_src
+
 * Archive 
 ** Table
    #+Name:table 
