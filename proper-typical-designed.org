@@ -231,14 +231,14 @@ Scatter Plot of [[*Simpler: T = a(Nh)^b][Simpler: T = a(Nh)^b]]
   [[file:./img/tdsimpler-bw-fit.png]]
 
   #+begin_src lisp 
-  (max-fit-%diff (lambda (x a )
-		     (destructuring-bind (n h bw bx by) x
-		       (- (* 0.045
-			     (expt (* n h) 0.82))
-			  (* 0.005 n bw)
-			     )))
-		   '(1)
-		   :save '/simpler-bw-fit-tweaked)
+    (max-fit-%diff (lambda (x a )
+		       (destructuring-bind (n h bw bx by) x
+			 (- (* 0.045
+			       (expt (* n h) 0.82))
+			    (* 0.005 n bw)
+			       )))
+		     '(1)
+		     :save '/simpler-bw-fit-tweaked)
   #+end_src
 
   #+RESULTS:
@@ -330,3 +330,52 @@ Scatter Plot of [[*Simpler: T = a(Nh)^b][Simpler: T = a(Nh)^b]]
 
   #+RESULTS:
   [[file:./img/formula-comparisions.svg]]
+* Random 
+
+  #+begin_src lisp :results file 
+    (fit-plot o::/simpler-fit #'/Nh "tdSimplefitPlot.png" *bigdata* "H (m)" "T (sec)")
+  #+end_src
+
+  #+RESULTS:
+  [[file:./img/tdSimplefitPlot.png]]
+
+  
+  #+begin_src lisp :results file 
+	(defun fit-multiplot-plot (fit-func x-axis &optional (data *bigdata*) title)
+	  (let ((x-tp-fit (sort (loop 
+				  for (x tp) in data 
+				  collect (list (funcall x-axis x) tp (funcall fit-func x)))
+				#'< :key #'first)))
+	    (when title
+	      (eazy-gnuplot:gp :set :title title))
+	    (eazy-gnuplot:gp :plot '|'-'| :using '(1 2) :title "" :with '(:lines)
+			     '|,| '|''| :using '(1 2) :title "" :with '(:points))
+	    (loop for (x tp fit) in x-tp-fit do
+	      (format t "~& ~,8f ~,8f" x fit))
+	    (format t "~&e")
+	    (loop for (x tp fit) in x-tp-fit do
+	      (format t "~& ~,8f ~,8f" x tp))
+	    (format t "~&e")))
+
+	(defun multiplot (output)
+	  (eazy-gnuplot:with-plots (*standard-output* :debug t)
+	    (eazy-gnuplot:gp-setup :output output :terminal '(:png :size :|1500,1100| :font "Times New Roman, 30pt")
+				   :title ""
+				   :multiplot (list "layout 2,2 rowsfirst")
+    :yrange '(0 1.2)
+:xlabel "H (m)"
+:ylabel "T (sec)")
+	    (fit-multiplot-plot /simpler-bw-fit-tweaked #'/nh (filter-data :h 4 :bw 3) "B_s = 3")
+	    (fit-multiplot-plot /simpler-bw-fit-tweaked #'/nh (filter-data :h 4 :bw 4) "B_s = 4")
+	    (fit-multiplot-plot /simpler-bw-fit-tweaked #'/nh (filter-data :h 4 :bw 5) "B_s = 5")
+	    (fit-multiplot-plot /simpler-bw-fit-tweaked #'/nh (filter-data :h 4 :bw 6) "B_s = 6")
+
+	    (eazy-gnuplot:gp :unset 'multiplot))
+	  output)
+
+	(multiplot (merge-pathnames "multiplot.png" *img-path*))
+	"./img/multiplot.png"
+  #+end_src
+
+  #+RESULTS:
+  [[file:./img/multiplot.png]]

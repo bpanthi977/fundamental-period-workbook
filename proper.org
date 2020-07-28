@@ -625,7 +625,7 @@ For non designed buildings:
 When both bay count are equal : 
 If different bay widths are taken on two sides, then the timeperiod is greater than both the timeperiods obtained by considering either of the bay widths in a symmetrical building.
 Hence of ease of use, smaller of the bay widths can be considered.
-[[./contour-bwbw-export.png]]
+[[./img/contour-bwbw-export.png]]
 
 But if bay counts are different, then the Timeperiod surface is similar but the valley line is not Bwx = Bwy line.  
 [[./img/contour-bwbw-52.png]]
