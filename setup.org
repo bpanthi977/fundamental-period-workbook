@@ -1,6 +1,7 @@
 #+begin_src lisp :results silent :noweb yes
   (ql:quickload '(:eazy-gnuplot))
   (push (truename (make-pathname :name  "../fundamental-period/" :type nil :defaults *load-pathname*)) asdf:*central-registry*)
+  (push (truename (make-pathname :name  "./org-helpers/" :type nil :defaults *load-pathname*)) asdf:*central-registry*)
   (ql:quickload :fundamental-period)
 #+end_src
 
@@ -98,7 +99,7 @@
   #+end_src
 
   #+RESULTS: helpers
-  : FILTER-DATA
+  : READ-CSV
 
 * Simple Building Functions
   #+Name: simpleBuildings

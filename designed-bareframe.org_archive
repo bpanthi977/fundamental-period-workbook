@@ -1,4 +1,99 @@
+#    -*- mode: org -*-
+
+
+Archived entries from file /home/bpanthi/Documents/synced/BE/Corona Time/SD/code/workbook/proper-designed-bareframe.org
+
+
+* A more detailed analysis on variation wrt ~bw~
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2020-07-14 Tue 18:10
+  :ARCHIVE_FILE: ~/Documents/synced/BE/Corona Time/SD/code/workbook/proper-designed-bareframe.org
+  :ARCHIVE_OLPATH: Bay width
+  :ARCHIVE_CATEGORY: proper-designed-bareframe
+  :END:
+  #+begin_src lisp  :exports both
+    (table 4
+      (row "N" "Slope" "C" "R^2")
+      (loop for n from 2 to 10 by 1 
+	    for data = (mapcar (lambda (d)
+				 (destructuring-bind (x tp) d
+				   (list (third x) tp)))
+			       (filter-data :n n :bx 2 :by 2 :h 4))
+	    do 
+	       (multiple-value-bind (_ slope c r) (linear-fit :data data)
+		 (row n slope c r)))
+      (plot-table :file "ddbSlope-vs-N.png" :title "Slope vs N"))
+  #+end_src
+   
+  #+Name:slopeVariation
+  #+RESULTS:
+  |  N |   Slope |       C |    R^2 |
+  |  2 |  0.1030 | -0.0066 | 0.9955 |
+  |  3 |  0.1483 |  0.0003 | 0.9961 |
+  |  4 |  0.0896 |  0.3942 | 0.5994 |
+  |  5 |  0.0042 |  0.8233 | 0.0035 |
+  |  6 | -0.0613 |  1.1527 | 0.5229 |
+  |  7 | -0.0802 |  1.2547 | 0.6850 |
+  |  8 | -0.0727 |  1.3319 | 0.5326 |
+  |  9 | -0.1063 |  1.5089 | 0.7202 |
+  | 10 | -0.0819 |  1.4078 | 0.6092 |
+
+  [[./img/ddbSlope-vs-N.png]]
+
+  Hence the slope shows almost linear variation with Number of Storeys.
+  #+begin_src lisp  :var slope=slopeVariation  :exports both
+    (linear-fit :data (mapcar (lambda (d) (list (first d) (second d))) (rest slope)))
+  #+end_src
+
+  #+RESULTS:
+  | Slope                         | -0.031873327 |
+  | Intercept                     |    0.1848733 |
+  | R^2 (Coeff. of Determination) |    0.8263319 |
+   
+  Hence, Slope = d - c * N is appropriate
+  which implies correction =( d - c * N) * bw 
+  and finally T = a(Nh)^b - (d*N - c) * bw
+
+   
+
+* Simple Bw a(Nh)^b - (cN - d) bw 
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2020-07-14 Tue 18:10
+  :ARCHIVE_FILE: ~/Documents/synced/BE/Corona Time/SD/code/workbook/proper-designed-bareframe.org
+  :ARCHIVE_OLPATH: Bay width
+  :ARCHIVE_CATEGORY: proper-designed-bareframe
+  :END:
+ #+begin_src lisp  :exports both
+   (max-fit-%diff (lambda (x a b c d)
+		    (destructuring-bind (n h bw bx by) x
+		      (- (* a
+			    (expt (* n h) b))
+		     (* (- (* c N) d ) bw)
+			    )))
+		  '(1 1 1 1)
+		  :save '/simpler-bw-fit)		   
+ #+end_src
+
+ #+RESULTS:
+ | max %diff |      R^2 |     rmse | Params                                | Covariance                            |
+ | 67.665346 | 0.778414 | 0.123735 | (0.077069 0.816926 0.015865 0.056394) | (0.001230 0.016358 0.000012 0.000543) |
+
+ #+begin_src lisp :results file  :exports both
+   (scatter-plot /simpler-bw-fit "dbsimpler-bw-fit.png"
+		 (filter-data ))
+ #+end_src
+
+ #+Name: simpler-bw
+ #+RESULTS: 
+ [[file:./img/dbsimpler-bw-fit.png]]
+
+
 * Data 
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2020-10-29 Thu 22:41
+  :ARCHIVE_FILE: ~/Documents/synced/BE/Corona Time/SD/code/workbook/proper-designed-bareframe.org
+  :ARCHIVE_CATEGORY: proper-designed-bareframe
+  :END:
 ** Generate 
    Generate data 
   #+begin_src lisp  :results silent  :exports code  
@@ -45,7 +140,13 @@ nil
    #+RESULTS:
    : NIL
 
+
 * Simple Fit
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2020-10-29 Thu 22:41
+  :ARCHIVE_FILE: ~/Documents/synced/BE/Corona Time/SD/code/workbook/proper-designed-bareframe.org
+  :ARCHIVE_CATEGORY: proper-designed-bareframe
+  :END:
   [[*Simpler: T = a(Nh)^b][Simpler: T = a(Nh)^b]] is the best fit among the following 3. 
 ** T = a*N^b*h^c 
   #+Name: simpleFit 
@@ -107,7 +208,13 @@ nil
   | max %diff |      R^2 |     rmse | Params              | Covariance          |
   | 87.787155 | 0.487989 | 0.188010 | (0.379125 0.372880) | (0.001475 0.002513) |
 
+
 * Sensitivity Analysis
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2020-10-29 Thu 22:41
+  :ARCHIVE_FILE: ~/Documents/synced/BE/Corona Time/SD/code/workbook/proper-designed-bareframe.org
+  :ARCHIVE_CATEGORY: proper-designed-bareframe
+  :END:
   with Nh only, the variation at higher T is very substantial. Hence other parameters must also be playing a great role in T.
   
   Is it bw or bx,by that play greater role.
@@ -133,7 +240,13 @@ nil
 
   Hence timeperiod is more sensitive to bay width than with bay counts
 
+
 * Bay width
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2020-10-29 Thu 22:41
+  :ARCHIVE_FILE: ~/Documents/synced/BE/Corona Time/SD/code/workbook/proper-designed-bareframe.org
+  :ARCHIVE_CATEGORY: proper-designed-bareframe
+  :END:
   To incorporate bay width in the relation for fundamental time period. Lets see the variation of T with bw.
   #+begin_src lisp :results file :exports both
     (with-plot "dbbw.png"
@@ -151,7 +264,13 @@ nil
 
   This shows that the time period changes almost linearly with bay width. and the slope decreases for higher N. 
 
+
 * Bx,By
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2020-10-29 Thu 22:41
+  :ARCHIVE_FILE: ~/Documents/synced/BE/Corona Time/SD/code/workbook/proper-designed-bareframe.org
+  :ARCHIVE_CATEGORY: proper-designed-bareframe
+  :END:
   #+begin_src lisp :results file :exports both
     (with-plot "dbbx.png"
       (setup :xlabel "bx" :ylabel "tp")

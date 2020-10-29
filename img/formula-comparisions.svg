@@ -7,7 +7,7 @@
 >
 
 <title>Gnuplot</title>
-<desc>Produced by GNUPLOT 5.2 patchlevel 8 </desc>
+<desc>Produced by GNUPLOT 5.4 patchlevel 0 </desc>
 
 <g id="gnuplot_canvas">
 
@@ -134,10 +134,10 @@
 		L353.6,187.3 L373.8,172.2 L393.9,157.2 L414.0,142.4 L434.1,127.6 L454.3,112.9 L474.4,98.2 L494.5,83.7
 		L514.6,69.2 L534.8,54.8 L554.9,40.4 L575.0,26.2  '/></g>
 	</g>
-	<g id="gnuplot_plot_2" ><title>NBC</title>
+	<g id="gnuplot_plot_2" ><title>Equation 1 (NBC)</title>
 <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
 	<g transform="translate(262.8,58.0)" stroke="none" fill="black" font-family="Arial" font-size="12.00"  text-anchor="end">
-		<text><tspan font-family="Arial" >NBC</tspan></text>
+		<text><tspan font-family="Arial" >Equation 1 (NBC)</tspan></text>
 	</g>
 </g>
 <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
@@ -146,10 +146,10 @@
 		L353.6,256.9 L373.8,248.1 L393.9,239.4 L414.0,230.9 L434.1,222.5 L454.3,214.3 L474.4,206.1 L494.5,198.0
 		L514.6,190.1 L534.8,182.2 L554.9,174.4 L575.0,166.7  '/></g>
 	</g>
-	<g id="gnuplot_plot_3" ><title>Equation 1</title>
+	<g id="gnuplot_plot_3" ><title>Equation 2</title>
 <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
 	<g transform="translate(262.8,76.0)" stroke="none" fill="black" font-family="Arial" font-size="12.00"  text-anchor="end">
-		<text><tspan font-family="Arial" >Equation 1</tspan></text>
+		<text><tspan font-family="Arial" >Equation 2</tspan></text>
 	</g>
 </g>
 <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
@@ -158,29 +158,29 @@
 		L353.6,304.3 L373.8,297.6 L393.9,291.0 L414.0,284.5 L434.1,278.0 L454.3,271.6 L474.4,265.3 L494.5,259.1
 		L514.6,252.9 L534.8,246.7 L554.9,240.7 L575.0,234.6  '/></g>
 	</g>
-	<g id="gnuplot_plot_4" ><title>Equation 3 (Bs=4.5)</title>
+	<g id="gnuplot_plot_4" ><title>Equation 4 (Bs=4.5)</title>
 <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
 	<g transform="translate(262.8,94.0)" stroke="none" fill="black" font-family="Arial" font-size="12.00"  text-anchor="end">
-		<text><tspan font-family="Arial" >Equation 3 (B</tspan><tspan font-family="Arial"  font-size="9.6" dy="3.60px">s</tspan><tspan font-family="Arial"  font-size="12.0" dy="-3.60px">=4.5)</tspan></text>
+		<text><tspan font-family="Arial" >Equation 4 (B</tspan><tspan font-family="Arial"  font-size="9.6" dy="3.60px">s</tspan><tspan font-family="Arial"  font-size="12.0" dy="-3.60px">=4.5)</tspan></text>
 	</g>
 </g>
 <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-	<path stroke='rgb(230, 159,   0)' stroke-dasharray='1.0,2.0'  d='M271.1,90.1 L313.3,90.1 M71.9,422.4 L92.0,407.0 L112.1,396.5 L132.3,387.2 L152.4,378.8 L172.5,370.9
-		L192.6,363.5 L212.8,356.4 L232.9,349.6 L253.0,343.1 L273.1,336.7 L293.3,330.6 L313.4,324.6 L333.5,318.7
-		L353.6,313.0 L373.8,307.4 L393.9,302.0 L414.0,296.6 L434.1,291.3 L454.3,286.2 L474.4,281.1 L494.5,276.1
-		L514.6,271.1 L534.8,266.3 L554.9,261.5 L575.0,256.8  '/></g>
+	<path stroke='rgb(230, 159,   0)' stroke-dasharray='1.0,2.0'  d='M271.1,90.1 L313.3,90.1 M71.9,422.4 L92.0,406.5 L112.1,395.1 L132.3,385.0 L152.4,375.6 L172.5,366.8
+		L192.6,358.5 L212.8,350.4 L232.9,342.7 L253.0,335.1 L273.1,327.8 L293.3,320.7 L313.4,313.8 L333.5,307.0
+		L353.6,300.3 L373.8,293.8 L393.9,287.3 L414.0,281.0 L434.1,274.8 L454.3,268.6 L474.4,262.6 L494.5,256.6
+		L514.6,250.7 L534.8,244.9 L554.9,239.2 L575.0,233.5  '/></g>
 	</g>
-	<g id="gnuplot_plot_5" ><title>Equation 3 (Bs=6)</title>
+	<g id="gnuplot_plot_5" ><title>Equation 4 (Bs=6)</title>
 <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
 	<g transform="translate(262.8,112.0)" stroke="none" fill="black" font-family="Arial" font-size="12.00"  text-anchor="end">
-		<text><tspan font-family="Arial" >Equation 3 (B</tspan><tspan font-family="Arial"  font-size="9.6" dy="3.60px">s</tspan><tspan font-family="Arial"  font-size="12.0" dy="-3.60px">=6)</tspan></text>
+		<text><tspan font-family="Arial" >Equation 4 (B</tspan><tspan font-family="Arial"  font-size="9.6" dy="3.60px">s</tspan><tspan font-family="Arial"  font-size="12.0" dy="-3.60px">=6)</tspan></text>
 	</g>
 </g>
 <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-	<path stroke='rgb(240, 228,  66)' stroke-dasharray='4.0,2.0,1.0,2.0'  d='M271.1,108.1 L313.3,108.1 M71.9,422.4 L92.0,408.1 L112.1,398.5 L132.3,390.3 L152.4,382.8 L172.5,376.0
-		L192.6,369.6 L212.8,363.5 L232.9,357.7 L253.0,352.2 L273.1,346.8 L293.3,341.7 L313.4,336.7 L333.5,331.9
-		L353.6,327.2 L373.8,322.6 L393.9,318.1 L414.0,313.8 L434.1,309.5 L454.3,305.4 L474.4,301.3 L494.5,297.3
-		L514.6,293.4 L534.8,289.5 L554.9,285.8 L575.0,282.0  '/></g>
+	<path stroke='rgb(240, 228,  66)' stroke-dasharray='4.0,2.0,1.0,2.0'  d='M271.1,108.1 L313.3,108.1 M71.9,422.4 L92.0,407.5 L112.1,397.1 L132.3,388.0 L152.4,379.7 L172.5,371.9
+		L192.6,364.5 L212.8,357.5 L232.9,350.7 L253.0,344.2 L273.1,338.0 L293.3,331.8 L313.4,325.9 L333.5,320.1
+		L353.6,314.4 L373.8,308.9 L393.9,303.5 L414.0,298.2 L434.1,293.0 L454.3,287.8 L474.4,282.8 L494.5,277.8
+		L514.6,273.0 L534.8,268.2 L554.9,263.4 L575.0,258.7  '/></g>
 	</g>
 	<g id="gnuplot_plot_6" ><title>Hong and Hwang (2000)</title>
 <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">

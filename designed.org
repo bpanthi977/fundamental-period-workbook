@@ -93,7 +93,7 @@ nil
   #+RESULTS:
   | max %diff |      R^2 |     rmse | Params     | Covariance |
   | 28.871608 | 0.950582 | 0.055440 | (1.000000) | (0.000000) |
-  #+begin_src lisp :results file 
+  #+begin_src lisp :results file  :exports both
   (scatter-plot /simpler-fit-tweaked "tdsimpler-fit-tweaked.png")
   #+end_src
 
@@ -165,7 +165,7 @@ Scatter Plot of [[*Simpler: T = a(Nh)^b][Simpler: T = a(Nh)^b]]
    #+RESULTS:
    : 1\.1670910918086783d0
 ** Max Variations 
-   #+begin_src lisp 
+   #+begin_src lisp  :exports both
      (table 4 
        (row "N" "H" "Bs" "Bx" "By" "N and H" "Bx and By")
        (let ((results (loop for p in '(:n :h :bw :bx :by :nh :bxby)
@@ -182,8 +182,9 @@ Scatter Plot of [[*Simpler: T = a(Nh)^b][Simpler: T = a(Nh)^b]]
 * Bay width
   To incorporate bay width in the relation for fundamental time period. Lets see the variation of T with bw.
   #+begin_src lisp :results file :exports both
-    (with-plot "tdbw.png"
-      (setup :xlabel "B_s" :ylabel "T"  :key :off)
+    (with-plot "tdbw.svg"
+      (setup :xlabel "B_s (m)" :ylabel "T (sec)"  :key :off :terminal '(:svg :size |1500,1100| :font "Times New Roman,30"))
+      (eazy-gnuplot:gp :set :pointsize 1)
       (loop for n from 2 to 16 by 2 do 
 	(eazy-gnuplot:gp :set :label (format nil "n=~d" n)
 			      :at (list 3.05 (+ 0.02 (coerce (second (first (filter-data :n n :bx 2 :by 2 :h 4 :bw 3)))
@@ -201,7 +202,7 @@ Scatter Plot of [[*Simpler: T = a(Nh)^b][Simpler: T = a(Nh)^b]]
   #+end_src
 
   #+RESULTS:
-  [[file:./img/tdbw.png]]
+  [[file:./img/tdbw.svg]]
 
   This shows that the time period decreases with bay width. and the rate of decrease/slope increases for higher N. 
 
@@ -230,7 +231,7 @@ Scatter Plot of [[*Simpler: T = a(Nh)^b][Simpler: T = a(Nh)^b]]
   #+RESULTS: 
   [[file:./img/tdsimpler-bw-fit.png]]
 
-  #+begin_src lisp 
+  #+begin_src lisp  :exports both
     (max-fit-%diff (lambda (x a )
 		       (destructuring-bind (n h bw bx by) x
 			 (- (* 0.045
@@ -270,12 +271,12 @@ Scatter Plot of [[*Simpler: T = a(Nh)^b][Simpler: T = a(Nh)^b]]
   This shows that T is almost constant with bx. Which was also indicated by smaller sensitivity of tp with bx.
 
 
-
+ :exports both
 # Local Variables:
 # org-export-babel-evaluate: nil
 # End:
 * Comparision with NBC 
-  #+begin_src lisp :results file 
+  #+begin_src lisp :results file  :exports both
     (defun NBC (x)
       (destructuring-bind (n h . _) x
 	(* 0.06 (expt (* n h) 3/4))))
@@ -286,7 +287,7 @@ Scatter Plot of [[*Simpler: T = a(Nh)^b][Simpler: T = a(Nh)^b]]
   #+RESULTS:
   [[file:./img/typical-design-NCB.png]]
 
-  #+begin_src lisp :results file 
+  #+begin_src lisp :results file  :exports both
     (let ((heights (loop for h from 0 to 100 by 4 collect h)))
       (o:with-plot "formula-comparisions.svg"
 	(o:setup :xlabel "H (m)" :ylabel "T (s)" :key '(:top :left) :terminal "svg")
@@ -296,29 +297,22 @@ Scatter Plot of [[*Simpler: T = a(Nh)^b][Simpler: T = a(Nh)^b]]
 		  :dashtype 0)
 	(o:ezplot (loop for h in heights
 			collect (list h (* 0.06 (expt h 3/4))))
-		  :title "NBC"
+		  :title "Equation 1 (NBC)"
 		  :dashtype 1)
 	(o:ezplot (loop for h in heights
 			collect (list h (* 0.035 (expt h 0.8))))
-		  :title "Equation 1"
+		  :title "Equation 2"
 		  :dashtype 2)
 	(o:ezplot (loop for h in heights
-			collect (list h (- (* 0.045 (expt h 0.8))
+			collect (list h (- (* 0.045 (expt h 0.82))
 					   (* 0.005 (/ h 4) 4.5))))
-		  :title "Equation 3 (B_s=4.5)"
+		  :title "Equation 4 (B_s=4.5)"
 		  :dashtype 3)
 	(o:ezplot (loop for h in heights
-			collect (list h (- (* 0.045 (expt h 0.8))
+			collect (list h (- (* 0.045 (expt h 0.82))
 					   (* 0.005 (/ h 4) 6))))
-		  :title "Equation 3 (B_s=6)"
+		  :title "Equation 4 (B_s=6)"
 		  :dashtype 4)
-	;; (o:ezplot (loop for h in heights
-	;; 		    collect (list h (- (* 0.045 (expt h 0.8))
-	;; 				       (* 0.005 (/ h 4) 3))))
-	;; 	      :title "Equation 3, B_s=3"
-	;; (o:ezplot (loop for h in heights
-	;; 		    collect (list h (* 0.1 (/ h 4))))
-      ;; 	      :title "NBC Canada"
 	(o:ezplot (loop for h in heights
 			collect (list h (* 0.0249 (expt h 0.804))))
 		  :title "Hong and Hwang (2000)"
@@ -332,15 +326,15 @@ Scatter Plot of [[*Simpler: T = a(Nh)^b][Simpler: T = a(Nh)^b]]
   [[file:./img/formula-comparisions.svg]]
 * Random 
 
-  #+begin_src lisp :results file 
-    (fit-plot o::/simpler-fit #'/Nh "tdSimplefitPlot.png" *bigdata* "H (m)" "T (sec)")
+  #+begin_src lisp :results file  :exports both
+    (fit-plot /simpler-fit #'/Nh "tdSimplerfitPlot.svg" *bigdata* "H (m)" "T (sec)")
   #+end_src
 
   #+RESULTS:
-  [[file:./img/tdSimplefitPlot.png]]
+  [[file:./img/tdSimplerfitPlot.svg]]
 
   
-  #+begin_src lisp :results file 
+  #+begin_src lisp :results file  :exports both
 	(defun fit-multiplot-plot (fit-func x-axis &optional (data *bigdata*) title)
 	  (let ((x-tp-fit (sort (loop 
 				  for (x tp) in data 
@@ -359,7 +353,7 @@ Scatter Plot of [[*Simpler: T = a(Nh)^b][Simpler: T = a(Nh)^b]]
 
 	(defun multiplot (output)
 	  (eazy-gnuplot:with-plots (*standard-output* :debug t)
-	    (eazy-gnuplot:gp-setup :output output :terminal '(:png :size :|1500,1100| :font "Times New Roman, 30pt")
+	    (eazy-gnuplot:gp-setup :output output :terminal '(:tif :size :|1500,1100| :font "Times New Roman, 30pt")
 				   :title ""
 				   :multiplot (list "layout 2,2 rowsfirst")
     :yrange '(0 1.2)
@@ -373,9 +367,9 @@ Scatter Plot of [[*Simpler: T = a(Nh)^b][Simpler: T = a(Nh)^b]]
 	    (eazy-gnuplot:gp :unset 'multiplot))
 	  output)
 
-	(multiplot (merge-pathnames "multiplot.png" *img-path*))
-	"./img/multiplot.png"
+	(multiplot (merge-pathnames "multiplot.tiff" *img-path*))
+	"./img/multiplot.tiff"
   #+end_src
 
   #+RESULTS:
-  [[file:./img/multiplot.png]]
+  [[file:./img/multiplot.svg]]

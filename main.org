@@ -26,7 +26,7 @@
     #+end_src
 
 ** Read
-   #+begin_src lisp
+   #+begin_src lisp :exports both
      (let (bigdata)
        (cl-csv:read-csv (merge-pathnames "bigdata-nd.csv" *img-path*)
 			:data-map-fn #'(lambda (data &key csv-reader)
@@ -47,7 +47,7 @@ nil
 * Simple Fit
   T = a*N^b*h^c 
   #+Name: simpleFit 
-  #+begin_src lisp 
+  #+begin_src lisp  :exports both
     (max-fit-%diff (lambda (x a b c)
 		     (destructuring-bind (n h bw bx by) x
 		       (* a
@@ -61,7 +61,7 @@ nil
   |  8.215055 | 0.995390 | 0.015803 | (0.025761 0.990109 0.917816) |
 
   Simpler: T = a(Nh)^b
-  #+begin_src lisp 
+  #+begin_src lisp  :exports both
     (max-fit-%diff (lambda (x a b)
 		     (destructuring-bind (n h bw bx by) x
 		       (* a
@@ -79,7 +79,7 @@ nil
 
 * N
   Buildings with N=1 are like outliers, and degrade the regression.  So skip them.
-  #+begin_src lisp
+  #+begin_src lisp :exports both
     (max-fit-%diff (lambda (x a b)
 		     (* a (expt (first x) b)))
 		   '(1 1)
@@ -91,7 +91,7 @@ nil
   | max %diff |      R^2 |     rmse | Params              |
   |  1.563193 | 0.999980 | 0.001098 | (0.079616 0.989822) |
 
-  #+begin_src lisp :results file 
+  #+begin_src lisp :results file  :exports both
      (scatter-plot /simpler-N-fit "psimpler-N-fit.png" (filter-data :h 3.5 :bw 5 :bx 4 :by 4))
   #+end_src
 
@@ -100,7 +100,7 @@ nil
 
   So, for any given H,bw,bx,by. The formula T=aN*b explains most of the variation (99.98%).
   The constants a, and b varry as follows.
-  #+begin_src lisp 
+  #+begin_src lisp  :exports both
     (table 5 (row "H" "params" "R^2" "RMSE")
       (loop for h from 3 to 4 by 0.5 do
 	    (multiple-value-bind (params r^2 rmse) (fit::fit (lambda (x a b)
@@ -121,7 +121,7 @@ After testing with other combinations of bw, bx, and by too. It is clear that, t
 
 
 Thus we have established that when N is independent variable T = aN^b is the formula for timeperiod.  
-#+begin_src lisp 
+#+begin_src lisp  :exports both
   (fit::partial-fit (mapcar (lambda (d)
 			     (destructuring-bind (x tp) d
 			       (destructuring-bind (n . r) x
@@ -148,7 +148,7 @@ And since RMSE = 0.001, if for a given building the coefficient a is known then 
 
 * h
   after checking with T/N^0.9847 = a h, a(h+b), ah^b. a(h+b) thre goodness of fit are near about. 
-  #+begin_src lisp 
+  #+begin_src lisp  :exports both
     (append
      (max-fit-%diff (lambda (x a b) (* a (+ (second x) b) (expt (first x) 0.9847)))
 		    '(1 1))
@@ -167,7 +167,7 @@ And since RMSE = 0.001, if for a given building the coefficient a is known then 
   | max %diff |      R^2 |     rmse | Params              |
   |  9.504357 | 0.994718 | 0.016908 | (0.023542)          |
 
-  #+begin_src lisp
+  #+begin_src lisp :exports both
     (fit::partial-fit (mapcar (lambda (d)
 				 (destructuring-bind (x tp) d
 				   (destructuring-bind (n h . r) x
@@ -189,7 +189,7 @@ And since RMSE = 0.001, if for a given building the coefficient a is known then 
   | R^2                                |    0.999071765548038d0 |
   | RMS                                | 0.007086496042001423d0 |
 
-  #+begin_src lisp 
+  #+begin_src lisp  :exports both
     (fit::partial-fit (mapcar (lambda (d)
 				(destructuring-bind (x tp) d
 				  (destructuring-bind (n h . r) x
@@ -211,7 +211,7 @@ And since RMSE = 0.001, if for a given building the coefficient a is known then 
   | R^2                                |   0.9990665892867178d0 |
   | RMS                                | 0.007106227349686802d0 |
   
-  #+begin_src lisp :results file 
+  #+begin_src lisp :results file  :exports both
     (with-plot "ph1.png"
       (setup :xlabel "h" :ylabel "T/N^{0.9847}")
       (ezplot (mapcar (lambda (d)
@@ -225,7 +225,7 @@ And since RMSE = 0.001, if for a given building the coefficient a is known then 
   [[file:./img/ph1.png]]
 
   with T = a (h + b) N^0.9847
-  #+begin_src lisp 
+  #+begin_src lisp  :exports both
     (table 5 (row "BW" "params" "R^2" "RMSE")
       (loop for bw from 3 to 7 by 1 do
 	(multiple-value-bind (params r^2 rmse)
@@ -249,7 +249,7 @@ And since RMSE = 0.001, if for a given building the coefficient a is known then 
   a and b both change with BW, but a changes less with bx,by.
   
   with T = a h^b N^0.9847
-  #+begin_src lisp 
+  #+begin_src lisp  :exports both
     (table 5 (row "BW" "params" "R^2" "RMSE")
       (loop for bw from 3 to 7 by 1 do
 	(multiple-value-bind (params r^2 rmse)
@@ -273,7 +273,7 @@ And since RMSE = 0.001, if for a given building the coefficient a is known then 
 
   both changes with BW, and also both change only slightly with bx by 
 
-  #+begin_src lisp 
+  #+begin_src lisp  :exports both
     (table 5 (row "BW" "params" "R^2" "RMSE")
       (loop for bw from 3 to 7 by 1 do
 	(multiple-value-bind (params r^2 rmse)
@@ -296,7 +296,7 @@ And since RMSE = 0.001, if for a given building the coefficient a is known then 
   | 6.00000 | (0.03153 0.75914) | 0.99717 | 0.29958 |
   | 7.00000 | (0.03513 0.67813) | 0.99698 | 0.31248 |
 
-  #+begin_src lisp 
+  #+begin_src lisp  :exports both
     (max-fit-%diff (lambda (x a b)
 		     (* a
 			(expt (second x) b)
@@ -310,7 +310,7 @@ And since RMSE = 0.001, if for a given building the coefficient a is known then 
   |  8.318934 | 0.995372 | 0.015831 | (0.026214 0.913078) |
 
 * Bwx and Bwy 
-  #+begin_src lisp 
+  #+begin_src lisp  :exports both
   #+end_src
 
   #+RESULTS:
@@ -590,7 +590,7 @@ And since RMSE = 0.001, if for a given building the coefficient a is known then 
   | 5.9999980000 | 5.9999980000 | 0.2579700393 |
 
 
-	 #+begin_src gnuplot :var data=bwbw :results file :file ./img/contour-bwbw.png
+	 #+begin_src gnuplot :var data=bwbw :results file :file ./img/contour-bwbw.png :exports both
  # set terminal pngcairo  transparent enhanced font "arial,10" fontscale 1.0 size 600, 400 
  # set output 'contours.1.png'
 #set terminal qt
@@ -631,7 +631,7 @@ But if bay counts are different, then the Timeperiod surface is similar but the 
 [[./img/contour-bwbw-52.png]]
 
 Changing N doesn't change valley points.
-#+begin_src lisp 
+#+begin_src lisp  :exports both
   (defun valley-points (bx by)
     (loop for bwx from 3 to 6.01 by 0.2
 	  for bwy-tps = (loop for bwy from 3 to 6.01 by 0.2
@@ -652,7 +652,7 @@ Changing N doesn't change valley points.
 #+RESULTS:
 : VALLEY-POINTS
 
-#+begin_src lisp 
+#+begin_src lisp  :exports both
 (valley-points 5 2)
 #+end_src
 
@@ -674,7 +674,7 @@ Changing N doesn't change valley points.
 | 5.7999983 |  5.999998 |  1.413072649471339d0 |
 |  5.999998 |  5.999998 | 1.4315020910505016d0 |
 
-#+begin_src lisp :results file 
+#+begin_src lisp :results file  :exports both
   (with-plot "valley-lines.png"
     (setup :xlabel "Bwx" :ylabel "Bwy")
     (loop for bx from 2 to 3 do
@@ -687,7 +687,7 @@ Changing N doesn't change valley points.
 #+RESULTS:
 [[file:./img/valley-lines.png]]
 
-#+begin_src lisp
+#+begin_src lisp :exports both
   (loop for bx from 2 to 5
 	with result = nil do 
 	  (loop for by from bx to 5 

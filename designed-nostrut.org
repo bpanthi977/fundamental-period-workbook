@@ -139,7 +139,7 @@
    #+RESULTS:
    : 1\.207306215236251d0
 ** Max Variations 
-   #+begin_src lisp 
+   #+begin_src lisp  :exports both
      (table 4 
        (row "N" "H" "Bs" "Bx" "By" "N and H" "Bx and By")
        (let ((results (loop for p in '(:n :h :bw :bx :by :nh :bxby)
@@ -259,7 +259,7 @@
 # End:
 
 * Comparision with strutted design 
-  #+begin_src lisp 
+  #+begin_src lisp  :exports both
     (defparameter *bdstrut* (read-csv "bigdata-typical.csv"))
     (defparameter *bdnstrut* (read-csv "bigdata-nostrut.csv"))
   #+end_src
@@ -267,7 +267,7 @@
   #+RESULTS:
   : *BDNSTRUT*
 Statistics of difference between timperiod without considering stiffness of strut and timperiod by considering effect of strut.
-  #+begin_src lisp 
+  #+begin_src lisp  :exports both
     (let ((data (loop for (i1 tp1) in *bdstrut*
 		      for (i2 tp2) in *bdnstrut*
 		      for n = (first i1)
@@ -293,7 +293,7 @@ Statistics of difference between timperiod without considering stiffness of stru
 
 [[./img/nostrut-strut-hist.png]]
 * Comparision of NBC 
-  #+begin_src lisp :results file 
+  #+begin_src lisp :results file  :exports both
     (defun NBC (x)
       (destructuring-bind (n h . _) x
 	(* 0.06 (expt (* n h) 3/4))))

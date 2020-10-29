@@ -18,7 +18,7 @@ formula from  [[/mnt/Data/Documents/Civil Engineering/Books and Standards/Indian
 
 * Code for calculating Pu
   load moi.lisp
-  #+begin_src lisp
+  #+begin_src lisp :exports both
     (defparameter *sg* (make-structural-geometry)) ;; all default dimensions
     (defparameter *fck* 25)
     (defparameter *%steel* 0.015)
@@ -69,7 +69,7 @@ formula from  [[/mnt/Data/Documents/Civil Engineering/Books and Standards/Indian
 
 * Sample Calculation
   Take N=5, h = 3 , bay width bw =4 and column-width cw = 0.3
-  #+begin_src lisp :results output
+  #+begin_src lisp :results output :exports both
     (with-reporting :default
       (P 5 3 4 0.3))
   #+end_src
@@ -87,7 +87,7 @@ formula from  [[/mnt/Data/Documents/Civil Engineering/Books and Standards/Indian
   This P is in kN
   now assuming in IS 456 formula Pu is in Newton and A is in mmq
 
-  #+begin_src lisp  :exports both
+  #+begin_src lisp  :exports both  
     (column-width 5 3 4 0.3)
   #+end_src
 
@@ -95,7 +95,7 @@ formula from  [[/mnt/Data/Documents/Civil Engineering/Books and Standards/Indian
   : 0\.3083153472276686d0
 
   Now this gives new estimate of 0.313 which can then be used to get new estimate and so on. And finally
-  #+begin_src lisp :exports both 
+  #+begin_src lisp :exports both
     (converge 5 3 4 0.3)
   #+end_src
 
@@ -162,7 +162,7 @@ formula from  [[/mnt/Data/Documents/Civil Engineering/Books and Standards/Indian
   | 16.000 | 30.000 |  0.040 | 4.000 | 7.000 | 0.746 |        0.750 | 14482.617 |
 
 * Importing 
-  #+begin_src lisp :var data=column-size-and-fck :colnames true 
+  #+begin_src lisp :var data=column-size-and-fck :colnames true  :exports both
     (loop for (n0 fck %steel h bw cw% cw pu) in data
 	  for Ec = (Ec% fck) do
 	    (loop for n in (cdr (find n0 '((3 . (1 2 3))
@@ -307,7 +307,7 @@ formula from  [[/mnt/Data/Documents/Civil Engineering/Books and Standards/Indian
     |      16.0 |  0.4 | 0.45 |  0.5 | 0.55 |  0.6 | 0.65 |  0.7 | 0.75 | 0.75 |
 *** Importing 2
     (if you change things here, be sure to update [[file:dimensions.org::*Column Sizes and Ec][dimensions.org]])
-  #+begin_src lisp :colnames true
+  #+begin_src lisp :colnames true :exports both
     (table 3
 	   (row "N" "Bay Span" "Column Size" "Fck" "Ec")
 	   (loop

@@ -1,6 +1,6 @@
 * Read
   #+Name:readDimensions
-  #+begin_src lisp :var beam=beamSize slab=slabThickness columns=columnSizes :colnames true
+  #+begin_src lisp :var beam=beamSize slab=slabThickness columns=columnSizes :colnames true :exports both
     (in-package :fundamental-period)
     (defun supremum (n list)
       (loop for x in list do
