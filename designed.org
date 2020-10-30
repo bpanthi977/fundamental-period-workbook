@@ -333,7 +333,7 @@ Scatter Plot of [[*Simpler: T = a(Nh)^b][Simpler: T = a(Nh)^b]]
   #+RESULTS:
   [[file:./img/tdSimplerfitPlot.svg]]
 
-  
+* Multiplot   
   #+begin_src lisp :results file  :exports both
 	(defun fit-multiplot-plot (fit-func x-axis &optional (data *bigdata*) title)
 	  (let ((x-tp-fit (sort (loop 

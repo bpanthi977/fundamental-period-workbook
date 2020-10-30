@@ -428,3 +428,16 @@
 
    #+end_src
   
+
+** Copy Final Images
+#+begin_src sh
+  cp ./img/formula-comparisions.svg ./final-images/Fig4.svg
+  cp ./img/tdsimpler-fit-tweaked.png ./final-images/Fig5.png
+  cp ./img/tdbw.svg ./final-images/Fig6.svg 
+  cp ./img/multiplot.png  ./final-images/Fig7.png
+  cp ./img/tdsimpler-bw-fit-tweaked.png ./final-images/Fig8.png 
+  cp ./img/typical-design-NCB.png ./final-images/Fig9.png
+  cp ./img/nostrut-designed-NCB.png ./final-images/Fig10.png
+#+end_src
+
+#+RESULTS:

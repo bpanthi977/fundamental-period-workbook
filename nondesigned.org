@@ -1,4 +1,4 @@
-* Big Data  (Non-designed) (Designed)
+* Big Data 
 ** Generate 
  Generate data 
   #+begin_src lisp  :results silent  :exports code  

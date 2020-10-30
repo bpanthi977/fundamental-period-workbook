@@ -5,11 +5,12 @@ Ignore the org_archive files. They contain old data, and exploratory tests/calcu
 |------------------------------+------------------------------------------------------------------|
 | [[./setup.org]]                  | To load the program, along with other helper functions, and data |
 | [[./column-sizes.org]]           | Calcualtion of column sizes for different bay spans              |
-| [[./dimensions.org]]                 | Beam and Slab dimension calculations                             |
-| [[./main.org]]                   | Starting point for analysis                                      |
+| [[./dimensions.org]]             | Beam and Slab dimension calculations                             |
+| [[./nondesigned.org]]            | Starting point for analysis                                      |
 | [[./designed.org]]               | Analysis of Typical Designed Building                            |
 | [[./designed-nostrut.org]]       | Designed Buildings with No stiffness from Infill walls           |
 | [[./designed-asym.org]]          | With different bay widths                                        |
 | [[./designed-thicker-walls.org]] | Thicker (0.230m) Infill walls                                    |
 
-Typical = wall-thickness 0.115m and nontypical = wall thickness 0.230m
++ Typical = wall-thickness 0.115m and nontypical = wall thickness 0.230m
++ Desined = member dimensions vary according to bay spans and floor height; nondesigned = every parameters is kept independent of each other. 
